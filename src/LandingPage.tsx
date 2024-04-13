@@ -1,12 +1,6 @@
 import React from 'react'
 import './css/landingPage.css'
 
-window.addEventListener("wheel", e => {
-  if(e.deltaY > 0) {
-    return
-  }
-})
-
 export default () => {
   return (
     <div className="landing-page">

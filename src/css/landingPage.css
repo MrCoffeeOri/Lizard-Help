@@ -1,3 +1,5 @@
+@import url(settings.css);
+
 @keyframes Float {
     from { transform: translateY(-10px); }
     to { transform: translateY(10px); }
@@ -12,15 +14,19 @@ body {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    color: #333333;
+    color: white;
+    background-color: #1c1c1c;
 }
 
 header {
-    background: linear-gradient(to right, #c12626, #be1a1a);
+    background: linear-gradient(to right, var(--red-main), var(--red-main-darker));
     padding: 10px 0;
     display: flex;
     justify-content: space-around;
     align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1;
     & > div > a { 
         text-decoration: none;
         margin: 0 35px;
@@ -64,7 +70,7 @@ section {
             outline: none;
             border: none;
             color: white;
-            background-color: #be1a1a;
+            background-color: var(--red-others);
             padding: 20px 30px;
             border-radius: 4rem;
             transition: 150ms;
@@ -77,5 +83,5 @@ section {
 }
 
 .marked {
-    text-decoration: #be1a1a solid underline;
+    text-decoration: var(--red-others) solid underline;
 }
