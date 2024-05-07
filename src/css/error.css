@@ -1,0 +1,26 @@
+@keyframes Glow {
+    from {
+        background-color: var(--red-main);
+    }
+    to {
+        background-color: rgb(76, 0, 0);
+    }
+}
+
+#error {
+    text-align: center;
+    height: 93vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    img { 
+        width: 10vw; 
+    }
+    a {
+        animation: Glow 1s infinite forwards alternate ease-in-out;
+        width: 10vw;
+        padding: 15px;
+        border-radius: .4rem;
+    }
+}

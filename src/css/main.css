@@ -1,0 +1,86 @@
+@import url(landing.css);
+@import url(start.css);
+@import url(error.css);
+
+:root {
+    --red-main: #c12626;
+    --red-main-darker: #871313;
+    --red-others: #be1a1a;
+    --green-main: rgb(0, 73, 0);
+    --background: #1c1c1c;
+    --card-background: rgba(0, 0, 0, 0.285);
+}
+
+html { scroll-behavior: smooth; }
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    color: white;
+    background-color: var(--background);
+}
+
+input {
+    outline: none;
+    border: none;
+}
+
+.marked {
+    text-decoration: var(--red-others) solid underline;
+}
+
+.form {
+    padding: 35px;
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    border: 1px solid var(--red-main-darker);
+    box-shadow: 0 0 13px 1px var(--red-main-darker);
+    img {
+        width: 4vw;
+        margin: 0 auto 10px auto;
+    }
+    input {
+        width: 20vw;
+        height: 5vh;
+        padding: 10px;
+        margin-top: 20px;
+        border-radius: 5px;
+        background-color: var(--card-background);
+        border: 1px solid var(--card-background);
+        color: white;
+        transition: 300ms;
+        &:hover, &:focus {
+            border-bottom: 1px solid var(--red-main);
+        }
+        &:not(:placeholder-shown) {
+            border: 1px solid var(--green-main);
+        }
+    }
+    button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: var(--red-main);
+        color: white;
+        cursor: pointer;
+        font-size: 1.05pc;
+        &:hover {
+            background-color: var(--red-main-darker);
+        }
+    }
+    p {
+        margin: 0;
+        display: none;
+        margin: 5px 0;
+        color: var(--red-main);
+    }
+}

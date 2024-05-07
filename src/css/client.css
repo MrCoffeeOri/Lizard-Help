@@ -1,0 +1,56 @@
+#client {
+    .login-container {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: var(--card-background);
+        border-radius: 8px;
+      }
+      
+    .login-title {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+      
+    .login-form {
+        display: flex;
+        flex-direction: column;
+    }
+      
+    .login-form label {
+        margin-bottom: 5px;
+    }
+      
+    .login-form input,
+    .login-form select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border-radius: 5px;
+        background-color: transparent;
+        border: 1px solid var(--green-main);
+        color: white;
+    }
+      
+    .login-form select {
+        appearance: none; /* Remove default arrow icon */
+    }
+      
+    .login-form button {
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: var(--red-main);
+        color: white;
+        cursor: pointer;
+    }
+      
+    .login-form button:hover {
+        background-color: var(--red-main-darker);
+    }
+      
+    .error-message {
+        color: var(--red-others);
+        margin-top: 5px;
+    }
+}

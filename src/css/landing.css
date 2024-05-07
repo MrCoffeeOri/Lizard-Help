@@ -1,0 +1,138 @@
+@keyframes Float {
+    from { transform: translateY(-10px); }
+    to { transform: translateY(10px); }
+}
+
+#landing {
+    header {
+        transition: 400ms;
+        overflow-y: hidden;
+        padding: 15px 0;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        & > div > a { 
+            color: white; 
+            text-decoration: none;
+            margin: 0 35px;
+            display: inline-block;
+            cursor: pointer;
+            & p { margin: 0; }
+            & div {
+                transition: 300ms;
+                padding: 1px;
+                background-color: inherit;
+            }
+            &:hover div { background-color: white; }
+        }
+        #logo { 
+            transition: 500ms;
+            width: 9vw; 
+            height: 4vw; 
+        }
+        #flag {
+            border: 2px solid var(--background);
+            width: 3vw;
+            height: 5.5vh;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 50ms;
+        }
+    }
+    section {
+        margin: 6vh  0 15vh 0;
+    }
+    #presentation {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        img {
+            animation: Float 3s infinite alternate ease-in-out;
+            width: 25vw
+        };
+        div { 
+            width: 50%;
+            h2 {
+                font-size: 2.5pc;
+            };
+            a {
+                font-weight: bolder;
+                font-size: 1.03pc;
+                outline: none;
+                border: none;
+                color: white;
+                background-color: var(--red-others);
+                padding: 20px 30px;
+                border-radius: 4rem;
+                transition: 150ms;
+                &:hover {
+                    background-color: var(--red-main-darker);
+                    cursor: pointer;
+                }
+            }
+        };
+    }
+    #about {
+        display: flex;
+        > img { width: 47vw; }
+        > div { 
+            text-align: center; 
+            margin: 10px 0;
+        }
+        #cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            .card {
+                margin-top: 30px;
+                position: relative;
+                width: 25vw;
+                padding: 10px 10px 0 10px;
+                border: 2px solid var(--red-main-darker);
+                box-shadow: 0 0 6px 0 var(--red-main-darker);
+                overflow: hidden;
+                max-height: 17vh;
+                img { width: 3.5vw; };
+                * { transition: 300ms ease-in-out; }
+                p {
+                    width: 100%;
+                    border-radius: .3rem;
+                };
+            }
+            #team:hover > * { transform: translateY(-17vh); }
+            #product:hover > * { transform: translateY(-17.4vh); }
+        }
+    }
+    #features {
+        text-align: center;
+        ul {
+            padding: 0;
+            text-align: left;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            flex-direction: column;
+            height: 40vh;
+            margin: 0 auto;
+            align-items: center;
+            li {
+                text-align: center;
+                width: 16vw;
+                margin: 30px;
+                font-size: 1.2pc;
+                &::marker {
+                    color: var(--red-main);
+                }
+            }
+        }
+    }
+    #contacts {
+        margin-bottom: 0;
+        padding: 3vh 0;
+        text-align: center;
+        background-color: var(--card-background);
+    }
+}

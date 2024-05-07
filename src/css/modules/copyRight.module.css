@@ -1,0 +1,9 @@
+.copyRight {
+    border-top: 2px solid var(--red-others);
+    background-color: var(--card-background);
+    padding: 2vh 0;
+    p { 
+        margin: 0; 
+        text-align: center;
+    }
+}
