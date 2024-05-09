@@ -1,6 +1,7 @@
 @import url(landing.css);
 @import url(start.css);
 @import url(error.css);
+@import url(client.css);
 
 :root {
     --red-main: #c12626;
@@ -27,7 +28,7 @@ body {
     background-color: var(--background);
 }
 
-input {
+input, select {
     outline: none;
     border: none;
 }
@@ -40,6 +41,7 @@ input {
     padding: 35px;
     display: flex;
     flex-direction: column;
+    align-items: center;
     max-width: 400px;
     border: 1px solid var(--red-main-darker);
     box-shadow: 0 0 13px 1px var(--red-main-darker);
@@ -50,25 +52,32 @@ input {
     input {
         width: 20vw;
         height: 5vh;
-        padding: 10px;
-        margin-top: 20px;
-        border-radius: 5px;
-        background-color: var(--card-background);
-        border: 1px solid var(--card-background);
-        color: white;
-        transition: 300ms;
-        &:hover, &:focus {
-            border-bottom: 1px solid var(--red-main);
-        }
         &:not(:placeholder-shown) {
             border: 1px solid var(--green-main);
         }
     }
+    select {
+        height: 8vh;
+        width: 21.6vw;
+    }
+    input, select {
+        margin-top: 20px;
+        transition: 300ms;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: var(--card-background);
+        border: 1px solid var(--card-background);
+        color: white;
+        &:hover, &:focus {
+            border-bottom: 1px solid var(--red-main);
+        }
+    }
     button {
+        width: 21vw;
         margin-top: 20px;
         padding: 10px 20px;
         border: none;
-        border-radius: 5px;
+        border-radius: 1rem;
         background-color: var(--red-main);
         color: white;
         cursor: pointer;

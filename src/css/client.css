@@ -1,56 +1,95 @@
 #client {
-    .login-container {
-        max-width: 400px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: var(--card-background);
-        border-radius: 8px;
-      }
-      
-    .login-title {
-        text-align: center;
-        margin-bottom: 20px;
-    }
-      
-    .login-form {
+    section { margin: 11vh 0; }
+    .colored { color: var(--red-main); }
+    > a { 
         display: flex;
-        flex-direction: column;
-    }
-      
-    .login-form label {
-        margin-bottom: 5px;
-    }
-      
-    .login-form input,
-    .login-form select {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 15px;
-        border-radius: 5px;
-        background-color: transparent;
-        border: 1px solid var(--green-main);
-        color: white;
-    }
-      
-    .login-form select {
-        appearance: none; /* Remove default arrow icon */
-    }
-      
-    .login-form button {
-        padding: 10px;
-        border: none;
-        border-radius: 5px;
-        background-color: var(--red-main);
-        color: white;
+        align-items: center;
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        transition: 300ms;
         cursor: pointer;
+        &:hover { transform: translateX(-10px); }
+        &::after {
+            color: var(--red-main);
+            font-size: 0.95pc;
+            margin-left: 7px;
+            visibility: hidden;
+            content: "Voltar ao início";
+        }
+        &:hover::after { visibility: visible; }
     }
-      
-    .login-form button:hover {
-        background-color: var(--red-main-darker);
+    p { line-height: 4vh; }
+    #wellcome {
+        display: flex;
+        align-items: center;
+        padding: 20px;
+        h2 { font-size: 2pc; }
+        img {
+            width: 50vw;
+        }
     }
-      
-    .error-message {
-        color: var(--red-others);
-        margin-top: 5px;
+    #jump {
+        text-align: center;
+        hr { width: 90vw; }
+        div { padding: 12px; }
+        a {
+            padding: 20px 30px;
+            border-top: 2px solid white;
+            &:hover { border-top: 2px solid var(--red-main); }
+        }
+    }
+    #news {
+        #display, #lastUpdate { padding: 30px; }
+        #display {
+            position: relative;
+            border-top: 2px solid var(--red-main);
+            border-bottom: 2px solid var(--red-main);
+            > span {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+            }
+            img { width: 6vw; }
+            div {
+                margin: 5vh auto 0 auto;
+                width: 15%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                span { 
+                    display: flex;
+                    align-items: center;
+                    transition: 200ms;
+                    cursor: pointer;
+                    font-size: 1.7pc; 
+                    color: var(--red-main);
+                }
+                span:first-of-type:hover {
+                    transform: translateX(-5px);
+                    &::after {
+                        color: var(--red-main);
+                        font-size: 0.95pc;
+                        margin-left: 7px;
+                        content: "Anteriror";
+                    }
+                }
+                span:last-of-type:hover {
+                    transform: translateX(5px);
+                    &::before {
+                        color: var(--red-main);
+                        font-size: 0.95pc;
+                        margin-right: 7px;
+                        content: "Proximo";
+                    }
+                }
+            }
+        }
+        #lastUpdate {
+            border-radius: .4rem;
+            margin: 5vh auto;
+            width: 50vw;
+            border: 2px solid var(--red-main);
+        }
     }
 }

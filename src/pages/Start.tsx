@@ -15,7 +15,7 @@ export default function Start() {
 
   return (
     <div id='start'>
-      <img src="./logoName.webp" alt="" />
+      <img id='logo' src="./logoName.webp" alt="" />
       <div>
         <form className='form' onSubmit={handleSubmit}>
           <img src="./logo.webp" alt="" />
