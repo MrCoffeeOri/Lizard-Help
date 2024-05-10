@@ -9,7 +9,7 @@ export default function Start() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (document.querySelector("form > input[error]")) return
-    scrollTo({ top: 0, left: 0, behavior: 'instant' })
+    scrollTo({ top: 0, left: 0 })
     navigate("/home")
   };
 
