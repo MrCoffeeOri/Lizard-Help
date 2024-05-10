@@ -24,7 +24,7 @@ export default function Client() {
         <hr />
         <div>
           <a href="#news">Novidades</a>
-          <a href="#news">Entrar</a>
+          <a href="#login">Entrar</a>
         </div>
       </section>
       <section id='news'>
@@ -33,10 +33,8 @@ export default function Client() {
           <img src="https://www.redhat.com/rhdc/managed-files/RHELAI_tech_icon.svg" alt="" />
           <h2>Novo Modelo de IA em Treinamento para o LizardHelp!</h2>
           <p>Estamos empolgados em anunciar que estamos no processo de treinamento de um novo modelo de inteligência artificial para o LizardHelp. Este modelo avançado promete melhorar ainda mais a experiência dos nossos usuários, fornecendo respostas mais rápidas e precisas.Nosso objetivo é garantir que o novo modelo seja capaz de lidar com uma ampla variedade de consultas e problemas, desde os mais simples até os mais complexos. Estamos comprometidos em oferecer um suporte técnico inteligente e eficiente em todos os momentos.Fique ligado para mais atualizações sobre o progresso do treinamento e as melhorias futuras que o novo modelo de IA trará para o LizardHelp!</p>
-          <div>
-            <span>&lt;</span>
-            <span>&gt;</span>
-          </div>
+          <span id='leftArrow' style={{ left: "42%" }}>&lt;</span>
+          <span id='rightArrow' style={{ right: "42%" }}>&gt;</span>
         </div>
         <div id='lastUpdate'>
           <h3 style={{ marginTop: 0 }}>Ultima atualização: 26/02/2024</h3>
@@ -45,29 +43,33 @@ export default function Client() {
           <span>Por: SrCoffee</span>
         </div>
       </section>
-      <form className='form' onSubmit={handleSubmit}>
-        <input
-          type="text"
-          id="token"
-          placeholder='Chave de acesso'
-          onChange={e => handleCorrection(e, e => e.target.value.match(/a/g /*TODO: Token RegexExp*/) != null)}
-          required
-        />
-        <p>Chave de acesso incorreta</p>
-        <input
-          type="email"
-          id="email"
-          placeholder='Email da empresa'
-          onChange={e => handleCorrection(e, e => e.target.value.match(RegexCorrections.email) != null)}
-          required
-        />
-        <p>Email incorreto</p>
-        <select id="type" required>
-          <option value="Administrador">Administrador</option>
-          <option value="Funcionário">Funcionário</option>
-        </select>
-        <button type="submit">Login</button>
-      </form>
+      <section id='login'>
+        <h2>Entrar</h2>
+        <form className='form' onSubmit={handleSubmit}>
+          <img src="/logo.webp" alt="" />
+          <input
+            type="text"
+            id="token"
+            placeholder='Chave de acesso'
+            onChange={e => handleCorrection(e, e => e.target.value.match(/a/g /*TODO: Token RegexExp*/) != null)}
+            required
+          />
+          <p>Chave de acesso incorreta</p>
+          <input
+            type="email"
+            id="email"
+            placeholder='Email da empresa'
+            onChange={e => handleCorrection(e, e => e.target.value.match(RegexCorrections.email) != null)}
+            required
+          />
+          <p>Email incorreto</p>
+          <select id="type" required>
+            <option value="Funcionário">Funcionário</option>
+            <option value="Administrador">Administrador</option>
+          </select>
+          <button type="submit">Login</button>
+        </form>
+      </section>
     </div>
   );
 }

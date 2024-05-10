@@ -31,7 +31,7 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <RouterProvider fallbackElement={<h1 style={{ textAlign: "center", margin: "auto" }}>Loading!</h1>} router={router} />
     <CopyRight />
   </React.StrictMode>
 )

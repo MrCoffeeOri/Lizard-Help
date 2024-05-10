@@ -42,46 +42,43 @@
     #news {
         #display, #lastUpdate { padding: 30px; }
         #display {
+            min-height: 41.5vh;
+            padding-bottom: 50px;
             position: relative;
             border-top: 2px solid var(--red-main);
             border-bottom: 2px solid var(--red-main);
-            > span {
+            span:first-of-type {
                 position: absolute;
                 top: 10px;
                 right: 10px;
             }
             img { width: 6vw; }
-            div {
-                margin: 5vh auto 0 auto;
-                width: 15%;
+            #leftArrow, #rightArrow { 
+                bottom: 5%;
+                position: absolute;
                 display: flex;
-                justify-content: space-between;
                 align-items: center;
-                span { 
-                    display: flex;
-                    align-items: center;
-                    transition: 200ms;
-                    cursor: pointer;
-                    font-size: 1.7pc; 
+                transition: 200ms;
+                cursor: pointer;
+                font-size: 1.7pc; 
+                color: var(--red-main);
+            }
+            #leftArrow:hover {
+                transform: translateX(-5px);
+                &::after {
                     color: var(--red-main);
+                    font-size: 0.95pc;
+                    margin-left: 7px;
+                    content: "Anteriror";
                 }
-                span:first-of-type:hover {
-                    transform: translateX(-5px);
-                    &::after {
-                        color: var(--red-main);
-                        font-size: 0.95pc;
-                        margin-left: 7px;
-                        content: "Anteriror";
-                    }
-                }
-                span:last-of-type:hover {
-                    transform: translateX(5px);
-                    &::before {
-                        color: var(--red-main);
-                        font-size: 0.95pc;
-                        margin-right: 7px;
-                        content: "Proximo";
-                    }
+            }
+            #rightArrow:hover {
+                transform: translateX(5px);
+                &::before {
+                    color: var(--red-main);
+                    font-size: 0.95pc;
+                    margin-right: 7px;
+                    content: "Proximo";
                 }
             }
         }
@@ -91,5 +88,9 @@
             width: 50vw;
             border: 2px solid var(--red-main);
         }
+    }
+    #login { 
+        text-align: center; 
+        form { margin: 5vh auto; }
     }
 }
