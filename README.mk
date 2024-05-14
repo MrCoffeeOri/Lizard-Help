@@ -7,9 +7,9 @@
 - Git: https://git-scm.com/doc
 
 ## Comandos para executar na sua máquina na pasta do projeto (escreva eles na ordem em que aparece)
-- ## **npm i** (instala todas as dependências do projeto)
+- **npm i** (instala todas as dependências do projeto)
 Depois de executar o comando **npm i** para instalar as dependências, você vai ver que ele criou na sua pasta root uma pasta ***node_modules*** onde todas as sua dependências estarão.
-- ## **npm run dev** ou **npm run build** (colocar depois do 'run' 'dev' para executar o desenvolvimento -recomendo usar essa para desenvolver-, ou 'build' para "contruir" o projeto no seu PC -ele controi uma pasta 'build' não recomendo usar essa para desenvolver-)
+- **npm run dev** ou **npm run build** (colocar depois do 'run' 'dev' para executar o desenvolvimento -recomendo usar essa para desenvolver-, ou 'build' para "contruir" o projeto no seu PC -ele controi uma pasta 'build' não recomendo usar essa para desenvolver-)
 Depois de executar o comando **npm run dev** você vai ver o seguinte no seu terminal:
 ![alt text](https://i.ibb.co/dLZcrTD/Sem-t-tulo.png)
 a rota http://localhost:5173/ é um server local de desenvolvimento, onde, mostrará o seu projeto (todas as interfaces, por exemplo). Nele, para cada modificação de algum arquivo no seu projeto, ele reiniciará o server e aplicara todas eles em *real time*.
