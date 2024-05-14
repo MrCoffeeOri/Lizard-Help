@@ -1,24 +1,6 @@
 #client {
     section { margin: 11vh 0; }
     .colored { color: var(--red-main); }
-    > a { 
-        display: flex;
-        align-items: center;
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        transition: 300ms;
-        cursor: pointer;
-        &:hover { transform: translateX(-10px); }
-        &::after {
-            color: var(--red-main);
-            font-size: 0.95pc;
-            margin-left: 7px;
-            visibility: hidden;
-            content: "Voltar ao início";
-        }
-        &:hover::after { visibility: visible; }
-    }
     p { line-height: 4vh; }
     #wellcome {
         display: flex;

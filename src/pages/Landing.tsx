@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom';
+import LinkScroll from '../components/LinkScroll';
 
 export default function Landing() {
   useEffect(() => {
@@ -31,14 +32,14 @@ export default function Landing() {
             <p>Contatos</p>
             <div></div>
           </a>
-          <Link to='/client'>
+          <LinkScroll to='/client'>
             <p>Área do cliente</p>
             <div></div>
-          </Link>
-          <Link to='/start' style={{ display: 'none' }}>
+          </LinkScroll>
+          <LinkScroll to='/start' style={{ display: 'none' }}>
             <p>Começe agora</p>
             <div></div>
-          </Link>
+          </LinkScroll>
         </div>
     </header>
       <main>
