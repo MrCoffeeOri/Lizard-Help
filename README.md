@@ -1,4 +1,5 @@
 # LEIA ANTES DE CLONAR O PROJETO
+
 ## Tecnologias usadas:
 - Typescript: https://www.typescriptlang.org/pt/docs/
 - React JS: https://pt-br.react.dev/
