@@ -6,6 +6,8 @@
 - React Router: https://reactrouter.com/en/main
 - Vite: https://vitejs.dev/
 - Git: https://git-scm.com/doc
+- NodeJS: https://nodejs.org/docs/latest/api/
+- Npm: https://docs.npmjs.com/
 
 ## Comandos para executar na sua máquina na pasta do projeto (escreva eles na ordem em que aparece)
 - **npm i** (instala todas as dependências do projeto)
