@@ -40,3 +40,19 @@ a rota http://localhost:5173/ é um server local de desenvolvimento, onde, mostr
 -.tsconfig.json (configurações do typescript) <br/>
 -.tsconfig.node.json (configurações do typescript)
 -vite.config.ts (configurações do vitejs)
+
+## TODO:
+- ⬜️ Finalizar a página Home
+- - ⬜️ Sidebar responsivo
+- - ⬜️ Dashboard
+- - - ⬜️ Administrador
+- - - ⬜️ Dono
+- - - ⬜️ Funcionario
+- - - ⬜️ Técnico
+- - ⬜️ Header
+- - - ⬜️ Notificações
+- - - ⬜️ Mini-menu do perfil do usuário
+- ⬜️ Fazer e pensar sobre a página do técnico
+
+✅ Pronto
+⬜️ Não Pronto
