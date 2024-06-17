@@ -16,7 +16,7 @@ export default function Client() {
           <h2>Bem-vindo ao <span className='colored'>LizardHelp</span></h2>
           <p>Sua plataforma de suporte técnico amigável e eficiente. Aqui, estamos prontos para ajudá-lo a resolver qualquer problema que você possa encontrar. Com uma equipe dedicada e soluções rápidas, nossa missão é tornar sua experiência de suporte tão tranquila quanto possível.</p>
         </div>
-        <img src="/clients.png" alt="" />
+        <img src="/clients.webp" alt="" />
       </section>
       <section id='jump'>
         <h3>Seções</h3>
