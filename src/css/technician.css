@@ -1,0 +1,19 @@
+#technician {
+    form {
+        margin: 25.5vh auto;
+    }
+    #tickets {
+        overflow-y: auto;
+        .ticket {
+            margin: 2vw;
+            background-color: var(--ticket-background);
+            padding: 20px;
+            border-left: 10px solid var(--red-main);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            .details {
+                display: none;
+            }
+        }
+    }
+}

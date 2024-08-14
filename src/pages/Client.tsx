@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import { handleCorrection, RegexCorrections } from '../helpers/formCorrection';
 import GoBack from '../components/GoBack';
@@ -7,6 +7,7 @@ export default function Client() {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
   };
+  const [userType, setUserType] = useState<String>("")
   
   return (
     <div id='client'>
@@ -16,7 +17,7 @@ export default function Client() {
           <h2>Bem-vindo ao <span className='colored'>LizardHelp</span></h2>
           <p>Sua plataforma de suporte técnico amigável e eficiente. Aqui, estamos prontos para ajudá-lo a resolver qualquer problema que você possa encontrar. Com uma equipe dedicada e soluções rápidas, nossa missão é tornar sua experiência de suporte tão tranquila quanto possível.</p>
         </div>
-        <img src="/clients.png" alt="" />
+        <img src="/clients.webp" alt="" />
       </section>
       <section id='jump'>
         <h3>Seções</h3>
@@ -48,12 +49,12 @@ export default function Client() {
           <img src="/logo.webp" alt="" />
           <input
             type="text"
-            id="token"
-            placeholder='Chave de acesso'
-            onChange={e => handleCorrection(e, e => e.target.value.match(/a/g /*TODO: Token RegexExp*/) != null)}
+            id={userType == "empresa" ? "password" : "token"}
+            placeholder={userType == "empresa" ? "Senha" : "Chave de acesso"}
+            onChange={userType == "funcionario" ? (e => handleCorrection(e, e => e.target.value.match(/a/g /*TODO: Token RegexExp*/) != null)) : null}
             required
           />
-          <p>Chave de acesso incorreta</p>
+          {userType == "funcionario" && <p>Chave de acesso incorreta</p>}
           <input
             type="email"
             id="email"
@@ -62,11 +63,12 @@ export default function Client() {
             required
           />
           <p>Email incorreto</p>
-          <select id="type" required>
-            <option value="Funcionário">Funcionário</option>
-            <option value="Administrador">Administrador</option>
+          <select id="type" required onChange={e => setUserType(e.target.value)}>
+            <option value='' disabled selected hidden>Selecione uma das opções</option>
+            <option value="funcionário">Funcionário</option>
+            <option value="empresa">Empresa</option>
           </select>
-          <button type="submit">Login</button>
+          <button type="submit">Entrar</button>
         </form>
       </section>
     </div>

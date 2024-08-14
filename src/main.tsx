@@ -1,13 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import Landing from './pages/Landing'
-import Error from './pages/Error'
-import Start from './pages/Start'
 import CopyRight from './components/CopyRight';
 import "./css/main.css"
+import Landing from './pages/Landing'
+import Start from './pages/Start'
 import Home from './pages/Home'
+import Error from './pages/Error'
 import Client from './pages/Client'
+import Technician from './pages/Technician'
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
   {
     path: "client",
     element: <Client />
+  },
+  {
+    path: "technician",
+    element: <Technician />
   }
 ])
 
