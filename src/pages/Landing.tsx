@@ -51,7 +51,7 @@ export default function Landing() {
           <img src="./management.webp" />
         </section>
         <section>
-          <h2 style={{ textAlign: 'center', padding: '0px 90px' }}>O sistema de Help Desk da LizardHelp é projetado para <span className="marked">organizar</span>, <span className="marked">controlar</span> e <span className="marked">otimizar</span> processos, oferecendo uma centralização completa da comunicação com o cliente. Todos os recursos necessários estão disponíveis para uso ilimitado por agente, garantindo uma experiência fluida e eficiente.</h2>
+          <p style={{ fontSize:'1.7em', fontWeight: 'bold', textAlign:'justify', padding: '0px 90px' }}>O sistema de Help Desk da LizardHelp é projetado para <span className="marked">organizar</span>, <span className="marked">controlar</span> e <span className="marked">otimizar</span> processos, oferecendo uma centralização completa da comunicação com o cliente. Todos os recursos necessários estão disponíveis para uso ilimitado por agente, garantindo uma experiência fluida e eficiente.</p>
         </section>
         <section id='about'>
           <img src="./team.svg" alt="" />
@@ -62,12 +62,12 @@ export default function Landing() {
             </div>
             <div id='cards'>
               <div className='card' id='team'>
-                <img src="./worker.webp" alt="" />
+                <img src="./worker.svg" alt="" />
                 <h2>Time Dev</h2>
                 <p>Estamos focados em criar um helpdesk excepcional, unindo talento técnico e compreensão do usuário para superar expectativas. Vamos mostrar nossa competência e entregar excelência.</p>
               </div>
               <div className='card' id='product'>
-                <img src="./wrench.webp" alt="" />
+                <img src="./wrench.svg" alt="" />
                 <h2>Produto</h2>
                 <p><i>LizardHelp</i> representa a excelência em suporte, fruto da nossa competência técnica e profundo entendimento das necessidades dos usuários. Vamos superar expectativas e oferecer uma experiência excepcional.</p>
               </div>
