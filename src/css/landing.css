@@ -49,8 +49,8 @@
         display: flex;
         align-items: center;
         justify-content: space-around;
-        img {
-            animation: Float 3s infinite alternate ease-in-out;
+        img {  
+            margin: 0;
             width: 25vw
         };
         div { 
@@ -74,6 +74,35 @@
                 }
             }
         };
+
+        .circle {
+            width: 18vw;
+            height: 18vw;
+            border-radius: 100%;
+            background: none;
+            border: 15px solid rgb(255, 255, 255);
+            position: absolute;
+            right: 9vw;
+            z-index: -1;
+          }
+          
+          .lines > li {
+            list-style: none;
+            height: 4px; /* line width on a circle border */
+            background-color: var(--background);
+            width: 280px; /* circle diameter */
+            
+            position: absolute;
+            left: -10px; /* shift lines to left by border width */
+            top: calc(50% - 2px); /* shift lines by half of line height */
+          }
+          
+          .lines > li:nth-child(1) {
+            transform: rotate(0deg);
+          }
+          .lines > li:nth-child(2) {
+            transform: rotate(90deg);
+        }
     }
     #about {
         display: flex;
