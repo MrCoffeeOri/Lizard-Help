@@ -11,7 +11,13 @@
         width: 10vw;
     }
     h1 {
+        text-align: left;
         width: 40vw;
     }
-    form { padding: 35px 35px 20px 35px; }
+    form { 
+        padding: 35px 35px 20px 35px; 
+        h2 {
+            margin: 0;
+        }
+    }
 }

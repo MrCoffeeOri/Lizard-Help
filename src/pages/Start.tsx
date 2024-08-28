@@ -34,6 +34,7 @@ export default function Start() {
       <div>
         <form className='form' onSubmit={handleSubmit}>
           <img src="./logo.webp" alt="" />
+          <h2>Cadastrar</h2>
           <input
             required
             type="text"
