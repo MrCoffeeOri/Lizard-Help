@@ -74,8 +74,8 @@ export default function Start() {
             onChange={e => handleCorrection(e, e => e.target.value.match(RegexCorrections.companyID) != null)}
           />
           <p>Use o formato XX.XXX.XXX/0001-XX</p>
-          <button type="submit">Criar</button>
-          <Link rel="stylesheet" to="/client#Entrar" style={{ color: "var(--red-main-darker)", margin: "20px 0 0 0" }}>Já possui uma conta?</Link>
+          <button style={{ marginBottom: 15 }} type="submit">Criar</button>
+          <Link rel="stylesheet" to="/client#login">Já possui uma conta?</Link>
         </form>
         <h1>Centralize seus canais de atendimento com <span className="marked">gerenciamento</span> e <span className="marked">automação</span> completos de tickets</h1>
       </div>

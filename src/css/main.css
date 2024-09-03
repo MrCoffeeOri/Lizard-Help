@@ -46,30 +46,37 @@ input, select, button {
 }
 
 .form {
-    padding: 35px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    position: relative;
+    padding: 25px 35px 35px 35px;
     max-width: 400px;
     border: 2px solid var(--red-main-darker);
     border-radius: .3rem;
+    box-shadow: 0 0px 11px 2px black;
+    h2 {
+        top: 2%;
+        left: 7%;
+        color: var(--red-main);
+        margin: 0 0 5px 0;
+        text-align: left;
+    }
     img {
-        width: 3.3vw;
-        margin: -70px auto 10px auto;
+        margin-top: -18%;
+        width: 3vw;
         padding: 10px 12px;
-        background-color: var(--red-main-darker);
+        background-color: var(--background);
         border-radius: 50%;
+        border: inherit;
     }
     input {
         width: 20vw;
-        height: 5vh;
+        height: 4.2vh;
         &:not(:placeholder-shown) {
             border: 1px solid var(--green-main);
         }
     }
     select {
-        height: 8vh;
-        width: 21.6vw;
+        height: 6vh;
+        width: 14vw;
     }
     input, select {
         margin-top: 20px;
@@ -93,6 +100,7 @@ input, select, button {
         color: white;
         cursor: pointer;
         font-size: 1.05pc;
+        transition: 150ms;
         &:hover {
             background-color: var(--red-main-darker);
         }

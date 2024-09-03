@@ -44,9 +44,9 @@ export default function Client() {
         </div>
       </section>
       <section id='login'>
-        <h2>Entrar</h2>
         <form className='form' onSubmit={handleSubmit}>
           <img src="/logo.webp" alt="" />
+          <h2>Entrar</h2>
           <input
             type="text"
             id={userType == "empresa" ? "password" : "token"}
@@ -64,7 +64,7 @@ export default function Client() {
           />
           <p>Email incorreto</p>
           <select id="type" required onChange={e => setUserType(e.target.value)}>
-            <option value='' disabled selected hidden>Selecione uma das opções</option>
+            <option value='placeholder' disabled selected hidden>Selecione uma das opções</option>
             <option value="funcionário">Funcionário</option>
             <option value="empresa">Empresa</option>
           </select>
