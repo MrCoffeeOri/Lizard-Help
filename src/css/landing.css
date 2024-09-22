@@ -148,7 +148,6 @@
             flex-wrap: wrap;
             height: 40vh;
             align-items: center;
-
             li {
                 background-color: var(--red-main);
                 border-radius: 20px;
@@ -160,11 +159,5 @@
                 
             }
         }
-    }
-    #contacts {
-        margin-bottom: 0;
-        padding: 3vh 0;
-        text-align: center;
-        background-color: var(--card-background);
     }
 }

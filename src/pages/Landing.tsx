@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import LinkScroll from '../components/LinkScroll';
+import CopyRight from '../components/CopyRight';
 
 export default function Landing() {
   useEffect(() => {
@@ -50,7 +51,6 @@ export default function Landing() {
           </div>
           <div className="circle">
           <ul className="lines">
-     
             <li></li>
             <li></li>
             <li></li>
@@ -95,11 +95,8 @@ export default function Landing() {
             <li>Atualizações constantes</li>
           </ul>
         </section>
-        <section id='contacts'>
-          <h2>Contate-nos</h2>
-          <p>Tem uma pergunta ou precisa de ajuda? Entre em contato com nossa equipe de suporte em support@lizardhelp.com ou ligue para 1-800-LIZARD-HELP.</p>
-        </section>
       </main>
+      <CopyRight />
     </div>
   );
 };

@@ -6,7 +6,6 @@
 @import url(home.css);
 @import url(technician.css);
 
-
 :root {
     --red-main: #c12626;
     --red-main-darker: #871313;
@@ -68,15 +67,15 @@ input, select, button {
         border: inherit;
     }
     input {
-        width: 20vw;
-        height: 4.2vh;
+        width: 25vw;
+        height: 5vh;
         &:not(:placeholder-shown) {
             border: 1px solid var(--green-main);
         }
     }
     select {
-        height: 6vh;
-        width: 14vw;
+        height: 8vh;
+        width: 18vw;
     }
     input, select {
         margin-top: 20px;

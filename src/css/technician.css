@@ -2,10 +2,27 @@
     form {
         margin: 25.5vh auto;
     }
-    .opened { display: block !important; }
+    #filters {
+        padding: 20px 0;
+        span {
+            margin-left: 5vw;
+            padding: 10px;
+            border-bottom: 2px solid rgba(0, 0, 0, 0);
+            transition: 200ms;
+            &:hover {
+                cursor: pointer;
+                border-bottom: 2px solid var(--red-main);
+            }
+        }
+    }
     #tickets {
         overflow-y: auto;
-        height: 93vh;
+        height: 80vh;
+        &::-webkit-scrollbar {
+            width: 3px;
+            background-color: var(--background);
+        }
+        &::-webkit-scrollbar-thumb { background-color: var(--background-darker); }
         .ticket {
             position: relative;
             margin: 2vw;
@@ -29,9 +46,6 @@
                 height: 30px;
                 border-radius: .4rem;
                 font-size: 1.5pc;
-                position: absolute;
-                bottom: 10px;
-                right: 20px;
                 &:hover {
                     cursor: pointer;
                     background-color: var(--background);
@@ -44,23 +58,29 @@
                 float: right;
             }
             .tags {
-                margin-top: 25px;
                 .tag {
                     background-color: var(--red-main-darker);
                     padding: 10px 15px;
                     border-radius: .4rem;
                     margin: 0 30px 0 0;
+                    &.solved { background-color: var(--green-main); }
                 }
             }
             .details {
-                display: none;
+                height: 0;
+                overflow: hidden;
+                transition: 800ms;
+                &.opened { 
+                    height: 86.5vh !important;
+                }
                 .description {
                     border-left: 5px solid var(--red-main);
                     padding: 10px;
-                    margin: 20px 0;
+                    margin: 35px 0 15px 0;
                     h1 { margin-top: 0; }
                 }
                 .start-chat {
+                    transition: 300ms;
                     font-size: 1.05pc;
                     border-radius: .4rem;
                     padding: 5px 10px;
@@ -69,13 +89,6 @@
                     &:hover {
                         cursor: pointer;
                         background-color: var(--red-main-darker);
-                    }
-                }
-                .chat {
-                    margin-bottom: 25px;
-                    input {
-                        border-radius: 0 0 .4rem .4rem;
-                        padding: 10px;
                     }
                 }
             }

@@ -2,6 +2,7 @@ import React, { useRef } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { RegexCorrections, handleCorrection } from '../helpers/formCorrection';
 import GoBack from '../components/GoBack';
+import CopyRight from '../components/CopyRight';
 
 export default function Start() {
   const passwordRef = useRef<HTMLInputElement>(null)
@@ -75,10 +76,13 @@ export default function Start() {
           />
           <p>Use o formato XX.XXX.XXX/0001-XX</p>
           <button style={{ marginBottom: 15 }} type="submit">Criar</button>
-          <Link rel="stylesheet" to="/client#login">Já possui uma conta?</Link>
+          <div>
+            <Link rel="stylesheet" to="/client#login">Já possui uma conta?</Link>
+          </div>
         </form>
         <h1>Centralize seus canais de atendimento com <span className="marked">gerenciamento</span> e <span className="marked">automação</span> completos de tickets</h1>
       </div>
+      <CopyRight />
     </div>
   );
 }

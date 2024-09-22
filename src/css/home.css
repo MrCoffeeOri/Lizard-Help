@@ -19,21 +19,5 @@
     }
     #dashboard {
         width: 100%;
-        header {
-            border-bottom: 2px solid var(--background-darker);
-            padding: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            #user-image {
-                width: 2.7vw;
-                padding: 2px;
-                border-radius: 50%;
-                background-color: black;
-            }
-            #logo {
-                width: 7vw;
-            }
-        }
     }
 }

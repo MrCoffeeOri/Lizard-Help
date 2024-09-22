@@ -1,0 +1,22 @@
+.userHeader {
+    border-bottom: 2px solid var(--background-darker);
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    div {
+        width: 10vw;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        img {
+            width: 3.2vw;
+            padding: 2px;
+            border-radius: 50%;
+            background-color: black;
+        }
+    }
+    & > img {
+        width: 7vw;
+    }
+}

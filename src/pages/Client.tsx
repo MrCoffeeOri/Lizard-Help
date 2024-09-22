@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import { handleCorrection, RegexCorrections } from '../helpers/formCorrection';
 import GoBack from '../components/GoBack';
+import CopyRight from '../components/CopyRight';
 
 export default function Client() {
   const handleSubmit = (event: React.FormEvent) => {
@@ -71,6 +72,7 @@ export default function Client() {
           <button type="submit">Entrar</button>
         </form>
       </section>
+      <CopyRight />
     </div>
   );
 }

@@ -1,9 +1,16 @@
 .copyRight {
-    border-top: 2px solid var(--red-others);
+    margin-top: 10vh;
     background-color: var(--card-background);
     padding: 2vh 0;
-    p { 
-        margin: 0; 
-        text-align: center;
+    text-align: center;
+    p { margin: 0; } 
+    & > p { 
+        border-top: 2px solid var(--red-others);
+        padding-top: 2vh;
+    }
+    div {
+        margin-bottom: 0;
+        padding: 3vh 0;
+        background-color: var(--card-background);
     }
 }
