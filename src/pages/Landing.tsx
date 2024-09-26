@@ -49,15 +49,7 @@ export default function Landing() {
             <h2>Um sistema completo de Help Desk que vai gerar mais eficiência para o seu Suporte de TI!</h2>
             <Link to="/start">Começe agora!</Link>
           </div>
-          <div className="circle">
-          <ul className="lines">
-            <li></li>
-            <li></li>
-            <li></li>
-          </ul>
-      </div>
-      <img src="./management.svg" />
-
+          <img src="./management.webp" />
         </section>
         <section>
           <p style={{ fontSize:'1.7em', fontWeight: 'bold', textAlign:'justify', padding: '0px 90px' }}>O sistema de Help Desk da LizardHelp é projetado para <span className="marked">organizar</span>, <span className="marked">controlar</span> e <span className="marked">otimizar</span> processos, oferecendo uma centralização completa da comunicação com o cliente. Todos os recursos necessários estão disponíveis para uso ilimitado por agente, garantindo uma experiência fluida e eficiente.</p>

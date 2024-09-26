@@ -1,10 +1,32 @@
 #technician {
+    .scrollable {
+        overflow-y: auto;
+        &::-webkit-scrollbar {
+            width: 3px;
+            background-color: var(--background);
+        }
+        &::-webkit-scrollbar-thumb { background-color: var(--background-darker); }
+    }
     form {
         margin: 25.5vh auto;
     }
     #filters {
         padding: 20px 0;
-        span {
+        #tagsManager {
+            padding: 20px;
+            position: absolute;
+            background-color: var(--background-darker);
+            .protoTag {
+                border-radius: 4rem;
+                display: flex;
+                justify-content: space-evenly;
+                align-items: center;
+                width: 4vw;
+                background-color: rgb(93, 170, 170);
+                padding: 6px;
+            }
+        }
+        > span {
             margin-left: 5vw;
             padding: 10px;
             border-bottom: 2px solid rgba(0, 0, 0, 0);
@@ -16,13 +38,7 @@
         }
     }
     #tickets {
-        overflow-y: auto;
         height: 80vh;
-        &::-webkit-scrollbar {
-            width: 3px;
-            background-color: var(--background);
-        }
-        &::-webkit-scrollbar-thumb { background-color: var(--background-darker); }
         .ticket {
             position: relative;
             margin: 2vw;
@@ -71,12 +87,14 @@
                 overflow: hidden;
                 transition: 800ms;
                 &.opened { 
-                    height: 86.5vh !important;
+                    height: 48vh !important;
                 }
                 .description {
                     border-left: 5px solid var(--red-main);
                     padding: 10px;
                     margin: 35px 0 15px 0;
+                    max-height: 37vh;
+                    overflow-y: auto;
                     h1 { margin-top: 0; }
                 }
                 .start-chat {
