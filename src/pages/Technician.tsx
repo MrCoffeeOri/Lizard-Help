@@ -1,10 +1,27 @@
-import React from 'react'
+import React, { JSXElementConstructor, useState } from 'react'
 import { handleCorrection } from '../helpers/formCorrection'
 import UserHeader from '../components/UserHeader'
 
 export default function Technician() {
+    const [tags, setTags] = useState<string[]>([]);
+
     function handleSubmit(e: React.FormEvent<HTMLFormElement>): void {
         throw new Error('Function not implemented.')
+    }
+
+    function handleTagCreation(e: React.KeyboardEvent<HTMLInputElement>) {
+        if (e.key == "Enter" && tags.length < 20) {
+            setTags([...tags, e.currentTarget.value])
+            e.currentTarget.value = ""
+        }
+    }
+
+    function handleTagDelete(e: React.MouseEvent<HTMLSpanElement>) {
+        setTags(tags.filter(tag => tag != (e.currentTarget.nextSibling as HTMLInputElement).innerText))
+    }
+
+    function handleTagInputLimit(e: React.ChangeEvent<HTMLInputElement>) {
+        e.target.value = e.target.value.length > 20 ? e.target.value.slice(0, 20) : e.target.value.trim()
     }
 
     function handleMoreDetails(e: React.MouseEvent<HTMLSpanElement>) {
@@ -17,12 +34,9 @@ export default function Technician() {
             <div id='filters'>
                 <div id='tagsManager'>
                     <div>
-                        <div className='protoTag'>
-                            <span className='close'>x</span>
-                            <span>Tag</span>
-                        </div>
+                        {tags.length > 0 ? tags.map(tag => <div className='tag'><span className='close' onClick={handleTagDelete}>x</span><span>{tag}</span></div>) : <p>Suas tags serão mostradas aqui</p>}
                     </div>
-                    <input type="text" />
+                    <input onChange={handleTagInputLimit} onKeyDown={handleTagCreation} type="text" placeholder='Insira uma nova tag'/>
                 </div>
                 <span>Tags</span>
                 <span>Selecionados</span>

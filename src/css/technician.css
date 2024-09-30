@@ -12,18 +12,46 @@
     }
     #filters {
         padding: 20px 0;
+        position: relative;
         #tagsManager {
-            padding: 20px;
+            top: 5vh;
+            left: 3vw;
+            z-index: 99;
             position: absolute;
             background-color: var(--background-darker);
-            .protoTag {
-                border-radius: 4rem;
-                display: flex;
-                justify-content: space-evenly;
-                align-items: center;
-                width: 4vw;
-                background-color: rgb(93, 170, 170);
-                padding: 6px;
+            border-radius: .4rem;
+            > div {
+                max-width: 17.2vw;
+                padding: 12px;
+                .tag {
+                    display: inline-block;
+                    align-items: center;
+                    border-radius: .4rem;
+                    max-width: fit-content;
+                    background-color: var(--red-main);
+                    padding: 6px 12px 6px 5px;
+                    margin: 8px;
+                    span { margin-left: 7px; }
+                    .close {
+                        font-size: 1.1pc;
+                        transition: 200ms;
+                        cursor: pointer;
+                        &:hover {
+                            color: var(--background);
+                        }
+                    }
+                }
+            }
+            input {
+                color: white;
+                border-top: 2px solid var(--red-main);
+                background-color: var(--background-darker);
+                padding: 2%;
+                width: 96%;
+                height: 2.5vh;
+                margin-top: -10px;
+                border-radius: 0 0 .4rem .4rem;
+                font-size: 0.9pc;
             }
         }
         > span {
