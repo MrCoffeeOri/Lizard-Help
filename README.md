@@ -42,7 +42,7 @@ a rota http://localhost:5173/ é um server local de desenvolvimento, onde, mostr
 -vite.config.ts (configurações do vitejs)
 
 ## TODO:
-- ⬜️ Finalizar a página Home
+- ✅ Finalizar a página Home
 - - ⬜️ Sidebar responsivo
 - - ⬜️ Dashboard
 - - - ⬜️ Administrador
