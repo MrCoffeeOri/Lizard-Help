@@ -47,7 +47,7 @@ input, select, button {
 .form {
     position: relative;
     padding: 25px 35px 35px 35px;
-    max-width: 400px;
+    width: 30vw;
     border: 2px solid var(--red-main-darker);
     border-radius: .3rem;
     box-shadow: 0 0px 11px 2px black;

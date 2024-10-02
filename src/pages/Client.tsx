@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { handleCorrection, RegexCorrections } from '../helpers/formCorrection';
 import GoBack from '../components/GoBack';
@@ -10,6 +10,10 @@ export default function Client() {
   };
   const [userType, setUserType] = useState<String>("")
   
+  useEffect(() => {
+    location.hash == "#login" && document.getElementById("login").scrollIntoView()
+  }, [])
+
   return (
     <div id='client'>
       <GoBack to="/"/>
