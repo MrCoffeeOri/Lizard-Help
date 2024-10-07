@@ -12,30 +12,27 @@ export default function Start() {
     e.preventDefault();
     if (document.querySelector("form > input[error]")) return
     scrollTo({ top: 0, left: 0 })
-    fetch("http://localhost:5000/user/create", {
+    const user = (await (await fetch("http://localhost:5000/user/create", {
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ 
-        name: (e.target[0] as HTMLInputElement).value, 
-        email: (e.target[1] as HTMLInputElement).value,
-        password: (e.target[2] as HTMLInputElement).value, 
-        type: 'owner'
-      })
+          name: (e.target[0] as HTMLInputElement).value, 
+          email: (e.target[1] as HTMLInputElement).value,
+          password: (e.target[2] as HTMLInputElement).value, 
+          type: 'owner'
+        })
+      })).json()).user
+      await fetch("http://localhost:5000/company/create", {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          name: (e.target[4] as HTMLInputElement).value,
+          email: (e.target[5] as HTMLInputElement).value, 
+          phone: (e.target[6] as HTMLInputElement).value, 
+          cid: (e.target[7] as HTMLInputElement).value,
+          owner: user._id
+        })
     })
-      .then(res => res.json())
-      .then(user => {
-        fetch("http://localhost:5000/company/create", {
-          method: "POST",
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ 
-            name: (e.target[4] as HTMLInputElement).value,
-            email: (e.target[5] as HTMLInputElement).value, 
-            phone: (e.target[6] as HTMLInputElement).value, 
-            cid: (e.target[7] as HTMLInputElement).value,
-            owner: user._id
-          })
-      })
-      })
   };
 
   return (
