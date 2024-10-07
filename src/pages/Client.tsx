@@ -53,14 +53,6 @@ export default function Client() {
           <img src="/logo.webp" alt="" />
           <h2>Entrar</h2>
           <input
-            type="text"
-            id={userType == "empresa" ? "password" : "token"}
-            placeholder={userType == "empresa" ? "Senha" : "Chave de acesso"}
-            onChange={userType == "funcionario" ? (e => handleCorrection(e, e => e.target.value.match(/a/g /*TODO: Token RegexExp*/) != null)) : null}
-            required
-          />
-          {userType == "funcionario" && <p>Chave de acesso incorreta</p>}
-          <input
             type="email"
             id="email"
             placeholder='Email da empresa'
@@ -68,6 +60,14 @@ export default function Client() {
             required
           />
           <p>Email incorreto</p>
+          <input
+            type="text"
+            id={userType == "empresa" ? "password" : "token"}
+            placeholder={userType == "empresa" ? "Senha" : "Chave de acesso"}
+            onChange={userType == "funcionario" ? (e => handleCorrection(e, e => e.target.value.match(/a/g /*TODO: Token RegexExp*/) != null)) : null}
+            required
+          />
+          {userType == "funcionario" && <p>Chave de acesso incorreta</p>}
           <select id="type" required onChange={e => setUserType(e.target.value)}>
             <option value='placeholder' disabled selected hidden>Selecione uma das opções</option>
             <option value="funcionário">Funcionário</option>
