@@ -12,34 +12,50 @@ export default function Start() {
     e.preventDefault();
     if (document.querySelector("form > input[error]")) return
     scrollTo({ top: 0, left: 0 })
-    const user = (await (await fetch("http://localhost:5000/user/create", {
-      method: "POST",
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ 
-          name: (e.target[0] as HTMLInputElement).value, 
-          email: (e.target[1] as HTMLInputElement).value,
-          password: (e.target[2] as HTMLInputElement).value, 
-          type: 'owner'
-        })
-      })).json()).user
-      await fetch("http://localhost:5000/company/create", {
-        method: "POST",
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          name: (e.target[4] as HTMLInputElement).value,
-          email: (e.target[5] as HTMLInputElement).value, 
-          phone: (e.target[6] as HTMLInputElement).value, 
-          cid: (e.target[7] as HTMLInputElement).value,
-          owner: user._id
-        })
-    })
+    try {
+        const userResponse = await (await fetch("http://localhost:5000/user/create", {
+          method: "POST",
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
+              name: (e.target[0] as HTMLInputElement).value, 
+              email: (e.target[1] as HTMLInputElement).value,
+              password: (e.target[2] as HTMLInputElement).value, 
+              type: 'owner'
+            })
+        })).json()
+        if (userResponse.error) return alert(userResponse.error)
+        await fetch("http://localhost:5000/company/create", {
+          method: "POST",
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
+            name: (e.target[4] as HTMLInputElement).value,
+            email: (e.target[5] as HTMLInputElement).value, 
+            phone: (e.target[6] as HTMLInputElement).value, 
+            cid: (e.target[7] as HTMLInputElement).value,
+            owner: userResponse.user._id
+          })
+      })
+    } catch (error) {
+      alert(error)
+    }
   };
+
+  const handleCloseAlert = (e: React.MouseEvent<HTMLSpanElement>) => {
+    e.currentTarget.parentElement.parentElement.remove()
+  }
 
   return (
     <div id='start'>
+      <div className='alert'>
+        <div>
+          <span onClick={handleCloseAlert}>x</span>
+          <p>ajskdbashk kgshkadgahk gasdhgashk</p>
+          <div></div>
+        </div>
+      </div>
       <GoBack to='/' />
       <img id='logo' src="./logoName.webp" alt="" />
-    <div>
+      <div>
         <form className='form' onSubmit={handleSubmit}>
         <img src="./logo.webp" alt="" />
         <h2>Dados do Usuário</h2>
