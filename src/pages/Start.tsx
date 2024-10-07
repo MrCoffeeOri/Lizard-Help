@@ -103,7 +103,10 @@ export default function Start() {
           <Link rel="stylesheet" to="/client#login">Já possui uma conta?</Link>
         </div>
         </form>
-        <h1>Centralize seus canais de atendimento com <span className="marked">gerenciamento</span> e <span className="marked">automação</span> completos de tickets</h1>
+        <div>
+          <img src="start.png" alt="" />
+          <h1>Centralize seus canais de atendimento com <span className="marked">gerenciamento</span> e <span className="marked">automação</span> completos de tickets</h1>
+        </div>
       </div>
       <CopyRight />
     </div>
