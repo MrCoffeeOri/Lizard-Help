@@ -65,6 +65,9 @@ a rota http://localhost:5173/ é um server local de desenvolvimento, onde, mostr
 ### ✅ Página do técnico
 - ✅ Planejar e desenvolver a página do técnico
 
+### ✅ Página do Admin/Dono
+- ✅ Planejar e desenvolver a página dos admins 
+
 ### ⬜️ Página do Funcionário
 - ⬜️ Planejar e desenvolver a página do funcionário
 
