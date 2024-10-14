@@ -42,7 +42,7 @@ export default function Technician() {
             <UserHeader userName='Roberto' userImage='worker.svg' />
             <div id='filters'>
                 <div id='tagsManager'>
-                    <span className='close'>x</span>
+                    <span onClick={e=>{handleTagFilterShow()}} className='close'>x</span>{/*Está correto a adição do handleTagFilterShow nesta tag span? Não criei outro método para fechar*/}
                     <div>
                         {tags.length > 0 ? tags.map(tag => <div className='tag' id={tag.id.toString()}><span className='delete' onClick={handleTagDelete}>x</span><span>{tag.content}</span></div>) : <p>Suas tags serão mostradas aqui</p>}
                     </div>
@@ -55,7 +55,7 @@ export default function Technician() {
             {/*
             <form className='form' onSubmit={handleSubmit}>
             <img src="/logo.webp" alt="" />
-            <input
+            <inputA
                 type="text"
                 id="token"
                 placeholder="Chave de acesso"
