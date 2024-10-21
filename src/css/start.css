@@ -1,36 +1,5 @@
 #start {
     text-align: center;
-    .alert {
-        position: fixed;
-        text-align: center;
-        width: 100%;
-        z-index: 99;
-        > div {
-            position: relative;
-            margin-top: 2.5vh;
-            border-radius: .4rem;
-            background-color: var(--red-main);
-            span {
-                transition: 200ms;
-                position: absolute;
-                font-size: 1.1pc;
-                top: -2px;
-                right: 5px;
-                cursor: pointer;
-                &:hover { 
-                    color: var(--red-main-darker);
-                }
-            }
-            p {
-                margin: 12px 25px;
-            }
-            > div {
-                height: 0.4vh;
-                background-color: white;
-                border-radius: 0 0 .4rem .4rem;
-            }
-        }
-    }
     > div {
         display: flex;
         justify-content: space-around;

@@ -1,0 +1,32 @@
+@keyframes Shrink {
+    from { width: 99%; }
+    to { width: 0; }
+}
+
+.alert {
+    position: fixed;
+    text-align: center;
+    width: 100%;
+    z-index: 99;
+    > div {
+        cursor: pointer;
+        position: relative;
+        margin-top: 2.5vh;
+        border-radius: .2rem;
+        background-color: var(--red-main);
+        transition: 300ms;
+        &:hover {
+            background-color: var(--red-main-darker);
+            transform: translateY(-5px);
+        }
+        p {
+            margin: 12px 25px;
+        }
+        > div {
+            animation: Shrink 6.5s forwards ease-out;
+            height: 0.4vh;
+            background-color: white;
+            border-radius: 0 0 .2rem .2rem;
+        }
+    }
+}
