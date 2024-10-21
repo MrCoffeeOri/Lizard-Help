@@ -25,7 +25,10 @@ export default function Technician() {
     };
     
     const handleTagFilterShow = () => {
-        document.getElementById("tagsManager").classList.toggle("show");
+        const tagsManager = document.getElementById("tagsManager")
+        if (tagsManager.classList.contains('show'))
+            document.querySelector("#filters > span.selected")?.classList.remove("selected")
+        tagsManager.classList.toggle("show");
     };
 
     const handleFilterSelection = (e: React.MouseEvent<HTMLSpanElement>) => {
@@ -42,7 +45,7 @@ export default function Technician() {
             <UserHeader userName='Roberto' userImage='worker.svg' />
             <div id='filters'>
                 <div id='tagsManager'>
-                    <span className='close'>x</span>
+                    <span className='close' onClick={handleTagFilterShow}>x</span>
                     <div>
                         {tags.length > 0 ? tags.map(tag => <div className='tag' id={tag.id.toString()}><span className='delete' onClick={handleTagDelete}>x</span><span>{tag.content}</span></div>) : <p>Suas tags serão mostradas aqui</p>}
                     </div>
