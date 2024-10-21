@@ -18,5 +18,7 @@
     }
     & > img {
         width: 7vw;
+        margin-left: 1vw;
+        padding: 1vh;
     }
 }

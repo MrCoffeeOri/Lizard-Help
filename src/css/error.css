@@ -15,7 +15,8 @@
     align-items: center;
     justify-content: space-evenly;
     img { 
-        width: 10vw; 
+        width: 20vw; 
+        
     }
     a {
         animation: Glow 1s infinite forwards alternate ease-in-out;

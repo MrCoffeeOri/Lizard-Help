@@ -42,17 +42,34 @@ a rota http://localhost:5173/ é um server local de desenvolvimento, onde, mostr
 -vite.config.ts (configurações do vitejs)
 
 ## TODO:
-- ✅ Finalizar a página Home
-- - ⬜️ Sidebar responsivo
-- - ⬜️ Dashboard
-- - - ⬜️ Administrador
-- - - ⬜️ Dono
-- - - ⬜️ Funcionario
-- - - ⬜️ Técnico
-- - ⬜️ Header
-- - - ⬜️ Notificações
-- - - ⬜️ Mini-menu do perfil do usuário
-- ⬜️ Fazer e pensar sobre a página do técnico
+
+### ✅ Finalizar a página Home
+
+### Sidebar
+- ⬜️ Tornar responsivo
+
+### Dashboard
+- ⬜️ Implementar dashboard para os diferentes usuários:
+  - ⬜️ Administrador
+  - ⬜️ Dono
+  - ⬜️ Funcionário
+  - ⬜️ Técnico
+    - ✅ Tickets
+    - ⬜️ Chats de atendimento
+
+### Header
+- ⬜️ Adicionar funcionalidades ao Header:
+  - ⬜️ Notificações
+  - ⬜️ Mini-menu do perfil do usuário
+
+### ✅ Página do técnico
+- ✅ Planejar e desenvolver a página do técnico
+
+### ✅ Página do Admin/Dono
+- ✅ Planejar e desenvolver a página dos admins 
+
+### ⬜️ Página do Funcionário
+- ⬜️ Planejar e desenvolver a página do funcionário
 
 ✅ Pronto
 ⬜️ Não Pronto

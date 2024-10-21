@@ -58,7 +58,7 @@ export default function Technician() {
             {/*
             <form className='form' onSubmit={handleSubmit}>
             <img src="/logo.webp" alt="" />
-            <input
+            <inputA
                 type="text"
                 id="token"
                 placeholder="Chave de acesso"
