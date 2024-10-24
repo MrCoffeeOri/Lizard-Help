@@ -65,14 +65,11 @@ export default function Start() {
           <p>Senha não corresponde</p>
           <h2 style={{ marginTop: 30 }}>Dados da Empresa</h2>
           <input required type="text" placeholder="Nome da Empresa" />
-          <input required type="email" placeholder="Email da Empresa"
-            onChange={e => handleCorrection(e, e => e.target.value.match(RegexCorrections.email) != null)} />
+          <input required type="email" placeholder="Email da Empresa" onChange={e => handleCorrection(e, e => e.target.value.match(RegexCorrections.email) != null)} />
           <p>Use o formato username@domain.com</p>
-          <input required type="tel" placeholder="Número de telefone"
-            onChange={e => handleCorrection(e, e => e.target.value.match(RegexCorrections.telNumber) != null)} />
+          <input required type="tel" placeholder="Número de telefone" onChange={e => handleCorrection(e, e => e.target.value.match(RegexCorrections.telNumber) != null)} />
           <p>Use o formato (XX) XXXXX-XXXX</p>
-          <input required type="text" placeholder="CNPJ"
-            onChange={e => handleCorrection(e, e => e.target.value.match(RegexCorrections.companyID) != null)} />
+          <input required type="text" placeholder="CNPJ" onChange={e => handleCorrection(e, e => e.target.value.match(RegexCorrections.companyID) != null)} />
           <p>Use o formato XX.XXX.XXX/0001-XX</p>
           <button style={{ marginBottom: 15 }} type="submit">Criar</button>
           <div>

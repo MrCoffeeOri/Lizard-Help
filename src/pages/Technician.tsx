@@ -37,7 +37,7 @@ export default function Technician() {
     }
     
     const handleMoreDetails = (e: React.MouseEvent<HTMLSpanElement>) => {
-        e.currentTarget.innerText = e.currentTarget.parentElement?.parentElement?.lastElementChild?.classList.toggle("opened") ? '-' : '+';
+        e.currentTarget.innerText = e.currentTarget.parentElement?.parentElement?.lastElementChild?.classList.toggle("opened") ? '-' : '+'
     };    
 
     return (
@@ -70,6 +70,7 @@ export default function Technician() {
                 </form>*/}
             <div id='tickets' className='scrollable'>
                 <div className="ticket">
+                    <p className='state'>Padrão</p>
                     <h3 className="title">Socorro, minha calculadora explodiu!!</h3>
                     <span className='date' >Criado em 21/03/2024</span>
                     <p className="by">Por João Silva</p>
@@ -88,6 +89,7 @@ export default function Technician() {
                     </div>
                 </div>
                 <div className="ticket">
+                    <p className='state medium'>Médio</p>
                     <h3 className="title">Socorro, minha calculadora explodiu!!</h3>
                     <span className='date' >Criado em 21/03/2024</span>
                     <p className="by">Por João Silva</p>
@@ -106,6 +108,7 @@ export default function Technician() {
                     </div>
                 </div>
                 <div className="ticket">
+                    <p className='state critical'>Crítico</p>
                     <h3 className="title">Socorro, minha calculadora explodiu!!</h3>
                     <span className='date' >Criado em 21/03/2024</span>
                     <p className="by">Por João Silva</p>

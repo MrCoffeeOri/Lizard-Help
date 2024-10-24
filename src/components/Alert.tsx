@@ -5,6 +5,7 @@ export default function Alert({ message, time = 6500 }: { message: string | null
   const alertRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    if (!message) return
     const timer = setTimeout(() => {
       alertRef.current.remove(); 
     }, time);

@@ -89,6 +89,11 @@
             border-left: 10px solid var(--red-main);
             border-radius: 10px;
             margin-bottom: 20px;
+            .state {
+                margin: 0 0 10px 0;
+                &.medium { color: yellow; };
+                &.critical { color: red; };
+            }
             .box {
                 overflow-y: auto;
                 max-height: 50vh;
@@ -118,8 +123,8 @@
             .tags {
                 .tag {
                     background-color: var(--red-main-darker);
-                    padding: 10px 15px;
-                    border-radius: .4rem;
+                    padding: 7px 18px;
+                    border-radius: 6rem;
                     margin: 0 30px 0 0;
                     &.solved { background-color: var(--green-main); }
                 }
