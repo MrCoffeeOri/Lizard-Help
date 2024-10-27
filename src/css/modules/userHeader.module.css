@@ -1,19 +1,29 @@
 .userHeader {
+    transition: 300ms;
     border-bottom: 2px solid var(--background-darker);
     padding: 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    div {
-        width: 10vw;
+    > div {
+        width: 20vw;
         display: flex;
         align-items: center;
         justify-content: space-evenly;
-        img {
-            width: 2.7vw;
-            padding: 2px;
-            border-radius: 50%;
-            background-color: black;
+        > img:first-of-type, > img:last-of-type {
+            width: 2.2vw;
+            cursor: pointer;
+        }
+        div {
+            display: flex;
+            align-items: center;
+            img {
+                margin-left: 12px;
+                width: 2.7vw;
+                background-color: black;
+                border-radius: 50%;
+                padding: 2px;
+            }
         }
     }
     & > img {

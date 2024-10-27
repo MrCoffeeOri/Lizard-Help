@@ -8,6 +8,7 @@ import Home from './pages/Home'
 import Error from './pages/Error'
 import Client from './pages/Client'
 import Technician from './pages/Technician'
+import { UserContextProvider } from './components/UserContext'
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <RouterProvider fallbackElement={<h1 style={{ textAlign: "center", margin: "auto" }}>Loading!</h1>} router={router} />
+    <UserContextProvider>
+      <RouterProvider fallbackElement={<h1 style={{ textAlign: "center", margin: "auto" }}>Loading!</h1>} router={router} />
+    </UserContextProvider>
   </React.StrictMode>
 )

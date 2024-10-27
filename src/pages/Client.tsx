@@ -1,14 +1,31 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { handleCorrection, RegexCorrections } from '../helpers/formCorrection';
 import GoBack from '../components/GoBack';
 import CopyRight from '../components/CopyRight';
+import Alert from '../components/Alert';
+import { userContext } from '../components/UserContext';
 
 export default function Client() {
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-  };
   const [userType, setUserType] = useState<String>("")
+  const [erroMessage, setErroMessage] = useState<string | null>(null)
+  const { setUser } = useContext(userContext)
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const authResponse = await (await fetch("http://localhost:5000/user/auth", {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: e.currentTarget[0].value, password: e.currentTarget[1].value })
+      })).json()
+      if (authResponse.error)
+          return setErroMessage(authResponse.error)
+      setUser(authResponse.user)
+    } catch (error) {
+      setErroMessage(error.toString())
+    }
+  };
   
   useEffect(() => {
     location.hash == "#login" && document.getElementById("login").scrollIntoView()
@@ -16,6 +33,7 @@ export default function Client() {
 
   return (
     <div id='client'>
+      <Alert message={erroMessage} />
       <GoBack to="/"/>
       <section id='wellcome'>
         <div>
@@ -62,17 +80,10 @@ export default function Client() {
           <p>Email incorreto</p>
           <input
             type="text"
-            id={userType == "empresa" ? "password" : "token"}
-            placeholder={userType == "empresa" ? "Senha" : "Chave de acesso"}
-            onChange={userType == "funcionario" ? (e => handleCorrection(e, e => e.target.value.match(/a/g /*TODO: Token RegexExp*/) != null)) : null}
+            id="password"
+            placeholder="Senha"
             required
           />
-          {userType == "funcionario" && <p>Chave de acesso incorreta</p>}
-          <select id="type" required onChange={e => setUserType(e.target.value)}>
-            <option value='placeholder' disabled selected hidden>Selecione uma das opções</option>
-            <option value="funcionário">Funcionário</option>
-            <option value="empresa">Empresa</option>
-          </select>
           <button type="submit">Entrar</button>
         </form>
       </section>

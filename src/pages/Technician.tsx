@@ -1,9 +1,19 @@
-import React, { JSXElementConstructor, useEffect, useState } from 'react'
+import React, { JSXElementConstructor, useContext, useEffect, useState } from 'react'
 import { handleCorrection } from '../helpers/formCorrection'
 import UserHeader from '../components/UserHeader'
+import { userContext } from '../components/UserContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function Technician() {
     const [tags, setTags] = useState<{ content: string, id: number }[]>([]);
+    const { user, setUser } = useContext(userContext)
+    const navigate = useNavigate();
+
+    // useEffect(() => {
+    //     if (!user || user.type !== "technician") {
+    //         navigate("/");
+    //     }
+    // }, [user, navigate]);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
         throw new Error('Function not implemented.');
@@ -42,7 +52,10 @@ export default function Technician() {
 
     return (
         <div id='technician'>
-            <UserHeader userName='Roberto' userImage='worker.svg' />
+            <UserHeader>
+                <img src="/chat.png" alt="" />
+                <img src="/gear.png" alt="" />
+            </UserHeader>
             <div id='filters'>
                 <div id='tagsManager'>
                     <span className='close' onClick={handleTagFilterShow}>x</span>

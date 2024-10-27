@@ -1,12 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useNavigate, Link, redirect } from 'react-router-dom';
 import { RegexCorrections, handleCorrection } from '../helpers/formCorrection';
 import GoBack from '../components/GoBack';
 import CopyRight from '../components/CopyRight';
 import Alert from '../components/Alert';
+import { userContext } from '../components/UserContext';
 
 export default function Start() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const { setUser } = useContext(userContext)
   const passwordRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
@@ -26,11 +28,9 @@ export default function Start() {
           type: 'owner'
         })
       })).json();
-      if (userResponse.error) {
-        setErrorMessage(userResponse.error);
-        return;
-      }
-      await fetch("http://localhost:5000/company/create", {
+      if (userResponse.error)
+        return setErrorMessage(userResponse.error)
+      const companyResponse = await (await fetch("http://localhost:5000/company/create", {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -40,7 +40,12 @@ export default function Start() {
           cid: (e.target[7] as HTMLInputElement).value,
           owner: userResponse.user._id
         })
-      });
+      })).json()
+      if (companyResponse.error)
+        return setErrorMessage(companyResponse.error)
+      userResponse.user.company = companyResponse.company
+      setUser(userResponse.user)
+      redirect("/home")
     } catch (error) {
       setErrorMessage(error); 
     }
@@ -56,12 +61,10 @@ export default function Start() {
           <img src="./logo.webp" alt="" />
           <h2>Dados do Usuário</h2>
           <input required type="text" placeholder="Nome Completo" />
-          <input required type="email" placeholder="Email Pessoal"
-            onChange={e => handleCorrection(e, e => e.target.value.match(RegexCorrections.email) != null)} />
+          <input required type="email" placeholder="Email Pessoal" onChange={e => handleCorrection(e, e => e.target.value.match(RegexCorrections.email) != null)} />
           <p>Use o formato username@domain.com</p>
           <input required type="password" placeholder="Senha" ref={passwordRef} />
-          <input required type="password" placeholder="Repetir Senha"
-            onChange={e => handleCorrection(e, e => e.target.value == passwordRef.current.value)} />
+          <input required type="password" placeholder="Repetir Senha" onChange={e => handleCorrection(e, e => e.target.value == passwordRef.current.value)} />
           <p>Senha não corresponde</p>
           <h2 style={{ marginTop: 30 }}>Dados da Empresa</h2>
           <input required type="text" placeholder="Nome da Empresa" />
