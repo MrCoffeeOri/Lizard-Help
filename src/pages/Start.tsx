@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { useNavigate, Link, redirect } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { RegexCorrections, handleCorrection } from '../helpers/formCorrection';
 import GoBack from '../components/GoBack';
 import CopyRight from '../components/CopyRight';
