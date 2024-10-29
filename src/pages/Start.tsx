@@ -45,7 +45,7 @@ export default function Start() {
         return setErrorMessage(companyResponse.error)
       userResponse.user.company = companyResponse.company
       setUser(userResponse.user)
-      redirect("/home")
+      navigate("/home")
     } catch (error) {
       setErrorMessage(error); 
     }
