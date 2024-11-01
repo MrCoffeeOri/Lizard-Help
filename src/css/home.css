@@ -3,14 +3,14 @@
     nav {
         background-color: var(--background-darker);
         width: 4vw;
-        height: 93vh;
+        height: 100vh;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: space-around;
         svg {
             width: 2.5vw;
-            padding: 9px;
+            padding: 7px;
             fill: white;
             border-right: 2px solid var(--background-darker);
             &.selected { border-right: 2px solid var(--red-main); }
