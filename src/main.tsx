@@ -9,6 +9,7 @@ import Error from './pages/Error'
 import Client from './pages/Client'
 import Technician from './pages/Technician'
 import { UserContextProvider } from './components/UserContext'
+import Auth from './components/Auth'
 
 const router = createBrowserRouter([
   {
@@ -21,17 +22,23 @@ const router = createBrowserRouter([
     element: <Start />
   },
   {
-    path: "home",
-    element: <Home />
-  },
-  {
     path: "client",
     element: <Client />
   },
   {
-    path: "technician",
-    element: <Technician />
-  }
+    path: "/",
+    element: <Auth />,
+    children: [
+      {
+        path: "home",
+        element: <Home />
+      },
+      {
+        path: "technician",
+        element: <Technician />
+      }
+    ]
+  },
 ])
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
