@@ -1,0 +1,15 @@
+#auth {
+    text-align: center;
+    h1 { margin-top: 12vh; }
+    form {
+        padding-bottom: 20px;
+        width: 26vw;
+        margin: 10vh auto;
+        a {
+            margin-top: 15px;
+            display: inline-block;
+            color: var(--red-main);
+            text-decoration: var(--red-main) underline;
+        }
+    }
+}

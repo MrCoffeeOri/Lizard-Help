@@ -10,6 +10,7 @@ import Client from './pages/Client'
 import Technician from './pages/Technician'
 import { UserContextProvider } from './components/UserContext'
 import Auth from './components/Auth'
+import Employee from './pages/Employee'
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
       {
         path: "technician",
         element: <Technician />
+      },
+      {
+        path: "employee",
+        element: <Employee />
       }
     ]
   },
