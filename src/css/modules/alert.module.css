@@ -21,7 +21,7 @@
             transform: translateY(-5px);
         }
         p {
-            margin: 12px 25px;
+            margin: 12px 25px 5px 25px;
         }
         > div {
             animation: Shrink 6.5s forwards ease-out;
