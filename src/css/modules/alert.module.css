@@ -9,9 +9,10 @@
     width: 100%;
     z-index: 99;
     > div {
+        width: 20%;
         cursor: pointer;
         position: relative;
-        margin-top: 2.5vh;
+        margin: 2.5vh auto 0 auto;
         border-radius: .2rem;
         background-color: var(--red-main);
         transition: 300ms;

@@ -7,9 +7,13 @@ import Alert from '../components/Alert';
 import { userContext } from '../components/UserContext';
 
 export default function Start() {
-  const { setUser, setErrorMessage } = useContext(userContext)
-  const passwordRef = useRef<HTMLInputElement>(null);
-  const navigate = useNavigate();
+  const { setUser, setErrorMessage } = useContext(userContext) // setUSer: coloca os dados do usuário no contexto local da aplicação. setErrorMEssage: coloca uma mensagem de erro para aparecer
+  const passwordRef = useRef<HTMLInputElement>(null) // Deixa a variavel salva para realizar operações de validação
+  const navigate = useNavigate() // Redireciona pra uma outra página no projeto
+
+  useEffect(() => {
+    setErrorMessage("Teste de mensagem de erro!")
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
