@@ -1,0 +1,9 @@
+.loginForm {
+    padding-bottom: 20px;
+    width: 26vw;
+    margin: 10vh auto;
+    a {
+        margin-top: 15px;
+        display: inline-block;
+    }
+}

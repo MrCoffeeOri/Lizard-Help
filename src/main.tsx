@@ -9,7 +9,7 @@ import Error from './pages/Error'
 import Client from './pages/Client'
 import Technician from './pages/Technician'
 import { UserContextProvider } from './components/UserContext'
-import Auth from './components/Auth'
+import Auth from './pages/Auth'
 import Employee from './pages/Employee'
 
 const router = createBrowserRouter([

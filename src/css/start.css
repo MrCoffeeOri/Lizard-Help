@@ -23,13 +23,5 @@
         h2 {
             margin: 0;
         }
-        a {
-            color: var(--red-main);
-            border-bottom: 2px solid var(--background);
-            transition: 300ms;
-            &:hover {
-                border-bottom: 2px solid var(--red-main);
-            }
-        }
     }
 }

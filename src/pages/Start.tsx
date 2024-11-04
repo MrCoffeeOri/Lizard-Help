@@ -7,8 +7,7 @@ import Alert from '../components/Alert';
 import { userContext } from '../components/UserContext';
 
 export default function Start() {
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const { setUser } = useContext(userContext)
+  const { setUser, setErrorMessage } = useContext(userContext)
   const passwordRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
@@ -53,7 +52,6 @@ export default function Start() {
 
   return (
     <div id='start'>
-      <Alert message={errorMessage} />
       <GoBack to='/' />
       <img id='logo' src="./logoName.webp" alt="" />
       <div>
