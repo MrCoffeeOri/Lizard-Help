@@ -1,15 +1,14 @@
-import React, { FormEvent, useContext } from 'react';
+import React, { useContext } from 'react';
 import { userContext } from '../components/UserContext';
-import { Outlet } from 'react-router';
 import LoginForm from '../components/LoginForm';
 
-export default function Auth() {
+export default function Auth({ children }) {
   const { user } = useContext(userContext);
 
   return (
     <>
-      {user ? 
-        <Outlet /> 
+      {user || true ? 
+        children 
         : 
         <div id='auth'>
           <h1>Autenticação requerida</h1>

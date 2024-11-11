@@ -1,15 +1,15 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useEffect, useState } from 'react'
 import Alert from './Alert'
 
-export const userContext = createContext<{ user: any, setUser: React.Dispatch<any>, setErrorMessage: React.Dispatch<any> }>(null)
+export const userContext = createContext<{ user: any, setUser: React.Dispatch<any>, setAlert: React.Dispatch<any> }>(null)
 
 export function UserContextProvider({ children }: React.PropsWithChildren) {
-    const [user, setUser] = useState(null)
-    const [errorMessage, setErrorMessage] = useState(null)
+    const [user, setUser] = useState({ name: "Fake ronaldinho" })
+    const [alert, setAlert] = useState({ message: null, ok: null })
     
     return (
-     <userContext.Provider value={{ user, setUser, setErrorMessage }}>
-        <Alert message={errorMessage} />
+     <userContext.Provider value={{ user, setUser, setAlert }}>
+        <Alert message={alert.message} ok={alert.ok} />
         {children}
      </userContext.Provider>
     )

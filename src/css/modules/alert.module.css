@@ -3,28 +3,40 @@
     to { width: 0; }
 }
 
+.ok {
+    background-color: var(--green-main) !important;
+    &:hover { background-color: var(--green-main-darker) !important; }
+}
+
 .alert {
     position: fixed;
     text-align: center;
     width: 100%;
     z-index: 99;
     > div {
+        padding-top: 10px;
         width: 20%;
         cursor: pointer;
         position: relative;
         margin: 2.5vh auto 0 auto;
         border-radius: .2rem;
-        background-color: var(--red-main);
         transition: 300ms;
+        text-align: center;
+        background-color: var(--red-main);
         &:hover {
             background-color: var(--red-main-darker);
             transform: translateY(-5px);
         }
-        p {
-            margin: 12px 25px 5px 25px;
+        img {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            width: 1.7vw;
+            height: 4vh;
         }
-        > div {
-            animation: Shrink 6.5s forwards ease-out;
+        p { margin: 0 25px 10px 25px; }
+        > div:last-of-type {
+            animation: Shrink 6.5s forwards ease-in-out;
             height: 0.4vh;
             background-color: white;
             border-radius: 0 0 .2rem .2rem;

@@ -6,14 +6,16 @@ import CopyRight from '../components/CopyRight';
 export default function Landing() {
   useEffect(() => {
     const header = document.querySelector("header")
-    addEventListener("scroll", () => {
+    const handleScroll = () => {
       header.style.height = scrollY > 0 ? "3vh" : "7vh"
       header.style.background = scrollY > 0 ? "linear-gradient(to right, var(--red-main), var(--red-main-darker))" : ""
       header.style.boxShadow = scrollY > 0 ? "0 0 11px 0 black" : "";
       (header.children[0] as HTMLImageElement).style.display = scrollY > 0 ? "none" : "block";
       (header.children[0] as HTMLImageElement).style.transform = scrollY > 0 ? "scale(0)" : "scale(1)";
       (header.children[1].lastChild as HTMLAnchorElement).style.display = scrollY > 400 ? "" : "none"
-    })
+    }
+    addEventListener("scroll", handleScroll)
+    return () => removeEventListener("scroll", handleScroll)
   }, [])
 
   return (

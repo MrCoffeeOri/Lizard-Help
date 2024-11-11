@@ -2,18 +2,10 @@ import React, { JSXElementConstructor, useContext, useEffect, useState } from 'r
 import { handleCorrection } from '../helpers/formCorrection'
 import UserHeader from '../components/UserHeader'
 import { userContext } from '../components/UserContext';
-import { useNavigate } from 'react-router-dom';
 
 export default function Technician() {
     const [tags, setTags] = useState<{ content: string, id: number }[]>([]);
     const { user, setUser } = useContext(userContext)
-    const navigate = useNavigate();
-
-    // useEffect(() => {
-    //     if (!user || user.type !== "technician") {
-    //         navigate("/");
-    //     }
-    // }, [user, navigate]);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
         throw new Error('Function not implemented.');
@@ -38,8 +30,10 @@ export default function Technician() {
         const tagsManager = document.getElementById("tagsManager")
         if (tagsManager.classList.contains('show'))
             document.querySelector("#filters > span.selected")?.classList.remove("selected")
-        tagsManager.classList.toggle("show");
-    };
+        tagsManager.classList.toggle("show")
+        if (!tagsManager.classList.contains('show'))
+            (document.querySelector('input[type="text"]') as HTMLInputElement).value = ''
+    }
 
     const handleFilterSelection = (e: React.MouseEvent<HTMLSpanElement>) => {
         document.querySelector("#filters > span.selected")?.classList.remove("selected")

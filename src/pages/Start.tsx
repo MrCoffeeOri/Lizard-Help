@@ -1,27 +1,22 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { RegexCorrections, handleCorrection } from '../helpers/formCorrection';
-import GoBack from '../components/GoBack';
-import CopyRight from '../components/CopyRight';
-import Alert from '../components/Alert';
-import { userContext } from '../components/UserContext';
+import React, { useContext, useRef } from 'react'
+import { useHistory, Link } from 'react-router-dom'
+import { RegexCorrections, handleCorrection } from '../helpers/formCorrection'
+import GoBack from '../components/GoBack'
+import CopyRight from '../components/CopyRight'
+import { userContext } from '../components/UserContext'
 
 export default function Start() {
-  const { setUser, setErrorMessage } = useContext(userContext) // setUSer: coloca os dados do usuário no contexto local da aplicação. setErrorMEssage: coloca uma mensagem de erro para aparecer
-  const passwordRef = useRef<HTMLInputElement>(null) // Deixa a variavel salva para realizar operações de validação
-  const navigate = useNavigate() // Redireciona pra uma outra página no projeto
-
-  useEffect(() => {
-    setErrorMessage("Teste de mensagem de erro!")
-  }, [])
+  const { setUser, setAlert } = useContext(userContext)
+  const passwordRef = useRef<HTMLInputElement>(null)
+  const history = useHistory()
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (document.querySelector("form > input[error]")) return;
-    scrollTo({ top: 0, left: 0 });
-
+    e.preventDefault()
+    const submitBtn = e.currentTarget[e.currentTarget.length - 1] as HTMLButtonElement
+    submitBtn.innerText = "Carregando..."
+    submitBtn.disabled = true
     try {
-      const userResponse = await (await fetch("http://localhost:5000/user/create", {
+      const userResponse = await fetch("http://localhost:5000/user/create", {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -30,10 +25,10 @@ export default function Start() {
           password: (e.target[2] as HTMLInputElement).value,
           type: 'owner'
         })
-      })).json();
-      if (userResponse.error)
-        return setErrorMessage(userResponse.error)
-      const companyResponse = await (await fetch("http://localhost:5000/company/create", {
+      }).then(res => res.json())
+      if (userResponse.error) return setAlert(userResponse.error)
+
+      const companyResponse = await fetch("http://localhost:5000/company/create", {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -43,16 +38,16 @@ export default function Start() {
           cid: (e.target[7] as HTMLInputElement).value,
           owner: userResponse.user._id
         })
-      })).json()
-      if (companyResponse.error)
-        return setErrorMessage(companyResponse.error)
-      userResponse.user.company = companyResponse.company
+      }).then(res => res.json())
+      if (companyResponse.error) return setAlert(companyResponse.error)
       setUser(userResponse.user)
-      navigate("/home")
+      history.push("/home")
     } catch (error) {
-      setErrorMessage(error); 
+      setAlert({ message: error.toString(), ok: false })
+      submitBtn.innerText = "Criar"
+      submitBtn.disabled = false
     }
-  };
+  }
 
   return (
     <div id='start'>
@@ -78,7 +73,7 @@ export default function Start() {
           <p>Use o formato XX.XXX.XXX/0001-XX</p>
           <button style={{ marginBottom: 15 }} type="submit">Criar</button>
           <div>
-            <Link rel="stylesheet" to="/client#login">Já possui uma conta?</Link>
+            <Link to="/client#login">Já possui uma conta?</Link>
           </div>
         </form>
         <div>
@@ -88,5 +83,5 @@ export default function Start() {
       </div>
       <CopyRight />
     </div>
-  );
+  )
 }
