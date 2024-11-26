@@ -11,7 +11,7 @@ export default function UserHeader({ children }: React.PropsWithChildren) {
           {children}
           <div>
             <span>{user.name}</span>
-            <img src="https://yt3.ggpht.com/lxl6Fy8c3z1t45KBvGhdShOic82nbvM7nSR4H-g3GernzddR1ztA6W7sAVx_QQ-XxSEOVp_V=s48-c-k-c0x00ffffff-no-rj" />
+            <img src="https://yt3.ggpht.com/wvlCpRqb9Hb9Yuv62LDo-AZxr-MpAHTvpeToBGpNOPSMNGQIyplQh2EZv75SLHOZIkpijT00=s48-c-k-c0x00ffffff-no-rj" />
           </div>
         </div>
     </header>

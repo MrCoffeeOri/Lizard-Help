@@ -50,6 +50,27 @@ export default function Technician() {
                 <img src="/chat.png" alt="" />
                 <img src="/gear.png" alt="" />
             </UserHeader>
+            <div id='chat'>
+                <div id='chats'>
+                    <div id='1' className='chat'>
+                        <img src="https://yt3.ggpht.com/wvlCpRqb9Hb9Yuv62LDo-AZxr-MpAHTvpeToBGpNOPSMNGQIyplQh2EZv75SLHOZIkpijT00=s48-c-k-c0x00ffffff-no-rj" alt="" />
+                        <div>
+                            <div className='info'>
+                                <span>Nome</span>
+                                <span>23:99</span>
+                            </div>
+                            <span className='last-message'>Você: faz o L</span>
+                        </div>
+                    </div>
+                </div>
+                <div id='selected-chat'>
+                    <div id='messages'></div>
+                    <div id='message-input'>
+                        <input type="text" name="" id="" />
+                        <img src="" alt="" />
+                    </div>
+                </div>
+            </div>
             <div id='filters'>
                 <div id='tagsManager'>
                     <span className='close' onClick={handleTagFilterShow}>x</span>

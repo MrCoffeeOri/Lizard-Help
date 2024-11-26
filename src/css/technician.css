@@ -159,4 +159,35 @@
             }
         }
     }
+    #chat {
+        min-width: 20vw;
+        min-height: 20vh;
+        background-color: black;
+        position: absolute;
+        z-index: 99;
+        display: flex;
+        #chats {
+            width: 15vw;
+            padding: 10px;
+            img {
+                margin-right: 10px;
+                width: 3vw;
+                height: 6vh;
+                border-radius: 50%;
+            }
+            .chat {
+                display: flex;
+                span {
+                    font-size: 0.9pc;
+                }
+                .info {
+                    display: flex;
+                    justify-content: space-between;
+                }
+            }
+        }
+        #chats {
+            border-right: 2px solid var(--red-main-darker);
+        }
+    }
 }
