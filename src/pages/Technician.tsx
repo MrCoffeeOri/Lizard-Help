@@ -50,6 +50,7 @@ export default function Technician() {
                 <img src="/chat.png" alt="" />
                 <img src="/gear.png" alt="" />
             </UserHeader>
+            <div id='modal-background'></div>
             <div id='chat'>
                 <div id='chats'>
                     <div id='1' className='chat'>
@@ -62,12 +63,28 @@ export default function Technician() {
                             <span className='last-message'>Você: faz o L</span>
                         </div>
                     </div>
+                    <div id='2' className='chat'>
+                        <img src="https://yt3.ggpht.com/wvlCpRqb9Hb9Yuv62LDo-AZxr-MpAHTvpeToBGpNOPSMNGQIyplQh2EZv75SLHOZIkpijT00=s48-c-k-c0x00ffffff-no-rj" alt="" />
+                        <div>
+                            <div className='info'>
+                                <span>Nome</span>
+                                <span>23:99</span>
+                            </div>
+                            <span className='last-message'>Você: faz o L</span>
+                        </div>
+                    </div>
                 </div>
                 <div id='selected-chat'>
-                    <div id='messages'></div>
+                    <div id='messages'>
+                        <div className="message">
+                            <p className='content'>lorem asdsdsdsdsadasdasdsdadsadasdasasdasdasd      sdsasdsadasdassadasdsdss        sdsdjdlksajdlksajdlksajds</p>
+                            <span className='time'>23:99</span>
+                        </div>
+                        <div className="message user"></div>
+                    </div>
                     <div id='message-input'>
-                        <input type="text" name="" id="" />
-                        <img src="" alt="" />
+                        <input placeholder='mensagem' type="text" id="" />
+                        <img src='/message.png' />
                     </div>
                 </div>
             </div>
