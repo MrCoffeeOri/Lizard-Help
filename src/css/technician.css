@@ -10,6 +10,7 @@
     form {
         margin: 25.5vh auto;
     }
+    .hide { display: none !important; }
     .show { display: block !important; }
     #filters {
         padding: 20px 0;
@@ -180,6 +181,7 @@
                 border-radius: 50%;
             }
             .chat {
+                height: 6.5vh;
                 transition: 250ms;
                 margin: 3px 0;
                 display: flex;
@@ -226,6 +228,10 @@
                         right: 5px;
                         bottom: 5px;
                     }
+                }
+                .message.user {
+                    background-color: var(--green-main-darker);
+                    float: right;
                 }
             }
             #message-input {

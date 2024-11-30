@@ -44,14 +44,19 @@ export default function Technician() {
         e.currentTarget.innerText = e.currentTarget.parentElement?.parentElement?.lastElementChild?.classList.toggle("opened") ? '-' : '+'
     };    
 
+    const toggleChatVisibility = () => {
+        document.getElementById("modal-background").classList.toggle("hide")
+        document.getElementById("chat").classList.toggle("hide")
+    }
+
     return (
         <div id='technician'>
             <UserHeader>
-                <img src="/chat.png" alt="" />
+                <img onClick={toggleChatVisibility} src="/chat.png" alt="" />
                 <img src="/gear.png" alt="" />
             </UserHeader>
-            <div id='modal-background'></div>
-            <div id='chat'>
+            <div onClick={toggleChatVisibility} className='hide' id='modal-background'></div>
+            <div className='hide' id='chat'>
                 <div id='chats'>
                     <div id='1' className='chat'>
                         <img src="https://yt3.ggpht.com/wvlCpRqb9Hb9Yuv62LDo-AZxr-MpAHTvpeToBGpNOPSMNGQIyplQh2EZv75SLHOZIkpijT00=s48-c-k-c0x00ffffff-no-rj" alt="" />
@@ -80,7 +85,10 @@ export default function Technician() {
                             <p className='content'>lorem asdsdsdsdsadasdasdsdadsadasdasasdasdasd      sdsasdsadasdassadasdsdss        sdsdjdlksajdlksajdlksajds</p>
                             <span className='time'>23:99</span>
                         </div>
-                        <div className="message user"></div>
+                        <div className="message user">
+                            <p className='content'>lorem asdsdsdsdsadasdasdsdadsadasdasasdasdasd      sdsasdsadasdassadasdsdss        sdsdjdlksajdlksajdlksajds</p>
+                            <span className='time'>23:99</span>
+                        </div>
                     </div>
                     <div id='message-input'>
                         <input placeholder='mensagem' type="text" id="" />
