@@ -4,7 +4,7 @@ import Alert from './Alert'
 export const userContext = createContext<{ user: any, setUser: React.Dispatch<any>, setAlert: React.Dispatch<any> }>(null)
 
 export function UserContextProvider({ children }: React.PropsWithChildren) {
-    const [user, setUser] = useState({ name: "Fake ronaldinho" })
+    const [user, setUser] = useState({ name: "Fake ronaldinho", type: "worker" })
     const [alert, setAlert] = useState({ message: null, ok: null })
     
     return (
