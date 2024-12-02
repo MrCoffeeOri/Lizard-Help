@@ -1,11 +1,13 @@
-import React, { JSXElementConstructor, useContext, useEffect, useState } from 'react'
+import React, { JSXElementConstructor, useContext, useEffect, useRef, useState } from 'react'
 import { handleCorrection } from '../helpers/formCorrection'
 import UserHeader from '../components/UserHeader'
 import { userContext } from '../components/UserContext';
+import ModalBackground from '../components/ModalBackground';
 
 export default function Technician() {
     const [tags, setTags] = useState<{ content: string, id: number }[]>([]);
     const { user, setUser } = useContext(userContext)
+    const chatModalRef = useRef<HTMLDivElement>(null)
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
         throw new Error('Function not implemented.');
@@ -55,8 +57,8 @@ export default function Technician() {
                 <img onClick={toggleChatVisibility} src="/chat.png" alt="" />
                 <img src="/gear.png" alt="" />
             </UserHeader>
-            <div onClick={toggleChatVisibility} className='hide' id='modal-background'></div>
-            <div className='hide' id='chat'>
+            <ModalBackground modalRef={chatModalRef} />
+            <div className='hide' ref={chatModalRef} id='chat'>
                 <div id='chats'>
                     <div id='1' className='chat'>
                         <img src="https://yt3.ggpht.com/wvlCpRqb9Hb9Yuv62LDo-AZxr-MpAHTvpeToBGpNOPSMNGQIyplQh2EZv75SLHOZIkpijT00=s48-c-k-c0x00ffffff-no-rj" alt="" />
@@ -125,11 +127,12 @@ export default function Technician() {
                 <div className="ticket">
                     <p className='state'>Padrão</p>
                     <h3 className="title">Socorro, minha calculadora explodiu!!</h3>
-                    <span className='date' >Criado em 21/03/2024</span>
+                    <span className='date' >21/03/2024</span>
                     <p className="by">Por João Silva</p>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <div className="tags">
                             <span className="tag solved">Resolvido</span>
+                            <span className="tag status">Em andamento</span>
                             <span className="tag">Urgente</span>
                             <span className="tag">Calculadora</span>
                             <span className="tag">Explosão</span>
@@ -142,9 +145,9 @@ export default function Technician() {
                     </div>
                 </div>
                 <div className="ticket">
-                    <p className='state medium'>Médio</p>
+                    <p className='state medium'>Média</p>
                     <h3 className="title">Socorro, minha calculadora explodiu!!</h3>
-                    <span className='date' >Criado em 21/03/2024</span>
+                    <span className='date' >21/03/2024</span>
                     <p className="by">Por João Silva</p>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <div className="tags">

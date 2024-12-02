@@ -21,6 +21,16 @@ export default function Home() {
     { id: 2, title: "Password reset", status: "Closed", description: "Request for password reset link.", priority: "Medium" },
     { id: 3, title: "Bug in dashboard", status: "In Progress", description: "Dashboard crashes when accessing analytics.", priority: "High" },
     { id: 4, title: "UI feedback", status: "Open", description: "Suggestions for improving the navigation bar.", priority: "Low" },
+    { id: 4, title: "UI feedback", status: "Open", description: "Suggestions for improving the navigation bar.", priority: "Low" },
+    { id: 4, title: "UI feedback", status: "Open", description: "Suggestions for improving the navigation bar.", priority: "Low" },
+    { id: 4, title: "UI feedback", status: "Open", description: "Suggestions for improving the navigation bar.", priority: "Low" },
+    { id: 4, title: "UI feedback", status: "Open", description: "Suggestions for improving the navigation bar.", priority: "Low" },
+    { id: 4, title: "UI feedback", status: "Open", description: "Suggestions for improving the navigation bar.", priority: "Low" },
+    { id: 4, title: "UI feedback", status: "Open", description: "Suggestions for improving the navigation bar.", priority: "Low" },
+    { id: 4, title: "UI feedback", status: "Open", description: "Suggestions for improving the navigation bar.", priority: "Low" },
+    { id: 4, title: "UI feedback", status: "Open", description: "Suggestions for improving the navigation bar.", priority: "Low" },
+    { id: 4, title: "UI feedback", status: "Open", description: "Suggestions for improving the navigation bar.", priority: "Low" },
+    { id: 4, title: "UI feedback", status: "Open", description: "Suggestions for improving the navigation bar.", priority: "Low" },
   ];
 
   return (
@@ -44,18 +54,25 @@ export default function Home() {
         <UserHeader>
         </UserHeader>
         <main id='dashboard'>
-          <div id='tickets'>
+          <div id='tools'>
+            <button>Criar um chamado</button>
+            <input type="text" placeholder='Filtrar' />
+          </div>
+          <div id='tickets' className='scrollable'>
           {fakeTickets.map(ticket => (
-                <div key={ticket.id} style={{
-                  background: "var(--ticket-background)",
-                  margin: "10px 0",
-                  padding: "15px",
-                  borderRadius: "8px",
-                }}>
-                  <h3 style={{ margin: 0 }}>{ticket.title}</h3>
-                  <p style={{ margin: "5px 0" }}><strong>Estatus:</strong> {ticket.status}</p>
-                  <p style={{ margin: "5px 0" }}><strong>Prioridade:</strong> {ticket.priority}</p>
-                  <p style={{ margin: "5px 0" }}><strong>Description:</strong> {ticket.description}</p>
+                <div key={ticket.id} className='ticket'>
+                  <div>
+                    <h3 style={{ margin: 0 }}>{ticket.title}</h3>
+                    <span>21/09/2024</span>
+                  </div>
+                  <p style={{ margin: "5px 0" }}>{ticket.priority}</p>
+                  <p style={{ margin: "5px 0" }}>{ticket.description}</p>
+                  <div className='tags'>
+                    <span className='tag'>Teste</span>
+                    <span className='tag'>Teste</span>
+                    <span className='tag'>Teste</span>
+                    <span className='more'>+</span>
+                  </div>
                 </div>
               ))}
           </div>
