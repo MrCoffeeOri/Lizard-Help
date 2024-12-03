@@ -17,15 +17,16 @@ ReactDOM.render(
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={Landing} />
-          <Route path="/start" component={Start} />
-          <Route path="/client" component={Client} />
-          <Route path="/user">
-            <Auth>
-              <Switch>
-                <Route path="/user/home" component={Home} />
-                <Route path="/user/technician" component={Technician} />
-              </Switch>
-            </Auth>
+            <Route path="/start" component={Start} />
+            <Route path="/client" component={Client} />
+            <Route path="/user">
+              <Auth>
+                <Switch>
+                  <Route path="/user/home" component={Home} />
+                  <Route path="/user/technician" component={Technician} />~
+                  <Route component={Error} />
+                </Switch>
+              </Auth>
           </Route>
           <Route component={Error} />
         </Switch>
