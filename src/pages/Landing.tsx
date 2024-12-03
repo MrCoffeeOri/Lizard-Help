@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import LinkScroll from '../components/LinkScroll';
 import CopyRight from '../components/CopyRight';
+import Alert from '../components/Alert';
 
 export default function Landing() {
   useEffect(() => {
@@ -23,6 +24,7 @@ export default function Landing() {
       <header>
         <img id='logo' src="./logoName.webp" alt="LizardHelp Logo" />
         <div>
+
           <a href='#about'>
             <p>Sobre</p>
             <div></div>
@@ -43,6 +45,7 @@ export default function Landing() {
             <p>Começe agora</p>
             <div></div>
           </LinkScroll>
+          <Alert message="teste" ok={true} time={600000}></Alert>
         </div>
     </header>
       <main>
