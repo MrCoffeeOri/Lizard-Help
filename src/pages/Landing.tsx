@@ -45,7 +45,6 @@ export default function Landing() {
             <p>Começe agora</p>
             <div></div>
           </LinkScroll>
-          <Alert message="teste" ok={true} time={600000}></Alert>
         </div>
     </header>
       <main>
