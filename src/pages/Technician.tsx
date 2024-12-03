@@ -100,7 +100,7 @@ export default function Technician() {
             </div>
             <div id='filters'>
                 <div id='tagsManager'>
-                    <span className='close' onClick={handleTagFilterShow}>x</span>
+                    <span className='close' onClick={handleTagFilterShow}>✖</span>
                     <div>
                         {tags.length > 0 ? tags.map(tag => <div className='tag' id={tag.id.toString()}><span className='delete' onClick={handleTagDelete}>x</span><span>{tag.content}</span></div>) : <p>Suas tags serão mostradas aqui</p>}
                     </div>
