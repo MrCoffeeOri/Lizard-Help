@@ -5,6 +5,7 @@
 
 .ok {
     background-color: var(--green-main) !important;
+    border: 3px solid var(--green-main) !important;
     &:hover { background-color: var(--green-main-darker) !important; }
 }
 
@@ -20,6 +21,7 @@
         position: relative;
         margin: 2.5vh auto 0 auto;
         border-radius: .2rem;
+        border: 3px solid var(--red-main);
         transition: 300ms;
         text-align: center;
         background-color: var(--red-main);
@@ -29,7 +31,7 @@
         }
         img {
             position: absolute;
-            top: 5px;
+            top: 0px;
             left: 5px;
             width: 1.7vw;
             height: 4vh;
@@ -39,7 +41,7 @@
             animation: Shrink 6.5s forwards ease-in-out;
             height: 0.4vh;
             background-color: white;
-            border-radius: 0 0 .2rem .2rem;
+            border-radius: .2rem .2rem;
         }
     }
 }
