@@ -3,7 +3,7 @@
         margin: 25.5vh auto;
     }
     #filters {
-        padding: 20px 0;
+        padding: 20px 0px;
         position: relative;
         #tagsManager {
             user-select: none;
@@ -17,8 +17,9 @@
             .close {
                 font-size: 1.4pc;
                 position: absolute;
-                top: -2px;
-                right: 6px;
+                top: 2px;
+        
+                right: 7px;
                 cursor: pointer;
                 &:hover {
                     color: var(--ticket-background);
@@ -26,7 +27,9 @@
             }
             > div {
                 max-width: 20vw;
+                width: 20vw;
                 padding: 14px 12px 12px 12px;
+                p{text-align: center;}
                 .tag {
                     display: inline-block;
                     align-items: center;
@@ -50,8 +53,8 @@
                 color: white;
                 border-top: 2px solid var(--red-main);
                 background-color: var(--background-darker);
-                padding: 2%;
-                width: 96%;
+                padding: 4%;
+                width: 92%;
                 height: 2.5vh;
                 margin-top: -10px;
                 border-radius: 0 0 .4rem .4rem;
@@ -74,7 +77,8 @@
         height: 79.16vh;
         .ticket {
             position: relative;
-            margin: 2vw;
+            margin: 3vw;
+            text-align: justify;
             padding: 20px;
             margin-bottom: 20px;
             .state {
@@ -155,7 +159,7 @@
                 height: 6vh;
                 border-radius: 50%;
             }
-            .chat {
+            .chat, .chatSelection {
                 height: 6.5vh;
                 transition: 250ms;
                 margin: 3px 0;
@@ -177,6 +181,10 @@
                 .info {
                     display: flex;
                     justify-content: space-between;
+                }
+
+                .chatSelection {
+                    border-bottom: 10px solid var(--red-main);
                 }
             }
         }
