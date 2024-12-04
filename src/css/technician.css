@@ -144,9 +144,6 @@
         border-radius: .3rem;
         width: 60vw;
         height: 60vh;
-        background-color: var(--ticket-background);
-        position: absolute;
-        z-index: 99;
         display: flex;
         #chats {
             width: 34%;
@@ -235,13 +232,5 @@
                 }
             }
         }
-    }
-    #modal-background {
-        top: 0;
-        background-color: rgba(0, 0, 0, 0.6);
-        position: absolute;
-        z-index: 98;
-        width: 100%;
-        height: 100%;
     }
 }

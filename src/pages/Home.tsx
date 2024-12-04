@@ -1,40 +1,77 @@
-import React, { useContext } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import UserHeader from '../components/UserHeader'
 import { useHistory } from 'react-router'
 import { userContext } from '../components/UserContext'
+import ModalBackground from '../components/ModalBackground'
 
 export default function Home() {
   const { user, setUser, setAlert } = useContext(userContext)
+  const [tags, setTags] = useState<{ content: string, id: number }[]>([]);
+  const ticketModalRef = useRef<HTMLFormElement>(null)
   const history = useHistory()
+  const [fakeTickets, setFakeTickets] = useState([
+    { id: 1, title: "Erro ao fazer login", status: "Aberto", description: "Não consigo acessar minha conta com as credenciais fornecidas.", priority: "Alta" },
+    { id: 2, title: "Solicitação de redefinição de senha", status: "Fechado", description: "Preciso de um link para redefinir minha senha.", priority: "Média" },
+    { id: 3, title: "Falha na página inicial", status: "Em Progresso", description: "A página inicial trava ao carregar dados do gráfico.", priority: "Alta" },
+    { id: 4, title: "Sugestões de design", status: "Aberto", description: "Recomendações para ajustar a aparência da barra de navegação.", priority: "Baixa" },
+    { id: 5, title: "Problema no cadastro", status: "Aberto", description: "Erro ao tentar criar uma nova conta.", priority: "Alta" },
+    { id: 6, title: "Relatório inconsistente", status: "Em Progresso", description: "Dados nos relatórios financeiros não estão sendo exibidos corretamente.", priority: "Alta" },
+    { id: 7, title: "Notificações duplicadas", status: "Aberto", description: "Recebendo notificações repetidas no aplicativo.", priority: "Média" },
+    { id: 8, title: "Sugestões para o layout", status: "Fechado", description: "Feedback sobre a disposição dos botões no painel principal.", priority: "Baixa" },
+    { id: 9, title: "Erro no sistema de busca", status: "Aberto", description: "A barra de busca não retorna resultados relevantes.", priority: "Média" },
+    { id: 10, title: "Problemas com anexos", status: "Aberto", description: "Não consigo carregar arquivos no sistema de tickets.", priority: "Alta" },
+  ]);
+
+  const handleTicketDelete = (e: React.MouseEvent<SVGElement>) => {
+    setFakeTickets(fakeTickets.filter(ticket => ticket.id != Number(e.currentTarget.parentElement.parentElement.id)))
+  }
+
+  const handleTicketEdit = (e: React.MouseEvent<SVGElement>) => {
+  }
 
   const handleBoardChange = (e: React.MouseEvent<SVGElement>) => {
     document.querySelector("#home > nav > svg.selected").classList.remove("selected")
     e.currentTarget.classList.add("selected")
   }
 
+  const handleTagDelete = (e: React.MouseEvent<HTMLSpanElement>) => {
+    setTags(tags.filter(tag => tag.id !== Number((e.currentTarget.parentElement as HTMLDivElement).id)));
+  };
+
+  const handleInputTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!(e.currentTarget.value.trim().length < 20)) {
+      e.currentTarget.value = e.currentTarget.value.slice(0, 20)
+    } else if (e.key == ' ' && e.currentTarget.value.trim() != '' && tags.length < 10) {
+      setTags([...tags, { content: e.currentTarget.value, id: Math.random() }])
+      e.currentTarget.value = ""
+    }
+  }
+
+  const handleTicketModalShow = () => {
+    document.getElementById("modal-background").classList.toggle("hide")
+    document.getElementById("ticketModal").classList.toggle("hide")
+}
+
   const logout = () => {
     history.push("/")
   }
 
-  const fakeTickets = [
-    { id: 1, title: "Login issue", status: "Open", description: "Unable to log in with my credentials.", priority: "High" },
-    { id: 2, title: "Password reset", status: "Closed", description: "Request for password reset link.", priority: "Medium" },
-    { id: 3, title: "Bug in dashboard", status: "In Progress", description: "Dashboard crashes when accessing analytics.", priority: "High" },
-    { id: 4, title: "UI feedback", status: "Open", description: "Suggestions for improving the navigation bar.", priority: "Low" },
-    { id: 4, title: "UI feedback", status: "Open", description: "Suggestions for improving the navigation bar.", priority: "Low" },
-    { id: 4, title: "UI feedback", status: "Open", description: "Suggestions for improving the navigation bar.", priority: "Low" },
-    { id: 4, title: "UI feedback", status: "Open", description: "Suggestions for improving the navigation bar.", priority: "Low" },
-    { id: 4, title: "UI feedback", status: "Open", description: "Suggestions for improving the navigation bar.", priority: "Low" },
-    { id: 4, title: "UI feedback", status: "Open", description: "Suggestions for improving the navigation bar.", priority: "Low" },
-    { id: 4, title: "UI feedback", status: "Open", description: "Suggestions for improving the navigation bar.", priority: "Low" },
-    { id: 4, title: "UI feedback", status: "Open", description: "Suggestions for improving the navigation bar.", priority: "Low" },
-    { id: 4, title: "UI feedback", status: "Open", description: "Suggestions for improving the navigation bar.", priority: "Low" },
-    { id: 4, title: "UI feedback", status: "Open", description: "Suggestions for improving the navigation bar.", priority: "Low" },
-    { id: 4, title: "UI feedback", status: "Open", description: "Suggestions for improving the navigation bar.", priority: "Low" },
-  ];
 
   return (
     <div id='home'>
+      <ModalBackground modalRef={ticketModalRef} />
+      <form className='form modal hide' id='ticketModal' ref={ticketModalRef} >
+        <h2>Novo chamado</h2>
+        <input type="text" placeholder='Título' />
+        <textarea draggable={'false'} placeholder='Descrição'></textarea>
+        <div id='tagsManager'>
+          <div>
+            {tags.length > 0 ? tags.map(tag => <div className='tag' id={tag.id.toString()}><span className='delete' onClick={handleTagDelete}>x</span><span>{tag.content}</span></div>) : <span>Suas tags serão mostradas aqui</span>}
+          </div>
+          <input type="text" onKeyDown={handleInputTag} placeholder='Digite suas tags' />
+        </div>
+        <button type="submit">Criar</button>
+      </form>
       <nav>
         {
           user.type == "worker" ?
@@ -55,26 +92,41 @@ export default function Home() {
         </UserHeader>
         <main id='dashboard'>
           <div id='tools'>
-            <button>Criar um chamado</button>
-            <input type="text" placeholder='Filtrar' />
+            <button onClick={handleTicketModalShow}>Criar um chamado</button>
+            <input type="text" placeholder='Filtrar por nome' />
+            <select id="options">
+              <option value="open">Abertos</option>
+              <option value="closed">Fechados</option>
+              <option value="inProgress">Em andamento</option>
+            </select>
           </div>
-          <div id='tickets' className='scrollable'>
-          {fakeTickets.map(ticket => (
-                <div key={ticket.id} className='ticket'>
-                  <div>
-                    <h3 style={{ margin: 0 }}>{ticket.title}</h3>
-                    <span>21/09/2024</span>
-                  </div>
-                  <p style={{ margin: "5px 0" }}>{ticket.priority}</p>
-                  <p style={{ margin: "5px 0" }}>{ticket.description}</p>
-                  <div className='tags'>
-                    <span className='tag'>Teste</span>
-                    <span className='tag'>Teste</span>
-                    <span className='tag'>Teste</span>
-                    <span className='more'>+</span>
-                  </div>
-                </div>
-              ))}
+          <div id='tickets'style={{ display: fakeTickets.length ? "grid" : "block", gridTemplateRows: Array(Math.ceil(fakeTickets.length / 3)).fill('32%').join(' ') }} className='scrollable'>
+              {
+                fakeTickets.length 
+                ?
+                  fakeTickets.map(ticket => (
+                    <div id={ticket.id.toString()} className='ticket'>
+                      <div className='tools'>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M402.6 83.2l90.2 90.2c3.8 3.8 3.8 10 0 13.8L274.4 405.6l-92.8 10.3c-12.4 1.4-22.9-9.1-21.5-21.5l10.3-92.8L388.8 83.2c3.8-3.8 10-3.8 13.8 0zm162-22.9l-48.8-48.8c-15.2-15.2-39.9-15.2-55.2 0l-35.4 35.4c-3.8 3.8-3.8 10 0 13.8l90.2 90.2c3.8 3.8 10 3.8 13.8 0l35.4-35.4c15.2-15.3 15.2-40 0-55.2zM384 346.2V448H64V128h229.8c3.2 0 6.2-1.3 8.5-3.5l40-40c7.6-7.6 2.2-20.5-8.5-20.5H48C21.5 64 0 85.5 0 112v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V306.2c0-10.7-12.9-16-20.5-8.5l-40 40c-2.2 2.3-3.5 5.3-3.5 8.5z"/></svg>
+                        <svg onClick={handleTicketDelete} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
+                      </div>
+                      <div>
+                        <h3 style={{ margin: 0 }}>{ticket.title}</h3>
+                        <span>21/09/2024</span>
+                      </div>
+                      <p style={{ margin: "5px 0" }}>{ticket.priority}</p>
+                      <p style={{ margin: "5px 0" }}>{ticket.description.length > 60 ? ticket.description.slice(0, 60) + '...' : ticket.description}</p>
+                      <div className='tags'>
+                        <span className='tag'>Teste</span>
+                        <span className='tag'>Teste</span>
+                        <span className='tag'>Teste</span>
+                        <span className='more'>+</span>
+                      </div>
+                    </div>
+                  ))
+                :
+                  <h2>Você não possui nenhum chamado</h2>
+              }
           </div>
         </main>
       </div>

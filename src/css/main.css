@@ -81,7 +81,7 @@ input, select, button {
         height: 8vh;
         width: 18vw;
     }
-    input, select {
+    input, select, textarea {
         margin-top: 20px;
         transition: 300ms;
         padding: 10px;
@@ -146,6 +146,12 @@ input, select, button {
         background-color: var(--background);
     }
     &::-webkit-scrollbar-thumb { background-color: var(--background-darker); }
+}
+
+.modal {
+    background-color: var(--ticket-background);
+    position: absolute;
+    z-index: 99;
 }
 
 .hide { display: none !important; }
