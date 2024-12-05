@@ -27,7 +27,6 @@ export default function Start() {
         })
       }).then(res => res.json())
       if (userResponse.error) return setAlert(userResponse.error)
-
       const companyResponse = await fetch("http://localhost:5000/company/create", {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
@@ -41,6 +40,7 @@ export default function Start() {
       }).then(res => res.json())
       if (companyResponse.error) return setAlert(companyResponse.error)
       setUser(userResponse.user)
+      localStorage.setItem("userID", userResponse.user._id)
       history.push("/home")
     } catch (error) {
       setAlert({ message: error.toString(), ok: false })

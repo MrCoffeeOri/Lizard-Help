@@ -3,11 +3,16 @@ import { handleCorrection } from '../helpers/formCorrection'
 import UserHeader from '../components/UserHeader'
 import { userContext } from '../components/UserContext';
 import ModalBackground from '../components/ModalBackground';
+import { socket } from '../helpers/socket';
 
 export default function Technician() {
     const [tags, setTags] = useState<{ content: string, id: number }[]>([]);
     const { user, setUser } = useContext(userContext)
     const chatModalRef = useRef<HTMLDivElement>(null)
+
+    useEffect(() => {
+        socket.connect()
+    }, [])
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
         throw new Error('Function not implemented.');

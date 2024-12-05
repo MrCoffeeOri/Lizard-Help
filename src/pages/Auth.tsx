@@ -7,7 +7,7 @@ export default function Auth({ children }) {
 
   return (
     <>
-      {user || true ? 
+      {user ? 
         children 
         : 
         <div id='auth'>
