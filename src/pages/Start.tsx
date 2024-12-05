@@ -40,7 +40,6 @@ export default function Start() {
       }).then(res => res.json())
       if (companyResponse.error) return setAlert(companyResponse.error)
       setUser(userResponse.user)
-      localStorage.setItem("userID", userResponse.user._id)
       history.push("/home")
     } catch (error) {
       setAlert({ message: error.toString(), ok: false })
