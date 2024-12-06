@@ -4,14 +4,15 @@ import { useHistory } from 'react-router'
 import { userContext } from '../components/UserContext'
 import ModalBackground from '../components/ModalBackground'
 import { socket } from '../helpers/socket'
-import { path } from '../helpers/api'
 
 export default function Home() {
   const { user, setUser, setAlert } = useContext(userContext)
-  const [tags, setTags] = useState<{ content: string, id: number }[]>([]);
-  const [filter, setFilter] = useState<string>("open");
-  const ticketModalRef = useRef<HTMLFormElement>(null)
   const history = useHistory()
+  const [tags, setTags] = useState<string[]>([]);
+  const [filter, setFilter] = useState<{ type: string, title: string }>({ type: "open", title: "" });
+  const ticketModalRef = useRef<HTMLFormElement>(null)
+  const ticketInpTitleRef = useRef<HTMLInputElement>(null)
+  const ticketInpDescRef = useRef<HTMLTextAreaElement>(null)
 
   useEffect(() => {  
     const handleConnectError = () => {
@@ -31,7 +32,7 @@ export default function Home() {
     
     socket.on("connect_error", handleConnectError);
     socket.on("ticket", handleTicketEvent);
-    socket.connect()
+    !socket.connected && socket.connect()
     return () => {
       socket.off("connect_error", handleConnectError);
       socket.off("ticket", handleTicketEvent);
@@ -43,6 +44,12 @@ export default function Home() {
   }
 
   const handleTicketEdit = (e: React.MouseEvent<SVGElement>) => {
+    const ticket = user.tickets.find(ticket => ticket._id == e.currentTarget.parentElement.parentElement.id)
+    ticketInpTitleRef.current.value = ticket.title
+    ticketInpDescRef.current.value = ticket.description
+    ticketModalRef.current.setAttribute("edit", "true")
+    setTags(ticket.tags)
+    handleTicketModalShow()
   }
 
   const handleBoardChange = (e: React.MouseEvent<SVGElement>) => {
@@ -51,14 +58,14 @@ export default function Home() {
   }
 
   const handleTagDelete = (e: React.MouseEvent<HTMLSpanElement>) => {
-    setTags(tags.filter(tag => tag.id !== Number((e.currentTarget.parentElement as HTMLDivElement).id)));
+    setTags(tags.filter(tag => tag !== e.currentTarget.nextSibling.textContent));
   };
 
   const handleInputTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (!(e.currentTarget.value.trim().length < 20)) {
       e.currentTarget.value = e.currentTarget.value.slice(0, 20)
     } else if (e.key == ' ' && e.currentTarget.value.trim() != '' && tags.length < 10) {
-      setTags([...tags, { content: e.currentTarget.value, id: Math.random() }])
+      setTags([...tags, e.currentTarget.value])
       e.currentTarget.value = ""
     }
   }
@@ -76,55 +83,38 @@ export default function Home() {
     e.preventDefault()
     if (!tags.length) return setAlert({ message: "Adicione pelo menos uma tag" })
     socket.emit("ticket", {
-      action: "create",
+      action: ticketModalRef.current.getAttribute("edit") ? "edit" : "create",
       data: {
-        title: (e.currentTarget[0] as HTMLInputElement).value,
-        description: (e.currentTarget[1] as HTMLInputElement).value,
-        tags: tags.map(tag => tag.content),
+        title: ticketInpTitleRef.current.value,
+        description: ticketInpDescRef.current.value,
+        tags: tags,
         by: user.name
       }
     })
+    ticketInpTitleRef.current.value = ''
+    ticketInpDescRef.current.value = ''
+    ticketModalRef.current.removeAttribute("edit")
+    setTags([])
   }
 
   const handleTicketsFilter = async (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFilter(e.currentTarget.value)
+    setFilter({ ...filter, type: e.currentTarget.value })
   }
-
-  const ticketMapping = ticket => (
-    <div id={ticket._id} key={ticket._id} className='ticket'>
-      <div className='tools'>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M402.6 83.2l90.2 90.2c3.8 3.8 3.8 10 0 13.8L274.4 405.6l-92.8 10.3c-12.4 1.4-22.9-9.1-21.5-21.5l10.3-92.8L388.8 83.2c3.8-3.8 10-3.8 13.8 0zm162-22.9l-48.8-48.8c-15.2-15.2-39.9-15.2-55.2 0l-35.4 35.4c-3.8 3.8-3.8 10 0 13.8l90.2 90.2c3.8 3.8 10 3.8 13.8 0l35.4-35.4c15.2-15.3 15.2-40 0-55.2zM384 346.2V448H64V128h229.8c3.2 0 6.2-1.3 8.5-3.5l40-40c7.6-7.6 2.2-20.5-8.5-20.5H48C21.5 64 0 85.5 0 112v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V306.2c0-10.7-12.9-16-20.5-8.5l-40 40c-2.2 2.3-3.5 5.3-3.5 8.5z"/></svg>
-        <svg onClick={handleTicketDelete} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
-      </div>
-      <div>
-        <h3 style={{ margin: 0 }}>{ticket.title}</h3>
-        <span>21/09/2024</span>
-      </div>
-      <p style={{ margin: "5px 0" }}>{ticket.priority}</p>
-      <p style={{ margin: "5px 0" }}>{ticket.description.length > 60 ? ticket.description.slice(0, 60) + '...' : ticket.description}</p>
-      <div className='tags'>
-        <span className='tag'>Teste</span>
-        <span className='tag'>Teste</span>
-        <span className='tag'>Teste</span>
-        <span className='more'>+</span>
-      </div>
-    </div>
-  )
 
   return (
     <div id='home'>
       <ModalBackground modalRef={ticketModalRef} />
       <form onSubmit={handleTicketSubmit} className='form modal hide' id='ticketModal' ref={ticketModalRef} >
         <h2>Novo chamado</h2>
-        <input required type="text" placeholder='Título' />
-        <textarea required draggable={'false'} placeholder='Descrição'></textarea>
+        <input required ref={ticketInpTitleRef} type="text" placeholder='Título' />
+        <textarea required ref={ticketInpDescRef} draggable={'false'} placeholder='Descrição'></textarea>
         <div id='tagsManager'>
           <div>
-            {tags.length > 0 ? tags.map(tag => <div className='tag' id={tag.id.toString()}><span className='delete' onClick={handleTagDelete}>x</span><span>{tag.content}</span></div>) : <span>Suas tags serão mostradas aqui</span>}
+            {tags.length > 0 ? tags.map(tag => <div className='tag'><span className='delete' onClick={handleTagDelete}>x</span><span>{tag}</span></div>) : <span>Suas tags serão mostradas aqui</span>}
           </div>
           <input type="text" onKeyDown={handleInputTag} placeholder='Digite suas tags' />
         </div>
-        <button type="submit">Criar</button>
+        <button type="submit">{ ticketModalRef.current?.getAttribute("edit") ? "Editar" : "Criar" }</button>
       </form>
       <nav>
         {
@@ -159,10 +149,27 @@ export default function Home() {
               {
                 user.tickets.length 
                 ?
-                  filter == "all" ?
-                  user.tickets.map(ticketMapping)
-                  :
-                  user.tickets.filter(ticket => filter == "open" ? !ticket.solved && !ticket.ongoing : filter == "closed" ? ticket.solved : ticket.ongoing).map(ticketMapping)
+                  user.tickets
+                    .filter(ticket => filter.type == "all" || (filter.type == ticket.status && ticket.title.includes(filter.title)))
+                    .map(ticket => (
+                      <div id={ticket._id} key={ticket._id} className='ticket'>
+                        <div className='tools'>
+                          <svg onClick={handleTicketEdit} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M402.6 83.2l90.2 90.2c3.8 3.8 3.8 10 0 13.8L274.4 405.6l-92.8 10.3c-12.4 1.4-22.9-9.1-21.5-21.5l10.3-92.8L388.8 83.2c3.8-3.8 10-3.8 13.8 0zm162-22.9l-48.8-48.8c-15.2-15.2-39.9-15.2-55.2 0l-35.4 35.4c-3.8 3.8-3.8 10 0 13.8l90.2 90.2c3.8 3.8 10 3.8 13.8 0l35.4-35.4c15.2-15.3 15.2-40 0-55.2zM384 346.2V448H64V128h229.8c3.2 0 6.2-1.3 8.5-3.5l40-40c7.6-7.6 2.2-20.5-8.5-20.5H48C21.5 64 0 85.5 0 112v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V306.2c0-10.7-12.9-16-20.5-8.5l-40 40c-2.2 2.3-3.5 5.3-3.5 8.5z"/></svg>
+                          <svg onClick={handleTicketDelete} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
+                        </div>
+                        <div>
+                          <h3 style={{ margin: 0 }}>{ticket.title}</h3>
+                          <span>21/09/2024</span>
+                        </div>
+                        <p style={{ margin: "5px 0" }}>{ticket.priority}</p>
+                        <p style={{ margin: "5px 0" }}>{ticket.description.length > 60 ? ticket.description.slice(0, 60) + '...' : ticket.description}</p>
+                        <div className='tags'>
+                          {  
+                            ticket.tags.map(tag => (<span className='tag'>{tag}</span>))
+                          }
+                        </div>
+                      </div>
+                    ))
                 :
                   <h2>Você não possui nenhum chamado</h2>
               }

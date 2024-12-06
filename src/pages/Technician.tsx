@@ -11,7 +11,7 @@ export default function Technician() {
     const chatModalRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
-        socket.connect()
+        !socket.connected && socket.connect()
     }, [])
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
@@ -54,6 +54,10 @@ export default function Technician() {
     const toggleChatVisibility = () => {
         document.getElementById("modal-background").classList.toggle("hide")
         document.getElementById("chat").classList.toggle("hide")
+    }
+
+    const handleInitChat = () => {
+
     }
 
     return (
@@ -115,21 +119,8 @@ export default function Technician() {
                 <span onClick={handleFilterSelection}>Selecionados</span>
                 <span onClick={handleFilterSelection}>Todos</span>
             </div>
-            {/*
-            <form className='form' onSubmit={handleSubmit}>
-            <img src="/logo.webp" alt="" />
-            <inputA
-                type="text"
-                id="token"
-                placeholder="Chave de acesso"
-                onChange={e => handleCorrection(e, e => e.target.value.match(/TODO: Token RegexExp) != null)}
-                required
-            />
-            <p>Chave de acesso incorreta</p>
-            <button type="submit">Entrar</button>
-                </form>*/}
             <div id='tickets' className='scrollable'>
-                <div className="ticket">
+                <div className="ticket" id='1'>
                     <p className='state'>Padrão</p>
                     <h3 className="title">Socorro, minha calculadora explodiu!!</h3>
                     <span className='date' >21/03/2024</span>
@@ -138,44 +129,6 @@ export default function Technician() {
                         <div className="tags">
                             <span className="tag solved">Resolvido</span>
                             <span className="tag status">Em andamento</span>
-                            <span className="tag">Urgente</span>
-                            <span className="tag">Calculadora</span>
-                            <span className="tag">Explosão</span>
-                        </div>
-                        <span className='more-details' onClick={handleMoreDetails}>+</span>
-                    </div>
-                    <div className="details">
-                        <div className='description scrollable'><h1>Altas tensões!!</h1> Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorio</div>
-                        <button className='start-chat'>Iniciar atendimento</button>
-                    </div>
-                </div>
-                <div className="ticket">
-                    <p className='state medium'>Média</p>
-                    <h3 className="title">Socorro, minha calculadora explodiu!!</h3>
-                    <span className='date' >21/03/2024</span>
-                    <p className="by">Por João Silva</p>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <div className="tags">
-                            <span className="tag solved">Resolvido</span>
-                            <span className="tag">Urgente</span>
-                            <span className="tag">Calculadora</span>
-                            <span className="tag">Explosão</span>
-                        </div>
-                        <span className='more-details' onClick={handleMoreDetails}>+</span>
-                    </div>
-                    <div className="details">
-                        <div className='description scrollable'><h1>Altas tensões!!</h1> Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorio</div>
-                        <button className='start-chat'>Iniciar atendimento</button>
-                    </div>
-                </div>
-                <div className="ticket">
-                    <p className='state critical'>Crítico</p>
-                    <h3 className="title">Socorro, minha calculadora explodiu!!</h3>
-                    <span className='date' >Criado em 21/03/2024</span>
-                    <p className="by">Por João Silva</p>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <div className="tags">
-                            <span className="tag solved">Resolvido</span>
                             <span className="tag">Urgente</span>
                             <span className="tag">Calculadora</span>
                             <span className="tag">Explosão</span>
