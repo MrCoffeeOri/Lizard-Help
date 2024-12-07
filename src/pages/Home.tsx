@@ -41,6 +41,7 @@ export default function Home() {
 
   const handleTicketDelete = (e: React.MouseEvent<SVGElement>) => {
     setUser({ ...user, tickets: user.tickets.filter(ticket => ticket._id != e.currentTarget.parentElement.parentElement.id) })
+    socket.emit("ticket", { action: "delete", data: { _id: e.currentTarget.parentElement.parentElement.id } })
   }
 
   const handleTicketEdit = (e: React.MouseEvent<SVGElement>) => {
@@ -97,13 +98,13 @@ export default function Home() {
     setTags([])
   }
 
-  const handleTicketsFilter = async (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFilter({ ...filter, type: e.currentTarget.value })
+  const handleTicketsFilter = async (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
+    setFilter({ ...filter, ...(e.currentTarget.id == "options" ? { type: e.currentTarget.value } : { title: e.currentTarget.value }) })
   }
 
   return (
     <div id='home'>
-      <ModalBackground modalRef={ticketModalRef} />
+      <ModalBackground modalRefs={[ticketModalRef]} />
       <form onSubmit={handleTicketSubmit} className='form modal hide' id='ticketModal' ref={ticketModalRef} >
         <h2>Novo chamado</h2>
         <input required ref={ticketInpTitleRef} type="text" placeholder='Título' />
@@ -116,6 +117,10 @@ export default function Home() {
         </div>
         <button type="submit">{ ticketModalRef.current?.getAttribute("edit") ? "Editar" : "Criar" }</button>
       </form>
+      <div id='tagsModal' className='modal hide'>
+        <h3>Erro ao fazer login</h3>
+        <div></div>
+      </div>
       <nav>
         {
           user.type == "worker" ?
@@ -133,47 +138,81 @@ export default function Home() {
       </nav>
       <div>
         <UserHeader>
+          <img src="/chat.png" alt="" />
         </UserHeader>
         <main id='dashboard'>
-          <div id='tools'>
-            <button onClick={handleTicketModalShow}>Criar um chamado</button>
-            <input type="text" placeholder='Filtrar por nome' />
-            <select id="options" onChange={handleTicketsFilter}>
-              <option value="open">Abertos</option>
-              <option value="closed">Fechados</option>
-              <option value="ongoing">Em andamento</option>
-              <option value="all">Todos</option>
-            </select>
-          </div>
-          <div id='tickets'style={{ display: user.tickets?.length ? "grid" : "block", gridTemplateRows: Array(Math.ceil(user.tickets.length / 3)).fill('32%').join(' ') }} className='scrollable'>
-              {
-                user.tickets.length 
-                ?
-                  user.tickets
-                    .filter(ticket => filter.type == "all" || (filter.type == ticket.status && ticket.title.includes(filter.title)))
-                    .map(ticket => (
-                      <div id={ticket._id} key={ticket._id} className='ticket'>
-                        <div className='tools'>
-                          <svg onClick={handleTicketEdit} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M402.6 83.2l90.2 90.2c3.8 3.8 3.8 10 0 13.8L274.4 405.6l-92.8 10.3c-12.4 1.4-22.9-9.1-21.5-21.5l10.3-92.8L388.8 83.2c3.8-3.8 10-3.8 13.8 0zm162-22.9l-48.8-48.8c-15.2-15.2-39.9-15.2-55.2 0l-35.4 35.4c-3.8 3.8-3.8 10 0 13.8l90.2 90.2c3.8 3.8 10 3.8 13.8 0l35.4-35.4c15.2-15.3 15.2-40 0-55.2zM384 346.2V448H64V128h229.8c3.2 0 6.2-1.3 8.5-3.5l40-40c7.6-7.6 2.2-20.5-8.5-20.5H48C21.5 64 0 85.5 0 112v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V306.2c0-10.7-12.9-16-20.5-8.5l-40 40c-2.2 2.3-3.5 5.3-3.5 8.5z"/></svg>
-                          <svg onClick={handleTicketDelete} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
-                        </div>
-                        <div>
-                          <h3 style={{ margin: 0 }}>{ticket.title}</h3>
-                          <span>21/09/2024</span>
-                        </div>
-                        <p style={{ margin: "5px 0" }}>{ticket.priority}</p>
-                        <p style={{ margin: "5px 0" }}>{ticket.description.length > 60 ? ticket.description.slice(0, 60) + '...' : ticket.description}</p>
-                        <div className='tags'>
-                          {  
-                            ticket.tags.map(tag => (<span className='tag'>{tag}</span>))
-                          }
-                        </div>
+          {
+            user.type == "worker" ?
+            <>
+              <div id='tools'>
+                <button onClick={handleTicketModalShow}>Criar um chamado</button>
+                <input id='filterTitle' type="text" onChange={handleTicketsFilter} placeholder='Filtrar por nome' />
+                <select id="options" onChange={handleTicketsFilter}>
+                  <option value="open">Abertos</option>
+                  <option value="closed">Fechados</option>
+                  <option value="ongoing">Em andamento</option>
+                  <option value="all">Todos</option>
+                </select>
+              </div>
+              <div id='tickets'style={{ display: user.tickets?.length ? "grid" : "block", gridTemplateRows: Array(Math.ceil(user.tickets.length / 3)).fill('32%').join(' ') }} className='scrollable'>
+                  {
+                    user.tickets.length 
+                    ?
+                      user.tickets
+                        .filter(ticket => filter.type == "all" || (filter.type == ticket.status && ticket.title.includes(filter.title)))
+                        .map(ticket => (
+                          <div id={ticket._id} key={ticket._id} className='ticket'>
+                            <div className='tools'>
+                              <svg onClick={handleTicketEdit} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M402.6 83.2l90.2 90.2c3.8 3.8 3.8 10 0 13.8L274.4 405.6l-92.8 10.3c-12.4 1.4-22.9-9.1-21.5-21.5l10.3-92.8L388.8 83.2c3.8-3.8 10-3.8 13.8 0zm162-22.9l-48.8-48.8c-15.2-15.2-39.9-15.2-55.2 0l-35.4 35.4c-3.8 3.8-3.8 10 0 13.8l90.2 90.2c3.8 3.8 10 3.8 13.8 0l35.4-35.4c15.2-15.3 15.2-40 0-55.2zM384 346.2V448H64V128h229.8c3.2 0 6.2-1.3 8.5-3.5l40-40c7.6-7.6 2.2-20.5-8.5-20.5H48C21.5 64 0 85.5 0 112v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V306.2c0-10.7-12.9-16-20.5-8.5l-40 40c-2.2 2.3-3.5 5.3-3.5 8.5z"/></svg>
+                              <svg onClick={handleTicketDelete} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
+                            </div>
+                            <div>
+                              <h3 style={{ margin: 0 }}>{ticket.title}</h3>
+                              <span>21/09/2024</span>
+                            </div>
+                            <p style={{ margin: "5px 0" }}>{ticket.priority}</p>
+                            <p style={{ margin: "5px 0" }}>{ticket.description.length > 60 ? ticket.description.slice(0, 60) + '...' : ticket.description}</p>
+                            <div className='tags'>
+                              {  
+                                ticket.tags.slice(0, ticket.tags.length > 4 && !ticket.showAll ? 4 : undefined).map(tag => (<span className='tag'>{tag}</span>))
+                              }
+                              {
+                                ticket.tags.length  > 4 && (<span className='more' onClick={e => {
+                                }}>+</span>)
+                              }
+                            </div>
+                          </div>
+                        ))
+                    :
+                      <h2>Você não possui nenhum chamado</h2>
+                  }
+              </div>
+            </>
+            :
+            <>
+              <div>
+                  <div id='workers'>
+                    <h3>Funcionáiors</h3>
+                    <div>
+                      <div className='person' id='1'>
+                        <img src="placeholder" alt="" />
+                        <span>Nome funcionário</span>
+                        <span>Online</span>
                       </div>
-                    ))
-                :
-                  <h2>Você não possui nenhum chamado</h2>
-              }
-          </div>
+                    </div>
+                  </div>
+                  <div id='technicians'>
+                    <h3>Técnicos disponiveis</h3>
+                    <div>
+                      <div className='person' id='1'>
+                        <img src="placeholder" alt="" />
+                        <span>Nome funcionário</span>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+            </>
+          }
         </main>
       </div>
     </div>

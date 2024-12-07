@@ -66,7 +66,7 @@ export default function Technician() {
                 <img onClick={toggleChatVisibility} src="/chat.png" alt="" />
                 <img src="/gear.png" alt="" />
             </UserHeader>
-            <ModalBackground modalRef={chatModalRef} />
+            <ModalBackground modalRefs={[chatModalRef]} />
             <div className='hide modal' ref={chatModalRef} id='chat'>
                 <div id='chats'>
                     <div id='1' className='chat'>

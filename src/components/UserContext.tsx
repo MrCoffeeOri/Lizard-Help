@@ -6,7 +6,7 @@ export const userContext = createContext<{ user: any, setUser: React.Dispatch<an
 export function UserContextProvider({ children }: React.PropsWithChildren) {
     const [user, setUser] = useState({ 
         name: "Fake ronaldinho", 
-        type: "ronLSO", 
+        type: "worker", 
         _id: 123, 
         tickets: [
             { _id: 1, title: "Erro ao fazer login", status: "open", tags: ["kkkk", "kkkk", "kkkk", "kkkk", "kkkk", "kkkk", "kkkk", "lll", "lllllll", "lhjkhjh"], description: "Não consigo acessar minha conta com as credenciais fornecidas.", priority: "Alta" },
