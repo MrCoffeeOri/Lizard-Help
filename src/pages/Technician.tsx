@@ -7,6 +7,7 @@ import { socket } from '../helpers/socket';
 
 export default function Technician() {
     const [tags, setTags] = useState<{ content: string, id: number }[]>([]);
+    const [selectedChat, setSelectedChat] = useState<number>(0)
     const { user, setUser } = useContext(userContext)
     const chatModalRef = useRef<HTMLDivElement>(null)
 
@@ -60,6 +61,12 @@ export default function Technician() {
 
     }
 
+    const handleChatSelection = (e: React.MouseEvent<HTMLDivElement>) => {
+        document.querySelector("#chats > div.selected")?.classList.remove("selected")
+        e.currentTarget.classList.add("selected")
+        setSelectedChat(user.chats.findIndex(chat => chat._id == e.currentTarget.id))
+    }
+
     return (
         <div id='technician'>
             <UserHeader>
@@ -68,44 +75,48 @@ export default function Technician() {
             </UserHeader>
             <ModalBackground modalRefs={[chatModalRef]} />
             <div className='hide modal' ref={chatModalRef} id='chat'>
-                <div id='chats'>
-                    <div id='1' className='chat'>
-                        <img src="https://yt3.ggpht.com/wvlCpRqb9Hb9Yuv62LDo-AZxr-MpAHTvpeToBGpNOPSMNGQIyplQh2EZv75SLHOZIkpijT00=s48-c-k-c0x00ffffff-no-rj" alt="" />
-                        <div>
-                            <div className='info'>
-                                <span>Nome</span>
-                                <span>23:99</span>
+                {
+                    user.chats.length > 0 ?
+                    <>
+                        <div id='chats'>
+                            {
+                                user.chats.map((chat, index) => {
+                                    const lastMessage = chat.messages[chat.messages.length - 1]
+                                    return (
+                                        <div onClick={handleChatSelection} id={chat._id} key={chat._id} className={"chat" + (index == selectedChat ? " selected" : "")}>
+                                            <img src="https://yt3.ggpht.com/wvlCpRqb9Hb9Yuv62LDo-AZxr-MpAHTvpeToBGpNOPSMNGQIyplQh2EZv75SLHOZIkpijT00=s48-c-k-c0x00ffffff-no-rj" alt="" />
+                                            <div>
+                                                <div className='info'>
+                                                    <span>{chat.client.name}</span>
+                                                    <span>{lastMessage.createdAt}</span>
+                                                </div>
+                                                <span className='last-message'>{lastMessage.content}</span>
+                                            </div>
+                                        </div>
+                                    )
+                                })  
+                            }
+                        </div>
+                        <div id='selected-chat'>
+                            <div id='messages'>
+                                {
+                                    user.chats[selectedChat].messages.map(message => (
+                                        <div key={message._id} className={"message" + ` ${message.by == user._id ? "user" : ""}`}>
+                                            <p className='content'>{message.content}</p>
+                                            <span className='time'>{message.createdAt}</span>
+                                        </div>
+                                    ))
+                                }
                             </div>
-                            <span className='last-message'>Você: faz o L</span>
-                        </div>
-                    </div>
-                    <div id='2' className='chat'>
-                        <img src="https://yt3.ggpht.com/wvlCpRqb9Hb9Yuv62LDo-AZxr-MpAHTvpeToBGpNOPSMNGQIyplQh2EZv75SLHOZIkpijT00=s48-c-k-c0x00ffffff-no-rj" alt="" />
-                        <div>
-                            <div className='info'>
-                                <span>Nome</span>
-                                <span>23:99</span>
+                            <div id='message-input'>
+                                <input placeholder='mensagem' type="text" id="" />
+                                <img src='/message.png' />
                             </div>
-                            <span className='last-message'>Você: faz o L</span>
                         </div>
-                    </div>
-                </div>
-                <div id='selected-chat'>
-                    <div id='messages'>
-                        <div className="message">
-                            <p className='content'>lorem asdsdsdsdsadasdasdsdadsadasdasasdasdasd      sdsasdsadasdassadasdsdss        sdsdjdlksajdlksajdlksajds</p>
-                            <span className='time'>23:99</span>
-                        </div>
-                        <div className="message user">
-                            <p className='content'>lorem asdsdsdsdsadasdasdsdadsadasdasasdasdasd      sdsasdsadasdassadasdsdss        sdsdjdlksajdlksajdlksajds</p>
-                            <span className='time'>23:99</span>
-                        </div>
-                    </div>
-                    <div id='message-input'>
-                        <input placeholder='mensagem' type="text" id="" />
-                        <img src='/message.png' />
-                    </div>
-                </div>
+                    </>
+                    :
+                    <h2>Você não possui nenhum chat aberto</h2>
+                }
             </div>
             <div id='filters'>
                 <div id='tagsManager'>

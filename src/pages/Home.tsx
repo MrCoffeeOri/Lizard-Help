@@ -190,25 +190,71 @@ export default function Home() {
             </>
             :
             <>
-              <div>
+              <div id='overview' className='scrollable'>
                   <div id='workers'>
-                    <h3>Funcionáiors</h3>
                     <div>
-                      <div className='person' id='1'>
-                        <img src="placeholder" alt="" />
+                      <h2>Funcionáiors</h2>
+                    </div>
+                    <div className='display scrollable'>
+                      <div className='person online' id='1'>
+                        <img src="https://yt3.ggpht.com/wvlCpRqb9Hb9Yuv62LDo-AZxr-MpAHTvpeToBGpNOPSMNGQIyplQh2EZv75SLHOZIkpijT00=s48-c-k-c0x00ffffff-no-rj" alt="" />
+                        <span>Nome funcionário</span>
+                        <span>Online</span>
+                      </div>
+                      <div className='person online' id='1'>
+                        <img src="https://yt3.ggpht.com/wvlCpRqb9Hb9Yuv62LDo-AZxr-MpAHTvpeToBGpNOPSMNGQIyplQh2EZv75SLHOZIkpijT00=s48-c-k-c0x00ffffff-no-rj" alt="" />
+                        <span>Nome funcionário</span>
+                        <span>Online</span>
+                      </div>
+                      <div className='person online' id='1'>
+                        <img src="https://yt3.ggpht.com/wvlCpRqb9Hb9Yuv62LDo-AZxr-MpAHTvpeToBGpNOPSMNGQIyplQh2EZv75SLHOZIkpijT00=s48-c-k-c0x00ffffff-no-rj" alt="" />
+                        <span>Nome funcionário</span>
+                        <span>Online</span>
+                      </div>
+                      <div className='person online' id='1'>
+                        <img src="https://yt3.ggpht.com/wvlCpRqb9Hb9Yuv62LDo-AZxr-MpAHTvpeToBGpNOPSMNGQIyplQh2EZv75SLHOZIkpijT00=s48-c-k-c0x00ffffff-no-rj" alt="" />
+                        <span>Nome funcionário</span>
+                        <span>Online</span>
+                      </div>
+                      <div className='person online' id='1'>
+                        <img src="https://yt3.ggpht.com/wvlCpRqb9Hb9Yuv62LDo-AZxr-MpAHTvpeToBGpNOPSMNGQIyplQh2EZv75SLHOZIkpijT00=s48-c-k-c0x00ffffff-no-rj" alt="" />
+                        <span>Nome funcionário</span>
+                        <span>Online</span>
+                      </div>
+                      <div className='person online' id='2'>
+                        <img src="https://yt3.ggpht.com/wvlCpRqb9Hb9Yuv62LDo-AZxr-MpAHTvpeToBGpNOPSMNGQIyplQh2EZv75SLHOZIkpijT00=s48-c-k-c0x00ffffff-no-rj" alt="" />
+                        <span>Nome funcionário</span>
+                        <span>Online</span>
+                      </div>
+                      <div className='person online' id='3'>
+                        <img src="https://yt3.ggpht.com/wvlCpRqb9Hb9Yuv62LDo-AZxr-MpAHTvpeToBGpNOPSMNGQIyplQh2EZv75SLHOZIkpijT00=s48-c-k-c0x00ffffff-no-rj" alt="" />
+                        <span>Nome funcionário</span>
+                        <span>Online</span>
+                      </div>
+                      <div className='person offline' id='3'>
+                        <img src="https://yt3.ggpht.com/wvlCpRqb9Hb9Yuv62LDo-AZxr-MpAHTvpeToBGpNOPSMNGQIyplQh2EZv75SLHOZIkpijT00=s48-c-k-c0x00ffffff-no-rj" alt="" />
+                        <span>Nome funcionário</span>
+                        <span>Online</span>
+                      </div>
+                      <div className='person offline' id='3'>
+                        <img src="https://yt3.ggpht.com/wvlCpRqb9Hb9Yuv62LDo-AZxr-MpAHTvpeToBGpNOPSMNGQIyplQh2EZv75SLHOZIkpijT00=s48-c-k-c0x00ffffff-no-rj" alt="" />
                         <span>Nome funcionário</span>
                         <span>Online</span>
                       </div>
                     </div>
                   </div>
                   <div id='technicians'>
-                    <h3>Técnicos disponiveis</h3>
-                    <div>
+                    <h2>Técnicos disponiveis</h2>
+                    <div className='display scrollable'>
                       <div className='person' id='1'>
-                        <img src="placeholder" alt="" />
+                        <img src="https://yt3.ggpht.com/wvlCpRqb9Hb9Yuv62LDo-AZxr-MpAHTvpeToBGpNOPSMNGQIyplQh2EZv75SLHOZIkpijT00=s48-c-k-c0x00ffffff-no-rj" alt="" />
                         <span>Nome funcionário</span>
                       </div>
                     </div>
+                  </div>
+                  <div id='companyTickets'>
+                    <h2>Chamados da empresa</h2>
+                    
                   </div>
               </div>
             </>

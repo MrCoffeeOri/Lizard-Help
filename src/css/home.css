@@ -95,6 +95,44 @@
                 text-align: center;
             }
         }
+        #overview {
+            height: 87vh;
+            padding: 10px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            #workers, #technicians, #companyTickets {
+                padding: 10px;
+                border-radius: .3rem;
+                border-left: 10px solid var(--red-main-darker);
+                h2 { margin: 0 0 5px 0; }
+            }
+            #workers, #technicians {
+                width: 40vw;
+                height: 70vh;
+                .display { height: 95%; }
+                .person {
+                    margin: 10px;
+                    background-color: var(--ticket-background);
+                    padding: 10px;
+                    border-radius: .2rem;
+                    display: flex;
+                    align-items: center;
+                    &.offline { border-left: 20px solid var(--red-main); }
+                    &.online { border-left: 20px solid var(--green-main); }
+                    > * { margin-left: 25px; }
+                    img {
+                        margin-left: 10px;
+                        border-radius: 50%;
+                    }
+                }
+            }
+            #companyTickets {
+                margin-top: 20px;
+                width: 92.1%;
+                height: 40vh;
+            }
+        }
     }
     #ticketModal  {
         top: 7%;

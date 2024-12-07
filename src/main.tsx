@@ -10,6 +10,7 @@ import Client from './pages/Client';
 import Technician from './pages/Technician';
 import { UserContextProvider } from './components/UserContext';
 import Auth from './pages/Auth';
+import Faq from './pages/Faq';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -19,6 +20,7 @@ ReactDOM.render(
           <Route exact path="/" component={Landing} />
             <Route path="/start" component={Start} />
             <Route path="/client" component={Client} />
+            <Route path="/faq" component={Faq} />
             <Route path="/user">
               <Auth>
                 <Switch>
