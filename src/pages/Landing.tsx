@@ -37,6 +37,10 @@ export default function Landing() {
             <p>Contatos</p>
             <div></div>
           </a>
+          <a href='/faq'>
+            <p>FAQ</p>
+            <div></div>
+          </a>
           <LinkScroll to='/client'>
             <p>Área do cliente</p>
             <div></div>

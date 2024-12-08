@@ -6,6 +6,7 @@
 @import url(client.css);
 @import url(home.css);
 @import url(technician.css);
+@import url(faq.css);
 
 :root {
     --red-main: #c12626;
