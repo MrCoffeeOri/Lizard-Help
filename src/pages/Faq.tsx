@@ -5,7 +5,7 @@ import GoBack from '../components/GoBack';
   export default function Faq() {
     const toggleAnswerVisibility = (id : string) => {
       document.getElementById(`answer-${id}`).classList.toggle("hide")
-      document.getElementById(id).querySelector("span").classList.toggle('active'); // Adiciona ou remove a classe 'active'
+      document.getElementById(id).querySelector("span").classList.toggle('active'); 
     }
       const faqs = [
           {
