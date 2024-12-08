@@ -13,7 +13,6 @@ import Auth from './pages/Auth';
 import Faq from './pages/Faq';
 
 ReactDOM.render(
-  <React.StrictMode>
     <UserContextProvider>
       <BrowserRouter>
         <Switch>
@@ -33,7 +32,6 @@ ReactDOM.render(
           <Route component={Error} />
         </Switch>
       </BrowserRouter>
-    </UserContextProvider>
-  </React.StrictMode>,
+    </UserContextProvider>,
   document.getElementById('root')
 );

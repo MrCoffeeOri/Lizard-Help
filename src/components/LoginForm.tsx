@@ -13,13 +13,16 @@ export default function LoginForm() {
         try {
           const authResponse = await fetch("http://localhost:5000/user/auth", {
             method: "POST",
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+              'Content-Type': 'application/json' 
+            },
+            credentials: 'include',
             body: JSON.stringify({
               email: (e.target[0] as HTMLInputElement).value,
               password: (e.target[1] as HTMLInputElement).value,
             }),
           }).then(res => res.json())
-          setAlert({ message: authResponse.error || authResponse.msg })
+          setAlert({ message: authResponse.error || authResponse.msg, ok: authResponse.msg })
           if (authResponse.error) return
           setUser(authResponse.user)
           history.push(authResponse.user.type == "technician" ? "/user/technician" : "/user/home")

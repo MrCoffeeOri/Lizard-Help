@@ -26,7 +26,7 @@ export default function Start() {
           type: 'owner'
         })
       }).then(res => res.json())
-      if (userResponse.error) return setAlert(userResponse.error)
+      if (userResponse.error) return setAlert({ message: userResponse.error, ok: false})
       const companyResponse = await fetch("http://localhost:5000/company/create", {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
@@ -38,9 +38,10 @@ export default function Start() {
           owner: userResponse.user._id
         })
       }).then(res => res.json())
-      if (companyResponse.error) return setAlert(companyResponse.error)
-      setUser(userResponse.user)
-      history.push("/home")
+      if (companyResponse.error) return setAlert({ message: companyResponse.error, ok: false})
+      setAlert({ message: "Conta criada com sucesso!", ok: true })
+      setUser({ ...userResponse.user, company: companyResponse.company })
+      history.push("/user/home")
     } catch (error) {
       setAlert({ message: error.toString(), ok: false })
       submitBtn.innerText = "Criar"

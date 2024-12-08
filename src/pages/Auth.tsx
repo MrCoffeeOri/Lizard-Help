@@ -9,9 +9,14 @@ export default function Auth({ children }) {
   useEffect(() => {
     const userAuth = async () => {
         try {
-            const userResponse = await fetch(path + "/user/auth", { method: "POST", headers: { 'Content-Type': 'application/json' } }).then(res => res.json())
+            const userResponse = await fetch(path + "/user/auth", { 
+              method: "POST", 
+              headers: { 'Content-Type': 'application/json' }, 
+              credentials: 'include' 
+            }).then(res => res.json())
             setAlert({ message: userResponse.error ? "Autenticação requerida" : userResponse.msg, ok: userResponse.msg })
             userResponse.user && setUser(userResponse.user)
+            console.log(userResponse.user)
         } catch (error) {
             setAlert({ message: error.toString(), ok: false })
         }

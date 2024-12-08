@@ -10,13 +10,12 @@ export default function Home() {
   const { user, setUser, setAlert } = useContext(userContext)
   const history = useHistory()
   const [navOption, setNavOption] = useState<string>(user.type == "owner" ? "overview" : "ticket");
-  const [tags, setTags] = useState<string[]>([]);
-  const [ticketFilter, setTicketFilter] = useState<{ type: string, title: string }>({ type: "open", title: "" });
-  const [peopleFilter, setPeopleFilter] = useState<{ type: string, name: string }>({ type: "all", name: "" });
+  const [ticketFilter, setTicketFilter] = useState<{ type: string, title: string }>({ type: "all", title: "" })
+  const [peopleFilter, setPeopleFilter] = useState<{ type: string, name: string }>({ type: "all", name: "" })
+  const [workerModal, setWorkerModal] = useState({ isEditing: false, inputs: { name: "", email: "", password: "" } })
+  const [ticketModal, setTicketModal] = useState({ isEditing: false, inputs: { title: "", desc: "", tags: [] } })
   const workerModalRef = useRef<HTMLFormElement>(null)
   const ticketModalRef = useRef<HTMLFormElement>(null)
-  const ticketInpTitleRef = useRef<HTMLInputElement>(null)
-  const ticketInpDescRef = useRef<HTMLTextAreaElement>(null)
 
   useEffect(() => {  
     const handleConnectError = () => {
@@ -25,36 +24,91 @@ export default function Home() {
     };
   
     const handleTicketEvent = (event) => {
-      setAlert({ ok: true, message: `Ticket ${event.action == "create" ? "criado" : event.action == "delete" ? "excluido" : "editado"} com sucesso!` });
-      setUser({ 
-        ...user, 
-        tickets: event.action == "create" ? [...user.tickets, event.ticket] : 
-                  event.action == "delete" ? user.tickets.filter(_ticket => _ticket._id != event.data._id) : 
-                  user.tickets.map(_ticket => _ticket._id === event.data._id ? { ..._ticket, ...event.data } : _ticket) 
-      })
-    };
+      const ticketsEvent = (tickets) => event.action == "create" ? [event.data, ...tickets] : event.action == "delete" ? tickets.filter(_ticket => _ticket._id != event.data._id) : tickets.map(_ticket => _ticket._id == event.data._id ? { ..._ticket, ...event.data } : _ticket) 
+      if (event.data.by._id == user._id) {
+          setAlert({ ok: true, message: `Ticket ${event.action == "create" ? "criado" : event.action == "delete" ? "excluido" : "editado"} com sucesso!` }) 
+          setUser({ 
+            ...user, 
+            tickets: ticketsEvent(user.tickets)
+          })
+          return
+        }
+        setUser({ 
+          ...user, 
+          company: { ...user.company, tickets: ticketsEvent(user.company.tickets) }
+        })
+    }
+
+    const handleUserEvent = (event) => {
+      switch (event.action) {
+        case "avaible":
+          setUser({ ...user, company: { ...user.company, people: user.company.people.map(person => person._id == event.data.userID ? { ...person, avaible: event.data.avaible } : person) } })
+          break;
+      
+        default:
+          break;
+      }
+    } 
     
     socket.on("connect_error", handleConnectError);
     socket.on("ticket", handleTicketEvent);
-    !socket.connected && socket.connect()
+    socket.on("user", handleUserEvent);
+    if (!socket.connected) {
+      socket.connect()
+      socket.emit("auth", { user: { _id: user._id, name: user.name, email: user.email, type: user.type, companyID: user.company._id } })
+    }
     return () => {
       socket.off("connect_error", handleConnectError);
       socket.off("ticket", handleTicketEvent);
+      socket.off("user", handleUserEvent);
     }
   }, [])
 
   const handleTicketDelete = (e: React.MouseEvent<SVGElement>) => {
-    setUser({ ...user, tickets: user.tickets.filter(ticket => ticket._id != e.currentTarget.parentElement.parentElement.id) })
     socket.emit("ticket", { action: "delete", data: { _id: e.currentTarget.parentElement.parentElement.id } })
   }
 
+  const handleWorkerDelete = async (e: React.MouseEvent<SVGElement>) => {
+    const workerId = e.currentTarget.parentElement.parentElement.id
+    try {
+      const response = await fetch(path + `/company/people/${workerId}`, {
+        method: "DELETE",
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+      }).then((res) => res.json());
+      if (response.error) throw new Error(response.error);
+      setUser({
+        ...user,
+        company: {
+          ...user.company,
+          people: user.company.people.filter((person) => person._id !== workerId),
+        },
+      });
+      setAlert({ message: response.msg, ok: true });
+    } catch (error) {
+      setAlert({ message: error.toString(), ok: false });
+    }
+  };
+  
+
   const handleTicketEdit = (e: React.MouseEvent<SVGElement>) => {
     const ticket = user.tickets.find(ticket => ticket._id == e.currentTarget.parentElement.parentElement.id)
-    ticketInpTitleRef.current.value = ticket.title
-    ticketInpDescRef.current.value = ticket.description
-    ticketModalRef.current.setAttribute("edit", "true")
-    setTags(ticket.tags)
+    ticketModalRef.current.setAttribute("ticketID", ticket._id)
+    setTicketModal({
+      isEditing: true,
+      inputs: { title: ticket.title, desc: ticket.description, tags: ticket.tags }
+    })
     handleTicketModalShow()
+  }
+
+  const handleWorkerEdit = (e: React.MouseEvent<SVGElement>) => {
+    const worker = user.company.people.find(person => person._id == e.currentTarget.parentElement.parentElement.id)
+    workerModalRef.current.setAttribute("workerID", worker._id)
+    setWorkerModal({
+      isEditing: true,
+      inputs: { name: worker.name, email: worker.email, password: worker.password }
+    })
+    handleWorkerModalShow()
   }
 
   const handleBoardChange = (e: React.MouseEvent<SVGElement>) => {
@@ -62,14 +116,20 @@ export default function Home() {
   }
 
   const handleTagDelete = (e: React.MouseEvent<HTMLSpanElement>) => {
-    setTags(tags.filter(tag => tag !== e.currentTarget.nextSibling.textContent));
-  };
+    setTicketModal({ 
+      ...ticketModal, 
+      inputs: { ...ticketModal.inputs, tags: ticketModal.inputs.tags.filter(tag => tag !== e.currentTarget.nextSibling.textContent) } 
+    })
+  }
 
   const handleInputTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (!(e.currentTarget.value.trim().length < 20)) {
       e.currentTarget.value = e.currentTarget.value.slice(0, 20)
-    } else if (e.key == ' ' && e.currentTarget.value.trim() != '' && tags.length < 10) {
-      setTags([...tags, e.currentTarget.value])
+    } else if (e.key == ' ' && e.currentTarget.value.trim() != '' && ticketModal.inputs.tags.length < 10) {
+      setTicketModal({ 
+        ...ticketModal, 
+        inputs: { ...ticketModal.inputs, tags: [...ticketModal.inputs.tags, e.currentTarget.value] } 
+      })
       e.currentTarget.value = ""
     }
   }
@@ -90,39 +150,55 @@ export default function Home() {
 
   const handleTicketSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (!tags.length) return setAlert({ message: "Adicione pelo menos uma tag" })
+    if (!ticketModal.inputs.tags.length) return setAlert({ message: "Adicione pelo menos uma tag" })
     socket.emit("ticket", {
-      action: ticketModalRef.current.getAttribute("edit") ? "edit" : "create",
+      action: ticketModal.isEditing ? "edit" : "create",
       data: {
-        title: ticketInpTitleRef.current.value,
-        description: ticketInpDescRef.current.value,
-        tags: tags,
-        by: user.name
+        _id: ticketModalRef.current.getAttribute("ticketID"),
+        companyID: user.company._id,
+        title: ticketModal.inputs.title,
+        description: ticketModal.inputs.desc,
+        tags: ticketModal.inputs.tags,
+        by: { name: user.name, _id: user._id }
       }
     })
-    ticketInpTitleRef.current.value = ''
-    ticketInpDescRef.current.value = ''
-    ticketModalRef.current.removeAttribute("edit")
-    setTags([])
+    ticketModalRef.current.removeAttribute("ticketID")
+    setTicketModal({ isEditing: false, inputs: { title: "", desc: "", tags: [] } })
   }
 
   const handleWorkerSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
+    const { name, email, password } = workerModal.inputs
     try {
-      const companyResponse = await fetch(path + "/company/people", {
-        method: "POST",
+      const response = await fetch(`${path}/company/people/${workerModal.isEditing ? workerModalRef.current.getAttribute("workerID") : ''}`, {
+        method: workerModal.isEditing ? "PUT" : "POST",
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({
-          name: (e.target[0] as HTMLInputElement).value,
-          email: (e.target[1] as HTMLInputElement).value,
-          password: (e.target[2] as HTMLInputElement).value,
+          companyID: user.company._id,
+          name: name,
+          email: email,
+          password: password,
           type: 'worker'
         })
-      }).then(res => res.json())
-      companyResponse.msg && setUser({ ...user, company: { ...user.company, people: [...user.company.people, companyResponse.user] } })
-      setAlert({ message: companyResponse.error || companyResponse.msg, ok: companyResponse.msg })
+      }).then(res => res.json());
+      if (response.error) throw new Error(response.error);
+      const updatedPeople = workerModal.isEditing
+        ? user.company.people.map(person =>
+            person.email === workerModal.inputs.email
+              ? { ...person, ...response.user }
+              : person
+          )
+        : [response.user, ...user.company.people];
+      setUser({
+        ...user,
+        company: { ...user.company, people: updatedPeople }
+      })
+      setAlert({ message: response.msg, ok: true })
+      setWorkerModal({ isEditing: false, inputs: { name: "", email: "", password: "" } })
+      handleWorkerModalShow()
     } catch (error) {
-      setAlert({ message: error.toString(), ok: false })
+      setAlert({ message: error.toString(), ok: false });
     }
   }
 
@@ -136,27 +212,34 @@ export default function Home() {
 
   const ticketFilterFunc = (ticket) => (ticketFilter.type == "all" || (ticketFilter.type == ticket.status)) && ticket.title.includes(ticketFilter.title)
 
+  const handleModalInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    e.currentTarget.parentElement.id == "ticketModal" ?
+      setTicketModal({ ...ticketModal, inputs: { ...ticketModal.inputs, [e.currentTarget.name]: e.currentTarget.value } })
+    :
+      setWorkerModal({ ...workerModal, inputs: { ...workerModal.inputs, [e.currentTarget.name]: e.currentTarget.value } })
+  }
+
   return (
     <div id='home'>
       <ModalBackground modalRefs={[ticketModalRef, workerModalRef]} />
       <form onSubmit={handleTicketSubmit} className='form modal hide' id='ticketModal' ref={ticketModalRef} >
-        <h2>Novo chamado</h2>
-        <input required ref={ticketInpTitleRef} type="text" placeholder='Título' />
-        <textarea required ref={ticketInpDescRef} draggable={'false'} placeholder='Descrição'></textarea>
+        <h2>{ticketModal.isEditing ? "Editar" : "Novo"} chamado</h2>
+        <input name="title" onChange={handleModalInputChange} value={ticketModal.inputs.title} required type="text" placeholder='Título' />
+        <textarea name="desc" onChange={handleModalInputChange} value={ticketModal.inputs.desc} required  draggable={'false'} placeholder='Descrição'></textarea>
         <div id='tagsManager'>
           <div>
-            {tags.length > 0 ? tags.map(tag => <div className='tag'><span className='delete' onClick={handleTagDelete}>x</span><span>{tag}</span></div>) : <span>Suas tags serão mostradas aqui</span>}
+            {ticketModal.inputs.tags.length > 0 ? ticketModal.inputs.tags.map(tag => <div className='tag'><span className='delete' onClick={handleTagDelete}>x</span><span>{tag}</span></div>) : <span>Suas tags serão mostradas aqui</span>}
           </div>
           <input type="text" onKeyDown={handleInputTag} placeholder='Digite suas tags' />
         </div>
-        <button type="submit">{ ticketModalRef.current?.getAttribute("edit") ? "Editar" : "Criar" }</button>
+        <button type="submit">{ticketModal.isEditing ? "Editar" : "Criar"}</button>
       </form>
       <form onSubmit={handleWorkerSubmit} className='form modal hide' id='workerModal' ref={workerModalRef}>
-        <h2>Novo funcionário</h2>
-        <input required type="text" placeholder='Nome' />
-        <input required type="email" placeholder='Email' />
-        <input required type="password" placeholder='Senha' />
-        <button type="submit">Criar</button>
+        <h2>{workerModal.isEditing ? "Editar" : "Novo"} funcionário</h2>
+        <input name='name' onChange={handleModalInputChange} value={workerModal.inputs.name} required type="text" placeholder='Nome' />
+        <input name='email' onChange={handleModalInputChange} value={workerModal.inputs.email} required type="email" placeholder='Email' />
+        <input name='password' onChange={handleModalInputChange} value={workerModal.inputs.password} required type="password" placeholder='Senha' />
+        <button type="submit">{workerModal.isEditing ? "Editar" : "Criar"}</button>
       </form>
       <nav>
         <h2>LH</h2>
@@ -175,13 +258,14 @@ export default function Home() {
             navOption == "ticket" ?
               <>
                 <div id='tools'>
-                  <button onClick={handleTicketModalShow}>Criar um chamado</button>
+                  <button onClick={() => { handleTicketModalShow(); setTicketModal({ isEditing: false, inputs: { title: "", desc: "", tags: [] } }) }}>Criar um chamado</button>
                   <input id='filterTitle' type="text" onChange={handleTicketFilters} placeholder='Filtrar por nome' />
                   <select id="options" onChange={handleTicketFilters}>
+                    <option value="all">Todos</option>
                     <option value="open">Abertos</option>
                     <option value="closed">Fechados</option>
                     <option value="ongoing">Em andamento</option>
-                    <option value="all">Todos</option>
+                    <option value="waiting">Em aguardo</option>
                   </select>
                 </div>
                 <div id='tickets'style={{ display: user.tickets?.length ? "grid" : "block", gridTemplateRows: Array(Math.ceil(user.tickets.length / 3)).fill('32%').join(' ') }} className='scrollable'>
@@ -198,19 +282,29 @@ export default function Home() {
                               </div>
                               <div>
                                 <h3 style={{ margin: 0 }}>{ticket.title}</h3>
-                                <span>21/09/2024</span>
+                                <span>{ticket.status == "open" ? "Aberto" : ticket.status == "fechado" ? "Fechado" : ticket.status == "ongoing" ? "Em andamento" : "Em aguardo"}</span>
+                                <span style={{ marginLeft: "15px" }}>{new Date(ticket.createdAt).toLocaleString()}</span>
                               </div>
-                              <p style={{ margin: "5px 0" }}>{ticket.priority}</p>
-                              <p style={{ margin: "5px 0" }}>{ticket.description.length > 60 ? ticket.description.slice(0, 60) + '...' : ticket.description}</p>
+                              <p style={{ margin: "5px 0" }}>{ticket.priority == "high" ? "Alta" : ticket.priority == "medium" ? "Média" : "Baixa"}</p>
+                              <p className='description' style={{ margin: "5px 0" }}>{ticket.description.length > 60 ? ticket.description.slice(0, 60) + '...' : ticket.description}</p>
                               <div className='tags'>
                                 {  
                                   ticket.tags.slice(0, ticket.tags.length > 4 && !ticket.showAll ? 4 : undefined).map(tag => (<span className='tag'>{tag}</span>))
                                 }
                                 {
-                                  ticket.tags.length  > 4 && (<span className='more' onClick={e => {
-                                  }}>+</span>)
+                                  ticket.tags.length  > 4 && (<span className='more' onClick={e => (e.currentTarget.parentElement.nextSibling as HTMLDivElement).classList.toggle("hide")}>+</span>)
                                 }
                               </div>
+                              {
+                                ticket.tags.length > 4 && (
+                                  <div className='tags hide see-more ticket'>
+                                    {  
+                                      ticket.tags.map(tag => (<span className='tag'>{tag}</span>))
+                                    }
+                                    <span className='more' onClick={e => e.currentTarget.parentElement.classList.toggle("hide")}>-</span>
+                                  </div>
+                                )
+                              }
                             </div>
                           ))
                       :
@@ -230,18 +324,22 @@ export default function Home() {
                         <option value="offline">Offline</option>
                       </select>
                       <input onChange={handlePeopleFilters} type="text" placeholder='Nome' id="personName" />
-                      <button onClick={handleWorkerModalShow}>Novo funcionário</button>
+                      <button onClick={() => { handleWorkerModalShow(); setWorkerModal({ isEditing: false, inputs: { name: "", email: "", password: "" } }) }}>Novo funcionário</button>
                     </div>
                     <div className='display scrollable'>
                       {
                         user.company.people
                           .filter((person) => (peopleFilter.type == "all" || (peopleFilter.type == "online" ? person.avaible : !person.avaible)) && person.name.includes(peopleFilter.name))
                           .map(person => (
-                          <div className={(person.avaible ? "online " : "offline ") + 'item'} id={person._id} key={person._id}>
-                            <img src="https://yt3.ggpht.com/wvlCpRqb9Hb9Yuv62LDo-AZxr-MpAHTvpeToBGpNOPSMNGQIyplQh2EZv75SLHOZIkpijT00=s48-c-k-c0x00ffffff-no-rj" alt="" />
-                            <span>{person.name}</span>
-                            <span>{person.avaible ? "Online" : "Offline"}</span>
-                          </div>
+                            <div className={(person.avaible ? "online " : "offline ") + 'item'} id={person._id} key={person._id}>
+                              <img src="https://yt3.ggpht.com/wvlCpRqb9Hb9Yuv62LDo-AZxr-MpAHTvpeToBGpNOPSMNGQIyplQh2EZv75SLHOZIkpijT00=s48-c-k-c0x00ffffff-no-rj" alt="" />
+                              <span>{person.name}</span>
+                              <span>{person.avaible ? "Online" : "Offline"}</span>
+                              <div className='tools'>
+                                  <svg onClick={handleWorkerEdit} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M402.6 83.2l90.2 90.2c3.8 3.8 3.8 10 0 13.8L274.4 405.6l-92.8 10.3c-12.4 1.4-22.9-9.1-21.5-21.5l10.3-92.8L388.8 83.2c3.8-3.8 10-3.8 13.8 0zm162-22.9l-48.8-48.8c-15.2-15.2-39.9-15.2-55.2 0l-35.4 35.4c-3.8 3.8-3.8 10 0 13.8l90.2 90.2c3.8 3.8 10 3.8 13.8 0l35.4-35.4c15.2-15.3 15.2-40 0-55.2zM384 346.2V448H64V128h229.8c3.2 0 6.2-1.3 8.5-3.5l40-40c7.6-7.6 2.2-20.5-8.5-20.5H48C21.5 64 0 85.5 0 112v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V306.2c0-10.7-12.9-16-20.5-8.5l-40 40c-2.2 2.3-3.5 5.3-3.5 8.5z"/></svg>
+                                  <svg onClick={handleWorkerDelete} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
+                              </div>
+                            </div>
                         ))
                       }
                     </div>
@@ -267,6 +365,7 @@ export default function Home() {
                         <option value="open">Abertos</option>
                         <option value="ongoing">Em atendimento</option>
                         <option value="closed">Fechados</option>
+                        <option value="waiting">Em aguardo</option>
                       </select>
                       <input onChange={handleTicketFilters} type="text" placeholder='Título' id="personName" />
                     </div>
@@ -276,10 +375,12 @@ export default function Home() {
                           <div className={ticket.status + " item"} id={ticket._id} key={ticket._id}>
                             <h2>{ticket.title}</h2>
                             <div>
-                              <h3>{ticket.priority}</h3>
-                              <h3>{ticket.status == "open" ? "Aberta" : ticket.status == "closed" ? "Fechada" : "Em atendimento"}</h3>
-                              <p>{ticket.by.name}</p>
-                              <p>{new Date(ticket.createdAt).toLocaleString()}</p>
+                              <h3>{ticket.priority == "high" ? "Alta priorida" : ticket.priority == "medium" ? "Média prioridade" : "Baixa prioridade" }</h3>
+                              <h3>{ticket.status == "open" ? "Aberto" : ticket.status == "closed" ? "Fechado" : ticket.status == "ongoing" ? "Em atendimento" : "Em aguardo"}</h3>
+                              <div>
+                                <p>Por {ticket.by.name}</p>
+                                <p>{new Date(ticket.createdAt).toLocaleString()}</p>
+                              </div>
                             </div>
                             <p>{ticket.description}</p>
                             <div className='tags'>
