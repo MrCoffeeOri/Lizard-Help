@@ -3,6 +3,8 @@ import CopyRight from '../components/CopyRight';
 import GoBack from '../components/GoBack';
 
   export default function Faq() {
+
+
     const toggleAnswerVisibility = (id : string) => {
       document.getElementById(`answer-${id}`).classList.toggle("hide")
       document.getElementById(id).querySelector("span").classList.toggle('active'); 
@@ -53,7 +55,7 @@ import GoBack from '../components/GoBack';
     return (
       <div id="faq">    
         <header>
-          <GoBack to="/"/>
+          <GoBack to={ location.hash == "#home" ? "/user/home" : "/"}/>
           <img id='logo' src="./logoName.webp" alt="LizardHelp Logo" />
         </header>
           <div id='titleFaq'>

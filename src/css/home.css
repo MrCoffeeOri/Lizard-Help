@@ -3,6 +3,7 @@
     nav {
         background-color: var(--background-darker);
         width: 4vw;
+        min-width: 70px;
         height: 100vh;
         display: flex;
         flex-direction: column;
@@ -22,6 +23,7 @@
         width: 100%;
         height: 88.56%;
         select {
+            border: 1px solid rgba(0, 0, 0, 0.623);
             width: 8vw;
             padding: 9px;
             border-radius: .2rem;
@@ -30,6 +32,7 @@
             color: white;
         }
         input {
+            border: 1px solid rgba(0, 0, 0, 0.623);
             color: white;
             padding: 10px 15px;
             background-color: var(--background);
@@ -45,7 +48,7 @@
             &:hover { background-color: var(--red-main-darker); }
         }
         #tools {
-            padding: 10px;
+            padding: 40px 2vw 10px;
             > * { margin: 1px 25px 0 25px; }
         }
         .tools {
@@ -54,8 +57,9 @@
             position: absolute;
             svg {
                 margin-right: 20px;
-                width: 1.6vw;
+                width: 1.2vw;
                 transition: 200ms;
+                fill: white;
                 &:hover {
                     cursor: pointer;
                     fill: var(--red-main);
@@ -63,49 +67,79 @@
             }
         }
         #tickets {
-            width: 100%;
-            height: 80.55vh;
+            margin: 20px auto;
+            background-color: var(--background-darker);
+            width: 90%;
+            height: 67vh;
+            padding: 20px 2vw;
+            border-radius: 10px;
+            box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.87) inset;
             display: grid;
             grid-template-columns: 33.3% 33.3% 33.3%;
+            grid-gap: 15vh 10px;
+            
             .ticket {
-                min-height: 16vh;
+                div{margin: 10px 0;}
+                display: flex;
+                flex-direction: column;
+                min-height: fit-content;
+                width: 25vw;
                 position: relative;
                 margin: 20px;
                 padding: 15px;
-                .description { word-break: break-all; }
+                filter: drop-shadow(0px 10px 5px #0000008a);
+                .description { 
+                    word-break: break-all;
+                    height: 7vh;
+                    border-radius: 10px;
+                    border: 2px solid var(--background-darker);
+                    padding: 5px; 
+                }
                 &:hover .tools { display: block; };
                 .tags {
-                    overflow-wrap: anywhere;
-                    max-width: 100%;
-                    margin-top: 15px;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px; 
+                    align-items: center;   
+                    height: fit-content;
+                    min-width: 20vw;
+                    padding: 0px;
+                    margin: 0;
+                    left: 5px;
                     position: relative;
+                    
                     .more {
                         bottom: -5px;
                         padding: 2px 10px;
                         border-radius: .4rem;
                         background-color: var(--red-main-darker);
-                        position: absolute;
                         font-size: 1.2pc;
                         cursor: pointer;
                         &:hover { background-color: var(--red-main); }
                     }
                 }
+                 span{
+                    margin: 20px 0;
+                 };
                 .see-more {
-                    height: 20vh;
-                    width: 94.5%;
-                    bottom: -85%;
-                    left: -5.7%;
+                    min-height: fit-content;
+                    width: 100%;
+                    bottom: -20%;
+                    left: -10px;
+                    margin: 0;
                     display: flex;
-                    align-items: center;
                     flex-wrap: wrap;
+                    gap: 0;
+                    flex-direction: row;
                     position: absolute;
                     z-index: 99;
-                    box-shadow: 0px 14px 10px 0px black;
+                    filter: drop-shadow(0px 10px 5px #0000002c);
                     .more {
-                        right: 30px;
+                        right: 50px;
                         bottom: 35px;
+                        margin: 0px 25px;
                     }
-                    .tag { margin: 10px; }
+                    .tag {  margin: 15px;}
                 }
             }
             h2 {
@@ -165,6 +199,7 @@
                 &.offline { border-left: 20px solid var(--red-main); }
                 &.online { border-left: 20px solid var(--green-main); }
             }
+
             .item {
                 margin: 10px;
                 background-color: var(--ticket-background);
@@ -178,6 +213,7 @@
                 }
                 > * { margin-left: 25px; }
             }
+
         }
     }
     #ticketModal, #workerModal { text-align: center; }
@@ -187,6 +223,7 @@
         left: 36%;
     }
     #ticketModal  {
+
         top: 7%;
         left: 31%;
         textarea {
@@ -197,16 +234,21 @@
             font-size: 0.9pc;
         }
         #tagsManager {
-            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            margin-top: 2vh;
+            justify-content: center;
+            align-items: center;
             > div {
                 border-radius: 5px 5px 0 0;
                 padding: 10px;
                 background-color: var(--card-background);
-                width: 75.9%;
+                width: 25vw;
                 min-height: 5vh;
                 margin: 0 auto;
                 overflow-x: auto;
                 overflow-y: hidden;
+                
                 .tag {
                     margin: 10px 6px;
                     display: inline-block;
@@ -220,7 +262,6 @@
             }
             input {
                 border-radius: 0 0 5px 5px;
-                margin-top: 0;
                 padding: 4px 10px;
                 &:not(:placeholder-shown) {
                     border: 1px solid black;
@@ -228,6 +269,7 @@
             }
         }
     }
+
     #tagsModal {
         width: 29.4% !important;
         border-radius: .3rem;
