@@ -10,6 +10,7 @@ export default function Auth({ children }) {
   const history = useHistory()
   
   useEffect(() => {
+    if (user) return
     const userAuth = async () => {
         try {
             const userResponse = await fetch(path + "/user/auth", { 
@@ -31,7 +32,7 @@ export default function Auth({ children }) {
 
   useEffect(() => {  
     if (!user) return
-    
+    console.log(user)
     const handleConnectError = () => {
       setAlert({ ok: false, message: "Falha na autenticação. Faça login novamente." });
       history.push("/client#login");

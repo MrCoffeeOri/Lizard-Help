@@ -114,6 +114,27 @@ export default function Technician() {
         }
     }
 
+    function handleSolveTicket(e: React.MouseEvent<HTMLButtonElement>): void {
+        socket.emit("ticket", {
+            action: "edit",
+            data: {
+                _id: e.currentTarget.parentElement.parentElement.parentElement.id,
+                solved: {
+                    by: user._id,
+                    justification: (e.currentTarget.nextElementSibling as HTMLInputElement).value,
+                    denied: false
+                },
+                status: "closed"
+            }
+        })
+        socket.emit("chat", {
+            action: "delete",
+            data: {
+                _id: user.chats.find(chat => chat.ticket == e.currentTarget.parentElement.parentElement.parentElement.id)._id 
+            }
+        })
+    }
+
     return (
         <div id='technician'>
             <UserHeader>
@@ -211,7 +232,15 @@ export default function Technician() {
                                 <div className="details">
                                     <div className='description scrollable'>{ticket.description}</div>
                                     { 
-                                        ticket.status != "ongoing" && ticket.status != "waiting" && (<button onClick={() => handleInitChat(ticket._id, ticket.by)} className='start-chat'>Iniciar atendimento</button>)
+                                        ticket.status != "ongoing" && ticket.status != "waiting" && <button onClick={() => handleInitChat(ticket._id, ticket.by)} className='start-chat'>Iniciar atendimento</button>
+                                    }
+                                    {
+                                        ticket.status == "ongoing" && (
+                                            <div className='end'>
+                                                <button onClick={handleSolveTicket} className='start-chat'>Finalizar atendimento</button>
+                                                <input type="text" placeholder='Justificativa' />
+                                            </div>
+                                        )
                                     }
                                 </div>
                             </div>

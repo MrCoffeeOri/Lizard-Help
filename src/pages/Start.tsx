@@ -41,7 +41,7 @@ export default function Start() {
       if (companyResponse.error) return setAlert({ message: companyResponse.error, ok: false})
       setAlert({ message: "Conta criada com sucesso!", ok: true })
       setUser({ ...userResponse.user, company: companyResponse.company })
-      history.push("/user/home")
+      history.push(userResponse.user.type == "owner" || userResponse.user.type == "worker" ? "/user/home" : "/user/home")
     } catch (error) {
       setAlert({ message: error.toString(), ok: false })
       submitBtn.innerText = "Criar"
