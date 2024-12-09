@@ -5,6 +5,7 @@ import { userContext } from '../components/UserContext'
 import ModalBackground from '../components/ModalBackground'
 import { socket } from '../helpers/socket'
 import { path } from '../helpers/api'
+import Chat from '../components/Chat'
 
 export default function Home() {
   const { user, setUser, setAlert } = useContext(userContext)
@@ -15,9 +16,10 @@ export default function Home() {
   const [workerModal, setWorkerModal] = useState({ isEditing: false, inputs: { name: "", email: "", password: "" } })
   const [ticketModal, setTicketModal] = useState({ isEditing: false, inputs: { title: "", desc: "", tags: [] } })
   const workerModalRef = useRef<HTMLFormElement>(null)
+  const chatModalRef = useRef<HTMLDivElement>(null)
   const ticketModalRef = useRef<HTMLFormElement>(null)
 
-  useEffect(() => {  
+  /*useEffect(() => {  
     const handleConnectError = () => {
       setAlert({ ok: false, message: "Falha na autenticação. Faça login novamente." });
       history.push("/client#login");
@@ -62,7 +64,7 @@ export default function Home() {
       socket.off("ticket", handleTicketEvent);
       socket.off("user", handleUserEvent);
     }
-  }, [])
+  }, [])*/
 
   const handleTicketDelete = (e: React.MouseEvent<SVGElement>) => {
     socket.emit("ticket", { action: "delete", data: { _id: e.currentTarget.parentElement.parentElement.id } })
@@ -90,7 +92,6 @@ export default function Home() {
     }
   };
   
-
   const handleTicketEdit = (e: React.MouseEvent<SVGElement>) => {
     const ticket = user.tickets.find(ticket => ticket._id == e.currentTarget.parentElement.parentElement.id)
     ticketModalRef.current.setAttribute("ticketID", ticket._id)
@@ -219,9 +220,15 @@ export default function Home() {
       setWorkerModal({ ...workerModal, inputs: { ...workerModal.inputs, [e.currentTarget.name]: e.currentTarget.value } })
   }
 
+  const toggleChatVisibility = () => {
+    document.getElementById("modal-background").classList.toggle("hide")
+    document.getElementById("chat").classList.toggle("hide")
+}
+
   return (
     <div id='home'>
-      <ModalBackground modalRefs={[ticketModalRef, workerModalRef]} />
+      <ModalBackground modalRefs={[ticketModalRef, workerModalRef, chatModalRef]} />
+      <Chat chatModalRef={chatModalRef} />
       <form onSubmit={handleTicketSubmit} className='form modal hide' id='ticketModal' ref={ticketModalRef} >
         <h2>{ticketModal.isEditing ? "Editar" : "Novo"} chamado</h2>
         <input name="title" onChange={handleModalInputChange} value={ticketModal.inputs.title} required type="text" placeholder='Título' />
@@ -251,7 +258,7 @@ export default function Home() {
       </nav>
       <div>
         <UserHeader>
-          <img src="/chat.png" alt="" />
+          <img src="/chat.png" onClick={toggleChatVisibility} alt="" />
         </UserHeader>
         <main id='dashboard'>
           {

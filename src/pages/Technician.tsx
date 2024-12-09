@@ -4,10 +4,10 @@ import UserHeader from '../components/UserHeader'
 import { userContext } from '../components/UserContext';
 import ModalBackground from '../components/ModalBackground';
 import { socket } from '../helpers/socket';
+import Chat from '../components/Chat';
 
 export default function Technician() {
     const [tags, setTags] = useState<{ content: string, id: number }[]>([]);
-    const [selectedChat, setSelectedChat] = useState<number>(0)
     const { user, setUser } = useContext(userContext)
     const chatModalRef = useRef<HTMLDivElement>(null)
 
@@ -15,10 +15,6 @@ export default function Technician() {
         !socket.connected && socket.connect()
     }, [])
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
-        throw new Error('Function not implemented.');
-    };
-    
     const handleTagCreation = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter" && e.currentTarget.value.trim().length > 0 && tags.length < 20) {
             setTags([...tags, { content: e.currentTarget.value, id: Math.random() }]);
@@ -57,67 +53,38 @@ export default function Technician() {
         document.getElementById("chat").classList.toggle("hide")
     }
 
-    const handleInitChat = () => {
-
+    const handleInitChat = (ticketID, client: { _id: string, name: string }) => {
+        socket
+            .emit("ticket", { 
+                action: "edit", 
+                data: { 
+                    status: "ongoing", 
+                    service: { by: { _id: user._id, name: user.name }, date: Date.now() } 
+                } 
+            })
+            .emit("chat", {
+                action: "create", 
+                data: { 
+                    service: {
+                        client,
+                        technician: { _id: user._id, name: user.name }, 
+                        ticket: ticketID,
+                    }
+                } 
+            })
     }
 
-    const handleChatSelection = (e: React.MouseEvent<HTMLDivElement>) => {
-        document.querySelector("#chats > div.selected")?.classList.remove("selected")
-        e.currentTarget.classList.add("selected")
-        setSelectedChat(user.chats.findIndex(chat => chat._id == e.currentTarget.id))
+    const handleTicketApproval = (e: React.ChangeEvent<HTMLSelectElement>) => {
+
     }
 
     return (
         <div id='technician'>
             <UserHeader>
                 <img onClick={toggleChatVisibility} src="/chat.png" alt="" />
-                <img src="/gear.png" alt="" />
             </UserHeader>
             <ModalBackground modalRefs={[chatModalRef]} />
-            <div className='hide modal' ref={chatModalRef} id='chat'>
-                {
-                    user.chats.length > 0 ?
-                    <>
-                        <div id='chats'>
-                            {
-                                user.chats.map((chat, index) => {
-                                    const lastMessage = chat.messages[chat.messages.length - 1]
-                                    return (
-                                        <div onClick={handleChatSelection} id={chat._id} key={chat._id} className={"chat" + (index == selectedChat ? " selected" : "")}>
-                                            <img src="https://yt3.ggpht.com/wvlCpRqb9Hb9Yuv62LDo-AZxr-MpAHTvpeToBGpNOPSMNGQIyplQh2EZv75SLHOZIkpijT00=s48-c-k-c0x00ffffff-no-rj" alt="" />
-                                            <div>
-                                                <div className='info'>
-                                                    <span>{chat.client.name}</span>
-                                                    <span>{lastMessage.createdAt}</span>
-                                                </div>
-                                                <span className='last-message'>{lastMessage.content}</span>
-                                            </div>
-                                        </div>
-                                    )
-                                })  
-                            }
-                        </div>
-                        <div id='selected-chat'>
-                            <div id='messages'>
-                                {
-                                    user.chats[selectedChat].messages.map(message => (
-                                        <div key={message._id} className={"message" + ` ${message.by == user._id ? "user" : ""}`}>
-                                            <p className='content'>{message.content}</p>
-                                            <span className='time'>{message.createdAt}</span>
-                                        </div>
-                                    ))
-                                }
-                            </div>
-                            <div id='message-input'>
-                                <input placeholder='mensagem' type="text" id="" />
-                                <img src='/message.png' />
-                            </div>
-                        </div>
-                    </>
-                    :
-                    <h2>Você não possui nenhum chat aberto</h2>
-                }
-            </div>
+            <Chat chatModalRef={chatModalRef} />
             <div id='filters'>
                 <div id='tagsManager'>
                     <span className='close' onClick={handleTagFilterShow}>✖</span>
@@ -127,30 +94,56 @@ export default function Technician() {
                     <input onChange={handleTagInputLimit} onKeyDown={handleTagCreation} type="text" placeholder='Insira uma nova tag'/>
                 </div>
                 <span onClick={e => {handleFilterSelection(e); handleTagFilterShow()}}>Tags</span>
-                <span onClick={handleFilterSelection}>Selecionados</span>
+                <span onClick={handleFilterSelection}>Meus atedimentos</span>
+                <span onClick={handleFilterSelection}>Abertos</span>
+                {
+                    user.type == "admin" && (<span onClick={handleFilterSelection}>Em aguardo</span>)
+                }
                 <span onClick={handleFilterSelection}>Todos</span>
             </div>
             <div id='tickets' className='scrollable'>
                 {
                     user.tickets.map(ticket => (
-                        <div className="ticket" id='1'>
-                            <p className='state'>Padrão</p>
-                            <h3 className="title">Socorro, minha calculadora explodiu!!</h3>
-                            <span className='date' >21/03/2024</span>
+                        <div className={`ticket ${ticket.status}`} id={ticket._id}>
+                            {
+                                ticket.status == "waiting" && user.type == "admin" && (
+                                    <div className='tools'>
+                                        <select>
+                                            <option value="" selected disabled hidden>Prioridade</option>
+                                            <option value="aprove">Alta</option>
+                                            <option value="aprove">Média</option>
+                                            <option value="aprove">baixa</option>
+                                        </select>
+                                        <input type="text" placeholder='Motivo' className='reason' />
+                                        <select onChange={handleTicketApproval}>
+                                            <option value="" selected disabled hidden>Direcionamento</option>
+                                            <option value="aprove">Aprovar</option>
+                                            <option value="aprove">Negar</option>
+                                        </select>
+                                    </div>
+                                )
+                            }
+                            <p className='priority'>{ticket.priority == "high" ? "Prioridade Alta" : ticket.priority == "medium" ? "Prioridade Média" : "Prioridade Baixa"}</p>
+                            <h3 className="title">{ticket.title}</h3>
+                            <span className='date'>{new Date(ticket.createdAt).toLocaleString()}</span>
                             <p className="by">Por João Silva</p>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <div className="tags">
-                                    <span className="tag solved">Resolvido</span>
-                                    <span className="tag status">Em andamento</span>
-                                    <span className="tag">Urgente</span>
-                                    <span className="tag">Calculadora</span>
-                                    <span className="tag">Explosão</span>
+                                    {
+                                        ticket.solved && (<span className="tag solved">Resolvido</span>)
+                                    }
+                                    <span className={`tag status ${ticket.status}`}>{ticket.status == "open" ? "Aberto" : ticket.status == "closed" ? "Fechado" : ticket.status == "ongoing" ? "Em atendimento" : "Em aguardo"}</span>
+                                    {
+                                        ticket.tags.map(tag => <span className="tag">{tag}</span>)
+                                    }
                                 </div>
                                 <span className='more-details' onClick={handleMoreDetails}>+</span>
                             </div>
                             <div className="details">
-                                <div className='description scrollable'><h1>Altas tensões!!</h1> Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0Tentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorioTentei dividir por 0, e acabei dividindo o proprio tecido espacial. Em suma, ela explodiu e pegou fogo no escritorio</div>
-                                <button className='start-chat'>Iniciar atendimento</button>
+                                <div className='description scrollable'>{ticket.description}</div>
+                                { 
+                                    ticket.status != "ongoing" && (<button onClick={() => handleInitChat(ticket._id, ticket.by)} className='start-chat'>Iniciar atendimento</button>)
+                                }
                             </div>
                         </div>
                     ))
