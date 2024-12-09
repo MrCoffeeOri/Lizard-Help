@@ -25,7 +25,7 @@ export default function LoginForm() {
           setAlert({ message: authResponse.error || authResponse.msg, ok: authResponse.msg })
           if (authResponse.error) return
           setUser(authResponse.user)
-          history.push(authResponse.user.type == "technician" ? "/user/technician" : "/user/home")
+          history.push(authResponse.user.type == "technician" || authResponse.user.type == "admin" ? "/user/technician" : "/user/home")
         } catch (error) {
           setAlert({ message: error.toString() })
         }

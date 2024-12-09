@@ -18,7 +18,6 @@ export default function Auth({ children }) {
               credentials: 'include' 
             }).then(res => res.json())
             setAlert({ message: userResponse.error ? "Autenticação requerida" : userResponse.msg, ok: userResponse.msg })
-            console.log(userResponse.user)
             if (userResponse.user) {
               setUser(userResponse.user)
               history.push(`/user/${userResponse.user.type == "admin" ? "technician" : userResponse.user.type == "owner" ? "home" : userResponse.user.type}`)
@@ -65,8 +64,9 @@ export default function Auth({ children }) {
         ...user,
         chats: event.action == "create" ? [event.data, ...user.chats] : 
               event.action == "delete" ? user.chats.filter(chat => chat._id != event.data._id) : 
-              user.chats.map(chat => chat._id == event.data._id ? { ...chat, ...event.data } : chat)
+              user.chats.map(chat => chat._id == event.data.chatID ? { ...chat, messages: [...chat.messages, event.data] } : chat)
       })
+      event.action != "message" && setAlert({ ok: true, message: `Chat ${event.action == "create" ? "criado" : event.action == "delete" ? "excluido" : "editado"} com sucesso!` }) 
     }
     
     socket.on("connect_error", handleConnectError)
@@ -75,7 +75,7 @@ export default function Auth({ children }) {
     socket.on("chat", handleChatEvent)
     if (!socket.connected) {
       socket.connect()
-      socket.emit("auth", { user: { _id: user._id, name: user.name, email: user.email, type: user.type, companyID: user.company?._id } })
+      socket.emit("auth", { user: user })
     }
     return () => {
       socket.off("connect_error", handleConnectError)

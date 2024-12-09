@@ -1,25 +1,32 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { userContext } from './UserContext'
+import { socket } from '../helpers/socket'
 
 export default function Chat({ chatModalRef }: { chatModalRef: React.MutableRefObject<HTMLDivElement> }) {
     const { user, setUser } = useContext(userContext)
     const [selectedChat, setSelectedChat] = useState<number>(0)
+    const messageInputRef = useRef<HTMLInputElement>(null)
 
     const handleChatSelection = (index: number) => {
         setSelectedChat(index)
     }
 
-    useEffect(() => {
-    }, [])
-
-    const handleSendMesasge = (event: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
-        
+    const handleSendMesasge = () => {
+        socket.emit("chat", { 
+            action: "message",
+            data: {
+                content: messageInputRef.current.value,
+                by: user._id,
+                createdAt: Date.now(),
+                chatID: user.chats[selectedChat]._id
+            }  
+        })
     }
 
     return (
         <div className='hide modal' ref={chatModalRef} id="chat">
             {
-                user.chats.length > 0 ?
+                user.chats?.length > 0 ?
                 <>
                     <div id='chats'>
                         {
@@ -32,7 +39,7 @@ export default function Chat({ chatModalRef }: { chatModalRef: React.MutableRefO
                                             <span>Ticket: #{chat.ticket}</span>
                                             <div className='info'>
                                                 <span>{user.type == "technician" || user.type == "admin" ? `Clinte: ${chat.client.name}` : `Técnico: ${chat.technician.name}`}</span>
-                                                <span>{lastMessage?.createdAt || ""}</span>
+                                                <span>{lastMessage?.createdAt ? new Date(lastMessage?.createdAt).toLocaleString() : ""}</span>
                                             </div>
                                             { lastMessage && <span className='last-message'>Ultima mensagem: {lastMessage.content}</span> }
                                         </div>
@@ -45,15 +52,15 @@ export default function Chat({ chatModalRef }: { chatModalRef: React.MutableRefO
                         <div id='messages'>
                             {
                                 user.chats[selectedChat].messages.map(message => (
-                                    <div key={message._id} className={`message ${message.by == user._id ? "user" : ""}`}>
+                                    <div key={message._id} id={message._id} className={`message ${message.by == user._id ? "user" : ""}`}>
                                         <p className='content'>{message.content}</p>
-                                        <span className='time'>{message.createdAt}</span>
+                                        <span className='time'>{new Date(message.createdAt).toLocaleString()}</span>
                                     </div>
                                 ))
                             }
                         </div>
                         <div id='message-input'>
-                            <input onKeyDown={handleSendMesasge} placeholder='mensagem' type="text" id="" />
+                            <input ref={messageInputRef} onKeyDown={(e) => e.key == "Enter" && handleSendMesasge()} placeholder='mensagem' type="text" />
                             <img onClick={handleSendMesasge} src='/message.png' />
                         </div>
                     </div>
