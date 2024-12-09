@@ -259,6 +259,10 @@ export default function Home() {
       <div>
         <UserHeader>
           <img src="/chat.png" onClick={toggleChatVisibility} alt="" />
+          <a href='/faq#home'>
+            <p>FAQ</p>
+            <div></div>
+          </a>
         </UserHeader>
         <main id='dashboard'>
           {
@@ -292,8 +296,8 @@ export default function Home() {
                                 <span>{ticket.status == "open" ? "Aberto" : ticket.status == "fechado" ? "Fechado" : ticket.status == "ongoing" ? "Em andamento" : "Em aguardo"}</span>
                                 <span style={{ marginLeft: "15px" }}>{new Date(ticket.createdAt).toLocaleString()}</span>
                               </div>
-                              <p style={{ margin: "5px 0" }}>{ticket.priority == "high" ? "Alta" : ticket.priority == "medium" ? "Média" : "Baixa"}</p>
-                              <p className='description' style={{ margin: "5px 0" }}>{ticket.description.length > 60 ? ticket.description.slice(0, 60) + '...' : ticket.description}</p>
+                              <p style={{ margin: "5px 0" }}> Prioridade:  {ticket.priority == "high" ? "Alta" : ticket.priority == "medium" ? "Média" : "Baixa"}</p>
+                              <p className='description scrollable' style={{ margin: "5px 0" }}>{ticket.description}</p>
                               <div className='tags'>
                                 {  
                                   ticket.tags.slice(0, ticket.tags.length > 4 && !ticket.showAll ? 4 : undefined).map(tag => (<span className='tag'>{tag}</span>))
