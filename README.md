@@ -46,16 +46,16 @@ a rota http://localhost:5173/ é um server local de desenvolvimento, onde, mostr
 ### ✅ Finalizar a página Home
 
 ### Sidebar
-- ⬜️ Tornar responsivo
+- ✅  Tornar responsivo
 
 ### Dashboard
-- ⬜️ Implementar dashboard para os diferentes usuários:
-  - ⬜️ Administrador
-  - ⬜️ Dono
-  - ⬜️ Funcionário
-  - ⬜️ Técnico
+- ✅  Implementar dashboard para os diferentes usuários:
+  - ✅ Administrador
+  - ✅ Dono
+  - ✅ Funcionário
+  - ✅ Técnico
     - ✅ Tickets
-    - ⬜️ Chats de atendimento
+    - ✅ Chats de atendimento
 
 ### Header
 - ⬜️ Adicionar funcionalidades ao Header:
@@ -68,8 +68,8 @@ a rota http://localhost:5173/ é um server local de desenvolvimento, onde, mostr
 ### ✅ Página do Admin/Dono
 - ✅ Planejar e desenvolver a página dos admins 
 
-### ⬜️ Página do Funcionário
-- ⬜️ Planejar e desenvolver a página do funcionário
+### ✅ Página do Funcionário
+- ✅ Planejar e desenvolver a página do funcionário
 
 ✅ Pronto
 ⬜️ Não Pronto
