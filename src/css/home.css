@@ -73,27 +73,25 @@
             }
         }
         #tickets {
-            margin: 20px auto;
-            background-color: var(--background-darker);
-            width: 90%;
-            height: 67vh;
-            padding: 20px 2vw;
+            margin-top: 10px;
+            height: 76vh;
             overflow-x: hidden;
             border-radius: 10px;
-            box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.87) inset;
-            display: grid;
             grid-template-columns: 33.3% 33.3% 33.3%;
-            grid-gap: 15vh 10px;
-            
+            grid-gap: 20vh 1vw;
             .ticket {
                 display: flex;
                 flex-direction: column;
                 min-height: fit-content;
                 width: 25vw;
                 position: relative;
-                margin: 20px;
+                margin: 0px 20px;
                 padding: 15px;
                 filter: drop-shadow(0px 10px 5px #0000008a);
+                &.open { border-left: 10px solid var(--green-main); }
+                &.closed { border-left: 10px solid var(--red-main); }
+                &.ongoing { border-left: 10px solid var(--blue-main); }
+                &.waiting { border-left: 10px solid yellow; }
                 div{margin: 10px 0;}
                 .description { 
                     word-break: break-all;
@@ -107,14 +105,12 @@
                     display: flex;
                     align-items: center;
                     gap: 10px; 
-                    align-items: center;   
                     height: fit-content;
                     min-width: 20vw;
                     padding: 0px;
                     margin: 0;
                     left: 5px;
                     position: relative;
-                    
                     .more {
                         bottom: -5px;
                         padding: 2px 10px;
@@ -215,6 +211,7 @@
                 display: flex;
                 align-items: center;
                 img {
+                    width: 2.7vw;
                     margin-left: 10px;
                     border-radius: 50%;
                 }
@@ -230,7 +227,6 @@
         left: 36%;
     }
     #ticketModal  {
-
         top: 7%;
         left: 31%;
         textarea {

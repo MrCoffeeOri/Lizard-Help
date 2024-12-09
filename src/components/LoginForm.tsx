@@ -38,13 +38,13 @@ export default function LoginForm() {
         <input
             type="email"
             id="email"
-            placeholder='Email da empresa'
+            placeholder='Email'
             onChange={e => handleCorrection(e, e => e.target.value.match(RegexCorrections.email) != null)}
             required
         />
         <p>Email incorreto</p>
         <input
-            type="password" // Changed to "password" for security
+            type="password"
             id="password"
             placeholder="Senha"
             required

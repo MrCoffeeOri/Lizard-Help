@@ -4,10 +4,15 @@ import Alert from './Alert'
 export const userContext = createContext<{ user: any, setUser: React.Dispatch<any>, setAlert: React.Dispatch<any> }>(null)
 
 export function UserContextProvider({ children }: React.PropsWithChildren) {
-    const [user, setUser] = useState({ 
+    const [user, setUser] = useState(/*{ 
         name: "Fake ronaldinho", 
         type: "admin", 
-        _id: 123, 
+        _id: 123,
+        technicians: [
+            { _id: "2s32g", name: "Azus", email: "pol@gmail.com", avaible: true },
+            { _id: "afd67", name: "Iphone", email: "lok@gmail.com", avaible: true },
+            { _id: "zhd97", name: "Xiaomi", email: "brok@gmail.com", avaible: false },
+        ],
         chats: [
             {
                 _id: "sdas23",
@@ -19,6 +24,7 @@ export function UserContextProvider({ children }: React.PropsWithChildren) {
                     _id: "sadsdsdsda324d",
                     name: "Lolo"
                 },
+                ticket: "234324asd",
                 messages: [
                     {
                         _id: "345",
@@ -35,8 +41,8 @@ export function UserContextProvider({ children }: React.PropsWithChildren) {
             }
         ],
         tickets: [
-            { _id: 1,  createdAt: Date.now(), title: "Eo ao fazer login", status: "open", tags: ["kkkk", "kkkk", "kkkk", "kkkk", "kkkk", "kkkk", "kkkk", "lll", "lllllll", "lhjkhjh"], description: "Não consigo acessar minha conta com as credenciais fornecidas.", priority: "high" },
-            { _id: 2,  createdAt: Date.now(), title: "Erro ao fazer login", status: "closed", tags: ["kkkk", "lll", "lllllll", "lhjkhjh"], description: "Não consigo acessar minha conta com as credenciais fornecidas.", priority: "medium" },
+            { _id: 1,  createdAt: Date.now(), title: "Eo ao fazer login", status: "open", tags: ["Rnan", "Vini", "kkkk", "kkkk", "kkkk", "kkkk", "kkkk", "lll", "lllllll", "lhjkhjh"], description: "Não consigo acessar minha conta com as credenciais fornecidas.", priority: "high" },
+            { _id: 2,  createdAt: Date.now(), title: "Erro ao fazer login", status: "closed", tags: ["Tiago", "lll", "lllllll", "lhjkhjh"], description: "Não consigo acessar minha conta com as credenciais fornecidas.", priority: "medium" },
             { _id: 3,  createdAt: Date.now(), title: "Erro ao fazer login", status: "ongoing", tags: ["kkkk", "lll", "lllllll", "lhjkhjh"], description: "Não consigo acessar minha conta com as credenciais fornecidas.", priority: "low" },
             { _id: 4,  createdAt: Date.now(), title: "Erro ao fazer login", status: "waiting", tags: ["kkkk", "lll", "lllllll", "lhjkhjh"], description: "Não consigo acessar minha conta com as credenciais fornecidas.", priority: "high" },
             { _id: 5,  createdAt: Date.now(), title: "KHGKHG", status: "open", tags: ["kkkk", "lll", "lllllll", "lhjkhjh"], description: "Não consigo acessar minha conta com as credenciais fornecidas.", priority: "high" },
@@ -80,7 +86,7 @@ export function UserContextProvider({ children }: React.PropsWithChildren) {
             ],
             chats: []
         }
-    })
+    }*/)
     const [alert, setAlert] = useState({ message: null, ok: null })
     
     return (

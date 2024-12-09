@@ -1,4 +1,9 @@
 #technician {
+    select {
+        padding: 11px;
+        background-color: var(--background-darker);
+        color: white;
+    }
     form {
         margin: 25.5vh auto;
     }
@@ -75,6 +80,10 @@
     }
     #tickets {
         height: 79.16vh;
+        > h2 {
+            margin-top: 15vh;
+            text-align: center;
+        }
         .ticket {
             position: relative;
             margin: 3vw;
@@ -87,7 +96,7 @@
             &.waiting { border-left-color:  yellowgreen; }
             .tools {
                 margin-bottom: 19px;
-                select, input {
+                input {
                     padding: 11px;
                     background-color: var(--background-darker);
                     color: white;
@@ -163,5 +172,58 @@
     #chat {
         top: 15%;
         left: 20%;
+    }
+    #technicians {
+        left: 32%;
+        width: 35vw;
+        height: 50vh;
+        border-radius: .3rem;
+        > div:first-of-type {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            select { border-radius: .3rem; }
+            button {
+                border-radius: .3rem;
+                padding: 10px;
+                background-color: var(--red-main);
+                color: white;
+                cursor: pointer;
+                &:hover { background-color: var(--red-main-darker); }
+            }
+        }
+        .display {
+            padding: 0 20px 0 20px;
+            .technician {
+                border-radius: .3rem;
+                margin: 10px 0;
+                padding: 10px;
+                background-color: var(--background);
+                display: flex;
+                align-items: center;
+                &.online { border-left: 10px solid var(--green-main);}
+                &.offline { border-left: 10px solid var(--red-main);}
+                p {
+                    margin-left: 25px;
+                }
+                img {
+                    width: 2.5vw;
+                    border-radius: 50%;
+                }
+            }
+        }
+    }
+    #newTechnician {
+        z-index: 100;
+        top: -15%;
+        left: 32%;
+        text-align: center;
+        width: 31vw;
+        h4 {
+            margin-bottom: 0;
+            cursor: pointer;
+            transition: 150ms;
+            &:hover { color: var(--red-main); }
+        }
     }
 }

@@ -179,7 +179,7 @@ input, select, button {
             border-radius: 50%;
         }
         .chat {
-            height: 6.5vh;
+            height: 7vh;
             transition: 250ms;
             margin: 3px 0;
             display: flex;
@@ -195,7 +195,7 @@ input, select, button {
                  margin-left: 10px;
             }
             span {
-                font-size: 0.8pc;
+                font-size: 0.87pc;
             }
             .info {
                 display: flex;

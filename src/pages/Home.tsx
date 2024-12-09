@@ -19,55 +19,8 @@ export default function Home() {
   const chatModalRef = useRef<HTMLDivElement>(null)
   const ticketModalRef = useRef<HTMLFormElement>(null)
 
-  /*useEffect(() => {  
-    const handleConnectError = () => {
-      setAlert({ ok: false, message: "Falha na autenticação. Faça login novamente." });
-      history.push("/client#login");
-    };
-  
-    const handleTicketEvent = (event) => {
-      const ticketsEvent = (tickets) => event.action == "create" ? [event.data, ...tickets] : event.action == "delete" ? tickets.filter(_ticket => _ticket._id != event.data._id) : tickets.map(_ticket => _ticket._id == event.data._id ? { ..._ticket, ...event.data } : _ticket) 
-      if (event.data.by._id == user._id) {
-          setAlert({ ok: true, message: `Ticket ${event.action == "create" ? "criado" : event.action == "delete" ? "excluido" : "editado"} com sucesso!` }) 
-          setUser({ 
-            ...user, 
-            tickets: ticketsEvent(user.tickets)
-          })
-          return
-        }
-        setUser({ 
-          ...user, 
-          company: { ...user.company, tickets: ticketsEvent(user.company.tickets) }
-        })
-    }
-
-    const handleUserEvent = (event) => {
-      switch (event.action) {
-        case "avaible":
-          setUser({ ...user, company: { ...user.company, people: user.company.people.map(person => person._id == event.data.userID ? { ...person, avaible: event.data.avaible } : person) } })
-          break;
-      
-        default:
-          break;
-      }
-    } 
-    
-    socket.on("connect_error", handleConnectError);
-    socket.on("ticket", handleTicketEvent);
-    socket.on("user", handleUserEvent);
-    if (!socket.connected) {
-      socket.connect()
-      socket.emit("auth", { user: { _id: user._id, name: user.name, email: user.email, type: user.type, companyID: user.company._id } })
-    }
-    return () => {
-      socket.off("connect_error", handleConnectError);
-      socket.off("ticket", handleTicketEvent);
-      socket.off("user", handleUserEvent);
-    }
-  }, [])*/
-
   const handleTicketDelete = (e: React.MouseEvent<SVGElement>) => {
-    socket.emit("ticket", { action: "delete", data: { _id: e.currentTarget.parentElement.parentElement.id } })
+    socket.emit("ticket", { action: "delete", data: { _id: e.currentTarget.parentElement.parentElement.id, companyID: user.company._id } })
   }
 
   const handleWorkerDelete = async (e: React.MouseEvent<SVGElement>) => {
@@ -286,12 +239,24 @@ export default function Home() {
                         user.tickets
                           .filter(ticketFilterFunc)
                           .map(ticket => (
-                            <div id={ticket._id} key={ticket._id} className='ticket'>
+                            <div id={ticket._id} key={ticket._id} className={ticket.status + " ticket"}>
                               <div className='tools'>
-                                <svg onClick={handleTicketEdit} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M402.6 83.2l90.2 90.2c3.8 3.8 3.8 10 0 13.8L274.4 405.6l-92.8 10.3c-12.4 1.4-22.9-9.1-21.5-21.5l10.3-92.8L388.8 83.2c3.8-3.8 10-3.8 13.8 0zm162-22.9l-48.8-48.8c-15.2-15.2-39.9-15.2-55.2 0l-35.4 35.4c-3.8 3.8-3.8 10 0 13.8l90.2 90.2c3.8 3.8 10 3.8 13.8 0l35.4-35.4c15.2-15.3 15.2-40 0-55.2zM384 346.2V448H64V128h229.8c3.2 0 6.2-1.3 8.5-3.5l40-40c7.6-7.6 2.2-20.5-8.5-20.5H48C21.5 64 0 85.5 0 112v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V306.2c0-10.7-12.9-16-20.5-8.5l-40 40c-2.2 2.3-3.5 5.3-3.5 8.5z"/></svg>
+                                {
+                                  !ticket.solved && (<svg onClick={handleTicketEdit} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M402.6 83.2l90.2 90.2c3.8 3.8 3.8 10 0 13.8L274.4 405.6l-92.8 10.3c-12.4 1.4-22.9-9.1-21.5-21.5l10.3-92.8L388.8 83.2c3.8-3.8 10-3.8 13.8 0zm162-22.9l-48.8-48.8c-15.2-15.2-39.9-15.2-55.2 0l-35.4 35.4c-3.8 3.8-3.8 10 0 13.8l90.2 90.2c3.8 3.8 10 3.8 13.8 0l35.4-35.4c15.2-15.3 15.2-40 0-55.2zM384 346.2V448H64V128h229.8c3.2 0 6.2-1.3 8.5-3.5l40-40c7.6-7.6 2.2-20.5-8.5-20.5H48C21.5 64 0 85.5 0 112v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V306.2c0-10.7-12.9-16-20.5-8.5l-40 40c-2.2 2.3-3.5 5.3-3.5 8.5z"/></svg>)
+                                }
                                 <svg onClick={handleTicketDelete} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
                               </div>
                               <div>
+                                {
+                                  ticket.solved?.denied && (
+                                    <>
+                                      <h3>Chamado rejeitado</h3>
+                                      <p>{ticket.solved.justification}</p>
+                                      <p>{new Date(ticket.createdAt).toLocaleString()}</p>
+                                    </>
+                                  )
+                                }
+                                <span>#{ticket._id}</span>
                                 <h3 style={{ margin: 0 }}>{ticket.title}</h3>
                                 <span>{ticket.status == "open" ? "Aberto" : ticket.status == "fechado" ? "Fechado" : ticket.status == "ongoing" ? "Em andamento" : "Em aguardo"}</span>
                                 <span style={{ marginLeft: "15px" }}>{new Date(ticket.createdAt).toLocaleString()}</span>
@@ -343,7 +308,7 @@ export default function Home() {
                           .filter((person) => (peopleFilter.type == "all" || (peopleFilter.type == "online" ? person.avaible : !person.avaible)) && person.name.includes(peopleFilter.name))
                           .map(person => (
                             <div className={(person.avaible ? "online " : "offline ") + 'item'} id={person._id} key={person._id}>
-                              <img src="https://yt3.ggpht.com/wvlCpRqb9Hb9Yuv62LDo-AZxr-MpAHTvpeToBGpNOPSMNGQIyplQh2EZv75SLHOZIkpijT00=s48-c-k-c0x00ffffff-no-rj" alt="" />
+                              <img src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg" alt="" />
                               <span>{person.name}</span>
                               <span>{person.avaible ? "Online" : "Offline"}</span>
                               <div className='tools'>
@@ -361,7 +326,7 @@ export default function Home() {
                     {
                         user.company.availableTechnicians.map(person => (
                           <div className="item" id={person._id} key={person._id}>
-                            <img src="https://yt3.ggpht.com/wvlCpRqb9Hb9Yuv62LDo-AZxr-MpAHTvpeToBGpNOPSMNGQIyplQh2EZv75SLHOZIkpijT00=s48-c-k-c0x00ffffff-no-rj" alt="" />
+                            <img src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg" alt="" />
                             <span>{person.name}</span>
                           </div>
                         ))

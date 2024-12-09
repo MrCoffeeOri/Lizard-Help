@@ -10,7 +10,6 @@ export default function Chat({ chatModalRef }: { chatModalRef: React.MutableRefO
     }
 
     useEffect(() => {
-        console.log(user.chats[selectedChat].messages)
     }, [])
 
     const handleSendMesasge = (event: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
@@ -28,13 +27,14 @@ export default function Chat({ chatModalRef }: { chatModalRef: React.MutableRefO
                                 const lastMessage = chat.messages[chat.messages.length - 1]
                                 return (
                                     <div onClick={() => handleChatSelection(index)} id={chat._id} key={chat._id} className={"chat" + (index == selectedChat ? " selected" : "")}>
-                                        <img src="https://yt3.ggpht.com/wvlCpRqb9Hb9Yuv62LDo-AZxr-MpAHTvpeToBGpNOPSMNGQIyplQh2EZv75SLHOZIkpijT00=s48-c-k-c0x00ffffff-no-rj" alt="" />
+                                        <img src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg" alt="" />
                                         <div>
+                                            <span>Ticket: #{chat.ticket}</span>
                                             <div className='info'>
-                                                <span>{chat.client.name}</span>
-                                                <span>{lastMessage.createdAt}</span>
+                                                <span>{user.type == "technician" || user.type == "admin" ? `Clinte: ${chat.client.name}` : `Técnico: ${chat.technician.name}`}</span>
+                                                <span>{lastMessage?.createdAt || ""}</span>
                                             </div>
-                                            <span className='last-message'>{lastMessage.content}</span>
+                                            { lastMessage && <span className='last-message'>Ultima mensagem: {lastMessage.content}</span> }
                                         </div>
                                     </div>
                                 )

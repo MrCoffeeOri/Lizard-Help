@@ -13,7 +13,7 @@
     position: fixed;
     text-align: center;
     width: 100%;
-    z-index: 99;
+    z-index: 999;
     > div {
         padding-top: 10px;
         width: 20%;
